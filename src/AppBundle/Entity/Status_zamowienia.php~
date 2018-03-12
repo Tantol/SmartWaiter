@@ -1,0 +1,41 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: a
+ * Date: 12.03.2018
+ * Time: 20:42
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="status_zamowienia")
+ */
+class Status_zamowienia{
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Zamowienie", mappedBy="status")
+     */
+    protected $zamowienia;
+
+    public function __construct()    {
+        $this->zamowienia= new ArrayCollection();
+    }
+
+    /**
+     * @ORM\Column(type="string", length=20, unique=true)
+     */
+    protected $nazwa;
+}

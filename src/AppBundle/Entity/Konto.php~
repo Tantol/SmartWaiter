@@ -1,0 +1,94 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: a
+ * Date: 12.03.2018
+ * Time: 20:36
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="konto")
+ */
+class Konto{
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Pracownik")
+     * @ORM\JoinColumn(name="id_pracownik", referencedColumnName="id", nullable=true)
+     */
+    private $pracownik;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Zamowienie", mappedBy="konto")
+     */
+    protected $zamowienia;
+
+    public function __construct()    {
+        $this->zamowienia= new ArrayCollection();
+    }
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    protected $login;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $haslo;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    protected $email;
+
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set pracownik
+     *
+     * @param \AppBundle\Entity\Pracownik $pracownik
+     *
+     * @return Konto
+     */
+    public function setPracownik(\AppBundle\Entity\Pracownik $pracownik = null)
+    {
+        $this->pracownik = $pracownik;
+
+        return $this;
+    }
+
+    /**
+     * Get pracownik
+     *
+     * @return \AppBundle\Entity\Pracownik
+     */
+    public function getPracownik()
+    {
+        return $this->pracownik;
+    }
+}

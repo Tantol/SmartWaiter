@@ -1,0 +1,59 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: a
+ * Date: 12.03.2018
+ * Time: 20:45
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="zamowienie")
+ */
+class Zamowienie{
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Status_zamowienia", inversedBy="zamowienia")
+     * @ORM\JoinColumn(name="status", referencedColumnName="id")
+     */
+    protected $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Konto", inversedBy="zamowienia")
+     * @ORM\JoinColumn(name="konto", referencedColumnName="id", nullable=true)
+     */
+    protected $konto;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="zamowienie")
+     */
+    protected $pozycje_zamowien;
+
+    public function __construct(){
+        $this->pozycje_zamowien=new ArrayCollection();
+    }
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $czas_zlozenia;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $czas_realizacji;
+
+
+}
