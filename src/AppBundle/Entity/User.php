@@ -26,13 +26,30 @@ class User implements UserInterface
      */
     private $id;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity="Pracownik")
+     * @ORM\JoinColumn(name="id_pracownik", referencedColumnName="id", nullable=true)
+     */
+    protected $pracownik;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Zamowienie", mappedBy="konto")
+     */
+    protected $zamowienia;
+
+    public function __construct()    {
+        $this->zamowienia= new ArrayCollection();
+    }
+
     /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      * @Assert\Valid()
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string
@@ -133,7 +150,7 @@ class User implements UserInterface
     }
 
     public function eraseCredentials() {
-        
+
     }
 
     public function getRoles() {
@@ -143,7 +160,7 @@ class User implements UserInterface
     }
 
     public function getSalt() {
-        
+
     }
 
 }
