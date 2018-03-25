@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
+use AppBundle\Form\RegisterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegisterController extends Controller
@@ -23,7 +23,7 @@ class RegisterController extends Controller
         
         $user = new User();
         
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegisterType::class, $user);
         
         $form->handleRequest($request);
         

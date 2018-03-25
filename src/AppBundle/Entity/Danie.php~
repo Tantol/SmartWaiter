@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -323,5 +324,39 @@ class Danie{
     public function getNazwa()
     {
         return $this->nazwa;
+    }
+
+    /**
+     * Add pozycjeZamowien
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjeZamowien
+     *
+     * @return Danie
+     */
+    public function addPozycjeZamowien(\AppBundle\Entity\Pozycja_zamowienia $pozycjeZamowien)
+    {
+        $this->pozycje_zamowien[] = $pozycjeZamowien;
+
+        return $this;
+    }
+
+    /**
+     * Remove pozycjeZamowien
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjeZamowien
+     */
+    public function removePozycjeZamowien(\AppBundle\Entity\Pozycja_zamowienia $pozycjeZamowien)
+    {
+        $this->pozycje_zamowien->removeElement($pozycjeZamowien);
+    }
+
+    /**
+     * Get pozycjeZamowien
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPozycjeZamowien()
+    {
+        return $this->pozycje_zamowien;
     }
 }

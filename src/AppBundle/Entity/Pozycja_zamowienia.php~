@@ -46,4 +46,110 @@ class Pozycja_zamowienia{
      */
     protected $cena_jedn;
 
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set ilosc
+     *
+     * @param string $ilosc
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setIlosc($ilosc)
+    {
+        $this->ilosc = $ilosc;
+
+        return $this;
+    }
+
+    /**
+     * Get ilosc
+     *
+     * @return string
+     */
+    public function getIlosc()
+    {
+        return $this->ilosc;
+    }
+
+    /**
+     * Set cenaJedn
+     *
+     * @param string $cenaJedn
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setCenaJedn($cenaJedn)
+    {
+        $this->cena_jedn = $cenaJedn;
+
+        return $this;
+    }
+
+    /**
+     * Get cenaJedn
+     *
+     * @return string
+     */
+    public function getCenaJedn()
+    {
+        return $this->cena_jedn;
+    }
+
+    /**
+     * Set danie
+     *
+     * @param \AppBundle\Entity\Danie $danie
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setDanie(\AppBundle\Entity\Danie $danie = null)
+    {
+        $this->danie = $danie;
+
+        return $this;
+    }
+
+    /**
+     * Get danie
+     *
+     * @return \AppBundle\Entity\Danie
+     */
+    public function getDanie()
+    {
+        return $this->danie;
+    }
+
+    /**
+     * Set zamowienie
+     *
+     * @param \AppBundle\Entity\Zamowienie $zamowienie
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setZamowienie(\AppBundle\Entity\Zamowienie $zamowienie = null)
+    {
+        $this->zamowienie = $zamowienie;
+
+        return $this;
+    }
+
+    /**
+     * Get zamowienie
+     *
+     * @return \AppBundle\Entity\Zamowienie
+     */
+    public function getZamowienie()
+    {
+        return $this->zamowienie;
+    }
 }
