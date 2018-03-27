@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Danie</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ danie.id }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa</th>
+                <td>{{ danie.nazwa }}</td>
+            </tr>
+            <tr>
+                <th>Czas_przygotowania</th>
+                <td>{{danie.czasprzygotowania }}</td>
+            </tr>
+            <tr>
+                <th>Koszt_przygotowania</th>
+                <td>{{ danie.kosztprzygotowania }}</td>
+            </tr>
+            <tr>
+                <th>Cena</th>
+                <td>{{ danie.cena }}</td>
+            </tr>
+            <tr>
+                <th>Dostepne</th>
+                <td>{{ danie.dostepne }}</td>
+            </tr>
+            <tr>
+                <th>Ilosc_kalorii</th>
+                <td>{{ danie.ilosckalorii }}</td>
+            </tr>
+            <tr>
+                <th>Rodzaj</th>
+                <td>{{ danie.rodzaj }}</td>
+            </tr>
+            <tr>
+                <th>Jednostka</th>
+                <td>{{ danie.jednostka }}</td>
+            </tr>
+            <tr>
+                <th>Składniki:</th>
+            </tr>
+            {% if danie.skladniki %}
+                {% for skladnik in danie.skladniki %}
+                    <tr>
+                        <th>  -  {{ skladnik.produkt }}</th>
+                        <td>Ilosc: {{ skladnik.ilosc }}</td>
+                        <td>Zawiera gluten: {{ skladnik.produkt.zawietaGluten }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('danie_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

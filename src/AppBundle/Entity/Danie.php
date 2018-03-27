@@ -61,7 +61,7 @@ class Danie{
 
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=10)
      */
     protected $czas_przygotowania;
 
@@ -71,7 +71,7 @@ class Danie{
     protected $koszt_przygotowania;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="decimal", precision=7, scale=2)
      */
     protected $cena;
 

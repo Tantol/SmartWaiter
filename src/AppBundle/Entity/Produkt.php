@@ -209,4 +209,8 @@ class Produkt{
     {
         return $this->skladniki;
     }
+    
+    public function __toString() {
+        return $this->nazwa;
+    }
 }

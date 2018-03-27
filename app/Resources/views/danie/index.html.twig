@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Danies list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Czas_przygotowania</th>
+                <th>Koszt_przygotowania</th>
+                <th>Cena</th>
+                <th>Dostepne</th>
+                <th>Ilosc_kalorii</th>
+                <th>Jednostka</th>
+                <th>Rodzaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for danie in danies %}
+            <tr>
+                <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
+                <td>{{ danie.nazwa }}</td>
+                <td>{{ danie.czasprzygotowania }}</td>
+                <td>{{ danie.kosztprzygotowania }}</td>
+                <td>{{ danie.cena }}</td>
+                <td>{{ danie.dostepne }}</td>
+                <td>{{ danie.ilosckalorii }}</td>
+                <td>{{ danie.jednostka }}</td>
+                <td>{{ danie.rodzaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

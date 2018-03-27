@@ -204,4 +204,8 @@ class Jednostka{
     {
         return $this->dania;
     }
+    
+    public function __toString() {
+        return $this->nazwa;
+    }
 }
