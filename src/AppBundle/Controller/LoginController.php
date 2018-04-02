@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
+
 class LoginController extends Controller
 {
     /**
@@ -14,6 +15,10 @@ class LoginController extends Controller
      */
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
     {
+        
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('homepage', array(), 301);
+        }
         
         $errors = $authenticationUtils->getLastAuthenticationError();
         

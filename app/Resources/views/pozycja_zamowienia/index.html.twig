@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pozycja_zamowienias list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ilosc</th>
+                <th>Cena_jedn</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pozycja_zamowienium in pozycja_zamowienias %}
+            <tr>
+                <td><a href="{{ path('pozycja_zamowienia_show', { 'id': pozycja_zamowienium.id }) }}">{{ pozycja_zamowienium.id }}</a></td>
+                <td>{{ pozycja_zamowienium.ilosc }}</td>
+                <td>{{ pozycja_zamowienium.cenajedn }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pozycja_zamowienia_show', { 'id': pozycja_zamowienium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pozycja_zamowienia_edit', { 'id': pozycja_zamowienium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pozycja_zamowienia_new') }}">Create a new pozycja_zamowienium</a>
+        </li>
+    </ul>
+{% endblock %}

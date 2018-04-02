@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 
 class UserVoter extends Voter
 {
-    // these strings are just invented: you can use anything
     const VIEW = 'view';
+    const ADD = 'add';
     const EDIT = 'edit';
     const DELETE = 'delete';
     
@@ -22,8 +22,7 @@ class UserVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE))) {
+        if (!in_array($attribute, array(self::VIEW, self::ADD, self::EDIT, self::DELETE))) {
             return false;
         }
 

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Jednostkas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Skrot</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for jednostka in jednostkas %}
+            <tr>
+                <td><a href="{{ path('jednostka_show', { 'id': jednostka.id }) }}">{{ jednostka.id }}</a></td>
+                <td>{{ jednostka.skrot }}</td>
+                <td>{{ jednostka.nazwa }}</td>
+                <td>{{ jednostka.opis }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('jednostka_show', { 'id': jednostka.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('jednostka_edit', { 'id': jednostka.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('jednostka_new') }}">Create a new jednostka</a>
+        </li>
+    </ul>
+{% endblock %}

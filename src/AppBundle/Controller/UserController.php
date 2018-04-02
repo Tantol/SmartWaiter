@@ -28,9 +28,7 @@ class UserController extends Controller
 
         $users = $em->getRepository('AppBundle:User')->findAll();
         
-        $user = $users[0];
-        
-        $this->denyAccessUnlessGranted('view', $user);
+        $this->denyAccessUnlessGranted('view', $users[0]);
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,

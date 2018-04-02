@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rodzajs list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rodzaj in rodzajs %}
+            <tr>
+                <td><a href="{{ path('rodzaj_show', { 'id': rodzaj.id }) }}">{{ rodzaj.id }}</a></td>
+                <td>{{ rodzaj.nazwa }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rodzaj_show', { 'id': rodzaj.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('rodzaj_edit', { 'id': rodzaj.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('rodzaj_new') }}">Create a new rodzaj</a>
+        </li>
+    </ul>
+{% endblock %}

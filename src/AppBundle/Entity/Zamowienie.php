@@ -197,4 +197,8 @@ class Zamowienie{
     {
         return $this->pozycje_zamowien;
     }
+    
+    public function __toString() {
+        return $this->konto->__toString();
+    }
 }

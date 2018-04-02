@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Status_zamowienias list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for status_zamowienium in status_zamowienias %}
+            <tr>
+                <td><a href="{{ path('status_zamowienia_show', { 'id': status_zamowienium.id }) }}">{{ status_zamowienium.id }}</a></td>
+                <td>{{ status_zamowienium.nazwa }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('status_zamowienia_show', { 'id': status_zamowienium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('status_zamowienia_edit', { 'id': status_zamowienium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('status_zamowienia_new') }}">Create a new status_zamowienium</a>
+        </li>
+    </ul>
+{% endblock %}

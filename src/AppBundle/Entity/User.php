@@ -163,13 +163,7 @@ class User implements UserInterface
     }
 
     public function getRoles() {
-        $tempRoles = $this->groups->toArray();
-        
-        if (in_array('ROLE_USER', $tempRoles) === false){
-            $tempRoles[] = 'ROLE_USER'; 
-        }
-        
-        return $tempRoles;
+        return $this->groups->toArray();
     }
 
     public function getSalt() {
@@ -267,5 +261,9 @@ class User implements UserInterface
     public function getGroups()
     {
         return $this->groups;
+    }
+    
+    public function __toString() {
+        return $this->username;
     }
 }

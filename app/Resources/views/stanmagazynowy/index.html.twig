@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Stanmagazynowies list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ilosc</th>
+                <th>Max_stan</th>
+                <th>Min_stan</th>
+                <th>Cena</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stanMagazynowy in stanMagazynowies %}
+            <tr>
+                <td><a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">{{ stanMagazynowy.id }}</a></td>
+                <td>{{ stanMagazynowy.ilosc }}</td>
+                <td>{{ stanMagazynowy.maxstan }}</td>
+                <td>{{ stanMagazynowy.minstan }}</td>
+                <td>{{ stanMagazynowy.cena }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
+        </li>
+    </ul>
+{% endblock %}

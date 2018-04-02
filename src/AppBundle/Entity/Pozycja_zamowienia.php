@@ -9,6 +9,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Zamowienie;
+use AppBundle\Entity\Danie;
 
 
 /**

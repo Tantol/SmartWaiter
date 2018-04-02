@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Zamowienie;
 
 
 /**
@@ -106,5 +107,9 @@ class Status_zamowienia{
     public function getZamowienia()
     {
         return $this->zamowienia;
+    }
+    
+    public function __toString() {
+        return $this->nazwa;
     }
 }

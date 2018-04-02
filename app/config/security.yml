@@ -27,11 +27,31 @@ security:
                 path: /logout
                 target: /
                 
+    role_hierarchy:
+        ROLE_CLIENT: ROLE_USER
+        ROLE_WAITER: ROLE_USER
+        ROLE_COOK: ROLE_USER
+        ROLE_MANAGER: ROLE_USER
+        ROLE_ADMIN: [ROLE_CLIENT, ROLE_WAITER, ROLE_COOK, ROLE_MANAGER]
+                
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/adminPanel, roles: ROLE_ADMIN }
+        - { path: ^/danie, roles: ROLE_ADMIN }
+        - { path: ^/pozycja_zamowienia, roles: ROLE_ADMIN }
+        - { path: ^/pracownik, roles: ROLE_ADMIN }
+        - { path: ^/produkt, roles: ROLE_ADMIN }
+        - { path: ^/rodzaj, roles: ROLE_ADMIN }
+        - { path: ^/skladnik, roles: ROLE_ADMIN }
+        - { path: ^/stanmagazynowy, roles: ROLE_ADMIN }
+        - { path: ^/status_zamowienia, roles: ROLE_ADMIN }
+        - { path: ^/zamowienie, roles: ROLE_ADMIN }
+        - { path: ^/dostawca, roles: ROLE_ADMIN }
+        - { path: ^/group, roles: ROLE_ADMIN }
+        - { path: ^/jednostka, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_ADMIN }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         
             # activate different ways to authenticate
 

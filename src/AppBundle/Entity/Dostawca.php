@@ -284,4 +284,8 @@ class Dostawca{
     {
         return $this->stany_magazynowe;
     }
+    
+    public function __toString() {
+        return $this->nazwa;
+    }
 }

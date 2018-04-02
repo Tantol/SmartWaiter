@@ -359,4 +359,8 @@ class Danie{
     {
         return $this->pozycje_zamowien;
     }
+    
+    public function __toString() {
+        return $this->nazwa;
+    }
 }

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Skladnik</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ skladnik.id }}</td>
+            </tr>
+            <tr>
+                <th>Ilosc</th>
+                <td>{{ skladnik.ilosc }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('skladnik_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('skladnik_edit', { 'id': skladnik.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

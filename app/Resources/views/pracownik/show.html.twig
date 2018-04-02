@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pracownik</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pracownik.id }}</td>
+            </tr>
+            <tr>
+                <th>Imie</th>
+                <td>{{ pracownik.imie }}</td>
+            </tr>
+            <tr>
+                <th>Nazwisko</th>
+                <td>{{ pracownik.nazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Miejscowosc</th>
+                <td>{{ pracownik.miejscowosc }}</td>
+            </tr>
+            <tr>
+                <th>Ulica</th>
+                <td>{{ pracownik.ulica }}</td>
+            </tr>
+            <tr>
+                <th>Nr_domu</th>
+                <td>{{ pracownik.nrdomu }}</td>
+            </tr>
+            <tr>
+                <th>Nr_lokalu</th>
+                <td>{{ pracownik.nrlokalu }}</td>
+            </tr>
+            <tr>
+                <th>Kod_pocztowy</th>
+                <td>{{ pracownik.kodpocztowy }}</td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td>{{ pracownik.telefon }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pracownik_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('pracownik_edit', { 'id': pracownik.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

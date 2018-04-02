@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Dostawcas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Miejscowosc</th>
+                <th>Ulica</th>
+                <th>Nr_domu</th>
+                <th>Nr_lokalu</th>
+                <th>Kod_pocztowy</th>
+                <th>Telefon</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dostawca in dostawcas %}
+            <tr>
+                <td><a href="{{ path('dostawca_show', { 'id': dostawca.id }) }}">{{ dostawca.id }}</a></td>
+                <td>{{ dostawca.nazwa }}</td>
+                <td>{{ dostawca.miejscowosc }}</td>
+                <td>{{ dostawca.ulica }}</td>
+                <td>{{ dostawca.nrdomu }}</td>
+                <td>{{ dostawca.nrlokalu }}</td>
+                <td>{{ dostawca.kodpocztowy }}</td>
+                <td>{{ dostawca.telefon }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dostawca_show', { 'id': dostawca.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dostawca_edit', { 'id': dostawca.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('dostawca_new') }}">Create a new dostawca</a>
+        </li>
+    </ul>
+{% endblock %}

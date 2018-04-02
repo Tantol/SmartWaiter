@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pracowniks list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Imie</th>
+                <th>Nazwisko</th>
+                <th>Miejscowosc</th>
+                <th>Ulica</th>
+                <th>Nr_domu</th>
+                <th>Nr_lokalu</th>
+                <th>Kod_pocztowy</th>
+                <th>Telefon</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pracownik in pracowniks %}
+            <tr>
+                <td><a href="{{ path('pracownik_show', { 'id': pracownik.id }) }}">{{ pracownik.id }}</a></td>
+                <td>{{ pracownik.imie }}</td>
+                <td>{{ pracownik.nazwisko }}</td>
+                <td>{{ pracownik.miejscowosc }}</td>
+                <td>{{ pracownik.ulica }}</td>
+                <td>{{ pracownik.nrdomu }}</td>
+                <td>{{ pracownik.nrlokalu }}</td>
+                <td>{{ pracownik.kodpocztowy }}</td>
+                <td>{{ pracownik.telefon }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pracownik_show', { 'id': pracownik.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pracownik_edit', { 'id': pracownik.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pracownik_new') }}">Create a new pracownik</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>Czas_przygotowania</th>
-                <td>{{danie.czasprzygotowania }}</td>
+                <td>{{ danie.czasprzygotowania }}</td>
             </tr>
             <tr>
                 <th>Koszt_przygotowania</th>
@@ -34,15 +34,7 @@
                 <td>{{ danie.ilosckalorii }}</td>
             </tr>
             <tr>
-                <th>Rodzaj</th>
-                <td>{{ danie.rodzaj }}</td>
-            </tr>
-            <tr>
-                <th>Jednostka</th>
-                <td>{{ danie.jednostka }}</td>
-            </tr>
-            <tr>
-                <th>Składniki:</th>
+                <th>Skladniki:</th>
             </tr>
             {% if danie.skladniki %}
                 {% for skladnik in danie.skladniki %}
@@ -59,6 +51,14 @@
     <ul>
         <li>
             <a href="{{ path('danie_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('danie_edit', { 'id': danie.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}

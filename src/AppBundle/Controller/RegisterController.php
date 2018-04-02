@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegisterController extends Controller
 {
     /**
-     * @Route("/register")
+     * @Route("/register", name="register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @return \Symfony\Component\HttpFoundation\Request
@@ -19,6 +19,10 @@ class RegisterController extends Controller
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('homepage', array(), 301);
+        }
+        
         $em = $this->getDoctrine()->getManager();
         
         $user = new User();
