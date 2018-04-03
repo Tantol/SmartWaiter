@@ -1,6 +1,7 @@
 {
     "name": "piotr/smartwaiter",
     "license": "proprietary",
+    "minimum-stability": "dev",
     "type": "project",
     "autoload": {
         "psr-4": {
