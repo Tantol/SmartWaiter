@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="danie")
  */
-class Danie{
+class Danie implements \Serializable{
 
 
     /**
@@ -66,25 +66,52 @@ class Danie{
     protected $czas_przygotowania;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    protected $koszt_przygotowania;
-
-    /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
      */
     protected $cena;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $dostepne;
-
 
     /**
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $ilosc_kalorii;
+    
+    public function serialize()
+    {
+      return serialize(
+        [
+          $this->id,
+          $this->rodzaj,
+          $this->jednostka,
+          $this->skladniki,
+          $this->pozycje_zamowien,
+          $this->nazwa,
+          $this->czas_przygotowania,
+          $this->cena,
+          $this->dostepne,
+        ]
+      );
+    }
+
+    public function unserialize($serialized)
+    {
+      $data = unserialize($serialized);
+      list(
+        $this->id,
+        $this->rodzaj,
+        $this->jednostka,
+        $this->skladniki,
+        $this->pozycje_zamowien,
+        $this->nazwa,
+        $this->czas_przygotowania,
+        $this->cena,
+        $this->dostepne,
+        ) = $data;
+    }
 
     /**
      * Get id
@@ -94,30 +121,6 @@ class Danie{
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set kosztPrzygotowania
-     *
-     * @param string $kosztPrzygotowania
-     *
-     * @return Danie
-     */
-    public function setKosztPrzygotowania($kosztPrzygotowania)
-    {
-        $this->koszt_przygotowania = $kosztPrzygotowania;
-
-        return $this;
-    }
-
-    /**
-     * Get kosztPrzygotowania
-     *
-     * @return string
-     */
-    public function getKosztPrzygotowania()
-    {
-        return $this->koszt_przygotowania;
     }
 
     /**

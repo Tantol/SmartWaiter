@@ -3,11 +3,13 @@
 {% block body %}
     <h1>Stanmagazynowies list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Ilosc</th>
+                <th>Produkt</th>
+                <th>Dostawca</th>
+                <th>Ilosc w g/ml</th>
                 <th>Max_stan</th>
                 <th>Min_stan</th>
                 <th>Cena</th>
@@ -16,8 +18,16 @@
         </thead>
         <tbody>
         {% for stanMagazynowy in stanMagazynowies %}
-            <tr>
+            {% if stanMagazynowy.ilosc <= stanMagazynowy.minstan%}
+                <tr class="bg-danger">
+            {% elseif stanMagazynowy.ilosc > stanMagazynowy.maxstan%}
+                <tr class="bg-warning">
+            {% else %}
+                <tr class="bg-success">
+            {% endif %}
                 <td><a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">{{ stanMagazynowy.id }}</a></td>
+                <td>{{ stanMagazynowy.produkt }}</td>
+                <td>{{ stanMagazynowy.dostawca }}</td>
                 <td>{{ stanMagazynowy.ilosc }}</td>
                 <td>{{ stanMagazynowy.maxstan }}</td>
                 <td>{{ stanMagazynowy.minstan }}</td>

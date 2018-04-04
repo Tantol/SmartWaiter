@@ -52,10 +52,14 @@ class SkladnikController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
+            $danie = $this->get('session')->get('danie');
+            $danie->addSkladniki($skladnik);
+            $this->get('session')->set('danie', $danie);
+            
             $em->persist($skladnik);
-            $em->flush();
 
-            return $this->redirectToRoute('skladnik_show', array('id' => $skladnik->getId()));
+            return $this->redirectToRoute('danie_new');
         }
 
         return $this->render('skladnik/new.html.twig', array(

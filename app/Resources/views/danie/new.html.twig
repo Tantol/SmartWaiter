@@ -1,8 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Danie creation</h1>
-
+    <h1>Creator dan</h1>
+    <h2>Podaj skladniki, wypelnij pola ponizej i zatwierdz przyciskiem "dodaj danie"</h2>
+    
+    {% if danie.skladniki %}
+        {% for skladnik in danie.skladniki %}
+            <tr>
+                <th>  -  {{ skladnik.produkt }}</th>
+                <td>Ilosc: {{ skladnik.ilosc }}</td>
+                <td>Zawiera gluten: {{ skladnik.produkt.zawietaGluten }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    <a href="{{ path('skladnik_new') }}">Dodaj składnik</a>
+    
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />

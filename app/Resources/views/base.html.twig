@@ -8,11 +8,12 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     </head>
     <body>
+        <a href="{{ path('homepage') }}" class="btn btn-warning">Strona glowna</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ logout_path() }}" class="btn btn-danger">Logout</a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('adminPanel') }}" class="btn btn-danger">Panel administracyjny</a>
+            <a href="{{ path('adminPanel') }}" class="btn btn-info">Panel administracyjny</a>
         {% endif %}
         <div class="container">
             {% block body %}{% endblock %}

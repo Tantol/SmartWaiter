@@ -13,7 +13,7 @@ class DanieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nazwa')->add('czas_przygotowania')->add('koszt_przygotowania')->add('cena')->add('dostepne')->add('ilosc_kalorii')->add('rodzaj')->add('jednostka');
+        $builder->add('nazwa')->add('czas_przygotowania')->add('cena')->add('rodzaj')->add('jednostka');
     }/**
      * {@inheritdoc}
      */

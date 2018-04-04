@@ -43,7 +43,14 @@ class DanieController extends Controller
      */
     public function newAction(Request $request)
     { 
-        $danie = new Danie();
+        $em = $this->getDoctrine()->getManager();
+        
+        if (!$this->get('session')->has('danie')){
+            $danie = new Danie();
+            $this->get('session')->set('danie', $danie);
+        } else {
+            $danie = $this->get('session')->get('danie');
+        }
         
         $this->denyAccessUnlessGranted(DanieVoter::ADD, $danie);
         
@@ -51,11 +58,57 @@ class DanieController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($danie);
+            $dbDanie = new Danie();
+            
+            $skladniki = $danie->getSkladniki();
+            
+            $tempKalorie = 0;
+            // $tempDostepne = sizeof($skladniki);
+            foreach($skladniki as $skladnik){
+                $tempKalorie += $skladnik->getProdukt()->getIloscKalorii() * $skladnik->getIlosc();
+                /*
+                $tempProduktStanMagazynowy = $tempProdukt->getStanyMagazynowe();
+                if ($tempProduktStanMagazynowy !== null){
+                    $tempWymaganaIlosc = $tempIlosc;
+                    foreach ($tempProduktStanMagazynowy as $stan){
+                        $tempWymaganaIlosc -= $stan->getIlosc();
+                        
+                        if ($tempWymaganaIlosc <= 0){
+                            $tempDostepne--;
+                            break;
+                        }
+                    }
+                }
+                 */
+                    
+            }
+            /*
+            if ($tempDostepne === 0){
+                $dbDanie->setDostepne(1);
+            } else {
+                $dbDanie->setDostepne(0);
+            }
+            */
+            $dbDanie->setDostepne(0);
+            $dbDanie->setIloscKalorii($tempKalorie);
+            
+            $dbDanie->setCena($danie->getCena());
+            $dbDanie->setCzasPrzygotowania($danie->getCzasPrzygotowania());
+            $dbDanie->setJednostka($danie->getJednostka());
+            $dbDanie->setNazwa($danie->getNazwa());
+            $dbDanie->setRodzaj($danie->getRodzaj());
+            
+            $em->persist($dbDanie);
+            
+            foreach ($skladniki as $editSkladnik){
+                $editSkladnik->setDanie($dbDanie);
+                $em->merge($editSkladnik);
+            }
+            
             $em->flush();
+            $this->get('session')->remove('danie');
 
-            return $this->redirectToRoute('danie_show', array('id' => $danie->getId()));
+            return $this->redirectToRoute('danie_show', array('id' => $dbDanie->getId()));
         }
 
         return $this->render('danie/new.html.twig', array(

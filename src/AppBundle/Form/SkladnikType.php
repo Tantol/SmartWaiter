@@ -13,7 +13,7 @@ class SkladnikType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('ilosc')->add('produkt')->add('danie');
+        $builder->add('ilosc')->add('produkt');
     }/**
      * {@inheritdoc}
      */
