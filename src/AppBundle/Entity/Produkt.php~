@@ -31,6 +31,7 @@ class Produkt{
     public function __construct()    {
         $this->stany_magazynowe= new ArrayCollection();
         $this->skladniki= new ArrayCollection();
+        $this->zawieta_gluten=false;
     }
 
 
@@ -53,7 +54,12 @@ class Produkt{
     protected $jednostka;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    protected $ilosc_kalorii;
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $zawieta_gluten;
 
@@ -92,30 +98,6 @@ class Produkt{
     public function getNazwa()
     {
         return $this->nazwa;
-    }
-
-    /**
-     * Set zawietaGluten
-     *
-     * @param integer $zawietaGluten
-     *
-     * @return Produkt
-     */
-    public function setZawietaGluten($zawietaGluten)
-    {
-        $this->zawieta_gluten = $zawietaGluten;
-
-        return $this;
-    }
-
-    /**
-     * Get zawietaGluten
-     *
-     * @return integer
-     */
-    public function getZawietaGluten()
-    {
-        return $this->zawieta_gluten;
     }
 
     /**
@@ -208,5 +190,9 @@ class Produkt{
     public function getSkladniki()
     {
         return $this->skladniki;
+    }
+    
+    public function __toString() {
+        return $this->nazwa;
     }
 }

@@ -13,7 +13,7 @@ class Pozycja_zamowieniaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('ilosc')->add('cena_jedn')->add('danie')->add('zamowienie');
+        $builder->add('ilosc')->add('danie');
     }/**
      * {@inheritdoc}
      */

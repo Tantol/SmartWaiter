@@ -13,7 +13,7 @@ class ZamowienieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('czas_zlozenia')->add('czas_realizacji')->add('status')->add('konto');
+        //$builder->add('czas_zlozenia')->add('czas_realizacji')->add('konto');
     }/**
      * {@inheritdoc}
      */

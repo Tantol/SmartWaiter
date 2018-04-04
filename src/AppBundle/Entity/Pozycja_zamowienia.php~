@@ -9,6 +9,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Zamowienie;
+use AppBundle\Entity\Danie;
 
 
 /**
@@ -45,6 +47,11 @@ class Pozycja_zamowienia{
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $cena_jedn;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $czas_przygotowania;
 
 
     /**

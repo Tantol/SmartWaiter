@@ -11,13 +11,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Zamowienie;
 use AppBundle\Entity\Danie;
+use AppBundle\Entity\Status_zamowienia;
 
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="pozycja_zamowienia")
  */
-class Pozycja_zamowienia{
+class Pozycja_zamowienia implements \Serializable{
 
     /**
      * @ORM\Column(type="integer")
@@ -34,12 +35,12 @@ class Pozycja_zamowienia{
 
     /**
      * @ORM\ManyToOne(targetEntity="Zamowienie", inversedBy="pozycje_zamowien")
-     * @ORM\JoinColumn(name="konto", referencedColumnName="id")
+     * @ORM\JoinColumn(name="zamowienie", referencedColumnName="id")
      */
     protected $zamowienie;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="integer")
      */
     protected $ilosc;
 
@@ -47,6 +48,68 @@ class Pozycja_zamowienia{
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $cena_jedn;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $czas_przygotowania;
+    
+        /**
+     * @ORM\ManyToOne(targetEntity="Status_zamowienia", inversedBy="pozycja_zamowienia")
+     * @ORM\JoinColumn(name="status", referencedColumnName="id")
+     */
+    protected $status;
+    
+    public function serialize()
+    {
+      return serialize(
+        [
+          $this->id,
+          $this->danie,
+          $this->zamowienie,
+          $this->ilosc,
+          $this->cena_jedn,
+          $this->czas_przygotowania,
+        ]
+      );
+    }
+
+    public function unserialize($serialized)
+    {
+      $data = unserialize($serialized);
+      list(
+        $this->id,
+        $this->danie,
+        $this->zamowienie,
+        $this->ilosc,
+        $this->cena_jedn,
+        $this->czas_przygotowania,
+        ) = $data;
+    }
+    
+     /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\Status_zamowienia $status
+     *
+     * @return Zamowienie
+     */
+    public function setStatus(\AppBundle\Entity\Status_zamowienia $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\Status_zamowienia
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
 
     /**
@@ -153,5 +216,29 @@ class Pozycja_zamowienia{
     public function getZamowienie()
     {
         return $this->zamowienie;
+    }
+
+    /**
+     * Set czasPrzygotowania
+     *
+     * @param integer $czasPrzygotowania
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setCzasPrzygotowania($czasPrzygotowania)
+    {
+        $this->czas_przygotowania = $czasPrzygotowania;
+    
+        return $this;
+    }
+
+    /**
+     * Get czasPrzygotowania
+     *
+     * @return integer
+     */
+    public function getCzasPrzygotowania()
+    {
+        return $this->czas_przygotowania;
     }
 }

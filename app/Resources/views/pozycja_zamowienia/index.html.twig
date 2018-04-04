@@ -9,6 +9,7 @@
                 <th>Id</th>
                 <th>Ilosc</th>
                 <th>Cena_jedn</th>
+                <th>Czas_przygotowania</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
                 <td><a href="{{ path('pozycja_zamowienia_show', { 'id': pozycja_zamowienium.id }) }}">{{ pozycja_zamowienium.id }}</a></td>
                 <td>{{ pozycja_zamowienium.ilosc }}</td>
                 <td>{{ pozycja_zamowienium.cenajedn }}</td>
+                <td>{{ pozycja_zamowienium.czasPrzygotowania }}</td>
                 <td>
                     <ul>
                         <li>

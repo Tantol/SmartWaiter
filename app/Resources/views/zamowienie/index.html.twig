@@ -1,41 +1,71 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Zamowienies list</h1>
+    {% if is_granted('ROLE_CLIENT')%}
+        <h1>Lista Twoich zamówień</h1>
+        
+        <a href="{{ path('zamowienie_new') }}">Utworz zamowienie</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Czas_zlozenia</th>
-                <th>Czas_realizacji</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for zamowienie in zamowienies %}
-            <tr>
-                <td><a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">{{ zamowienie.id }}</a></td>
-                <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if zamowienie.czasrealizacji %}{{ zamowienie.czasrealizacji|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Zamówienie złożone o</th>
+                    <th>Szczegóły</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for zamowienie in zamowienies %}
+                <tr>
+                    <td>
+                        {% if zamowienie.czaszlozenia %}
+                            {{ zamowienie.czaszlozenia|date('H:i:s') }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN')%}
+        <h1>Widok administracyjny</h1>
+        <h2>Zamowienies list</h2>
 
-    <ul>
-        <li>
-            <a href="{{ path('zamowienie_new') }}">Create a new zamowienie</a>
-        </li>
-    </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Czas_zlozenia</th>
+                    <th>Czas_realizacji</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for zamowienie in zamowienies %}
+                <tr>
+                    <td><a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">{{ zamowienie.id }}</a></td>
+                    <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('zamowienie_new') }}">Create a new zamowienie</a>
+            </li>
+        </ul>
+    {% endif %}
 {% endblock %}

@@ -5,18 +5,13 @@
 
     <table>
         <tbody>
+            {% for pozycja in zamowienie.pozycjeZamowien %}
             <tr>
-                <th>Id</th>
-                <td>{{ zamowienie.id }}</td>
+                <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
+                <td> Cena (narazie jest za jedno danie) {{ pozycja.cenaJedn }} zł</td>
+                <td> -> {{ pozycja.status }}</td>
             </tr>
-            <tr>
-                <th>Czas_zlozenia</th>
-                <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Czas_realizacji</th>
-                <td>{% if zamowienie.czasrealizacji %}{{ zamowienie.czasrealizacji|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

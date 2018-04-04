@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Zamowienie;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Pozycja_zamowienium controller.
@@ -51,11 +53,16 @@ class Pozycja_zamowieniaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($pozycja_zamowienium);
-            $em->flush();
-
-            return $this->redirectToRoute('pozycja_zamowienia_show', array('id' => $pozycja_zamowienium->getId()));
+            
+            $zamowienie = $this->get('session')->get('zamowienie');
+            
+            $zamowienie->addPozycjeZamowien($pozycja_zamowienium);
+            
+            $this->get('session')->set('zamowienie', $zamowienie);
+            
+            $this->get('session')->set('test', $pozycja_zamowienium->getId());
+            
+            return $this->redirectToRoute('zamowienie_new');
         }
 
         return $this->render('pozycja_zamowienia/new.html.twig', array(

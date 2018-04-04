@@ -1,12 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Zamowienie creation</h1>
+    <h1>Zamówienie</h1>
+    
+    <table>
+        <tbody>
+            {% for pozycja in zamowienie.pozycjeZamowien %}
+            <tr>
+                <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
+                <td> Cena (narazie jest za jedno danie) {{ pozycja.cenaJedn }} zł</td>
+                <td> -> {{ pozycja.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        {{ form_start(pozycjaForm) }}
+        {{ form_widget(pozycjaForm) }}
+        <input type="submit" value="Dodaj pozycje" />
+    {{ form_end(pozycjaForm) }}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {{ form_start(zamowienieForm) }}
+        {{ form_widget(zamowienieForm) }}
         <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    {{ form_end(zamowienieForm) }}
 
     <ul>
         <li>

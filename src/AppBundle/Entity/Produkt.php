@@ -31,6 +31,7 @@ class Produkt{
     public function __construct()    {
         $this->stany_magazynowe= new ArrayCollection();
         $this->skladniki= new ArrayCollection();
+        $this->zawieta_gluten=false;
     }
 
 
@@ -45,19 +46,27 @@ class Produkt{
      * @ORM\Column(type="string", length=15, unique=true)
      */
     protected $nazwa;
+    
+    /**
+     * @ORM\Column(type="string", length=15, unique=false, nullable=false)
+     */
+    protected $marka;
 
     /**
      * @ORM\ManyToOne(targetEntity="Jednostka", inversedBy="produkty")
      * @ORM\JoinColumn(name="jednostka",referencedColumnName="id")
      */
     protected $jednostka;
-
+    
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $zawieta_gluten;
-
-
+    
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=false)
+     */
+    protected $ilosc_kalorii;
 
 
     /**
@@ -93,29 +102,29 @@ class Produkt{
     {
         return $this->nazwa;
     }
-
+    
     /**
-     * Set zawietaGluten
+     * Set marka
      *
-     * @param integer $zawietaGluten
+     * @param string $marka
      *
      * @return Produkt
      */
-    public function setZawietaGluten($zawietaGluten)
+    public function setMarka($marka)
     {
-        $this->zawieta_gluten = $zawietaGluten;
+        $this->marka = $marka;
 
         return $this;
     }
 
     /**
-     * Get zawietaGluten
+     * Get marka
      *
-     * @return integer
+     * @return string
      */
-    public function getZawietaGluten()
+    public function getMarka()
     {
-        return $this->zawieta_gluten;
+        return $this->marka;
     }
 
     /**
@@ -211,6 +220,55 @@ class Produkt{
     }
     
     public function __toString() {
-        return $this->nazwa;
+        return $this->nazwa . ' ' . $this->marka;
+    }
+
+    /**
+     * Set zawietaGluten
+     *
+     * @param boolean $zawietaGluten
+     *
+     * @return Produkt
+     */
+    public function setZawietaGluten($zawietaGluten)
+    {
+        $this->zawieta_gluten = $zawietaGluten;
+    
+        return $this;
+    }
+
+    /**
+     * Get zawietaGluten
+     *
+     * @return boolean
+     */
+    public function getZawietaGluten()
+    {
+        return $this->zawieta_gluten;
+    }
+    
+        
+     /**
+     * Set iloscKalorii
+     *
+     * @param string $iloscKalorii
+     *
+     * @return Produkt
+     */
+    public function setIloscKalorii($iloscKalorii)
+    {
+        $this->ilosc_kalorii = $iloscKalorii;
+    
+        return $this;
+    }
+
+    /**
+     * Get iloscKalorii
+     *
+     * @return string
+     */
+    public function getIloscKalorii()
+    {
+        return $this->ilosc_kalorii;
     }
 }

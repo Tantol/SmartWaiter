@@ -13,7 +13,7 @@ class ProduktType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nazwa')->add('zawieta_gluten')->add('jednostka');
+        $builder->add('nazwa')->add('marka')->add('zawieta_gluten')->add('jednostka')->add('ilosc_kalorii');
     }/**
      * {@inheritdoc}
      */

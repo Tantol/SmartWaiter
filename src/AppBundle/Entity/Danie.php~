@@ -61,7 +61,7 @@ class Danie{
 
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      */
     protected $czas_przygotowania;
 
@@ -71,7 +71,7 @@ class Danie{
     protected $koszt_przygotowania;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="decimal", precision=7, scale=2)
      */
     protected $cena;
 
@@ -86,10 +86,6 @@ class Danie{
      */
     protected $ilosc_kalorii;
 
-
-
-
-
     /**
      * Get id
      *
@@ -98,30 +94,6 @@ class Danie{
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set czasPrzygotowania
-     *
-     * @param \DateTime $czasPrzygotowania
-     *
-     * @return Danie
-     */
-    public function setCzasPrzygotowania($czasPrzygotowania)
-    {
-        $this->czas_przygotowania = $czasPrzygotowania;
-
-        return $this;
-    }
-
-    /**
-     * Get czasPrzygotowania
-     *
-     * @return \DateTime
-     */
-    public function getCzasPrzygotowania()
-    {
-        return $this->czas_przygotowania;
     }
 
     /**
@@ -358,5 +330,9 @@ class Danie{
     public function getPozycjeZamowien()
     {
         return $this->pozycje_zamowien;
+    }
+    
+    public function __toString() {
+        return $this->nazwa;
     }
 }

@@ -24,12 +24,6 @@ class Pracownik{
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Stanowisko", inversedBy="pracownicy")
-     * @ORM\JoinColumn(name="stanowisko", referencedColumnName="id")
-     */
-    protected $stanowisko;
-
-    /**
      * @ORM\Column(type="string", length=20)
      */
     protected $imie;
@@ -270,29 +264,5 @@ class Pracownik{
     public function getTelefon()
     {
         return $this->telefon;
-    }
-
-    /**
-     * Set stanowisko
-     *
-     * @param \AppBundle\Entity\Stanowisko $stanowisko
-     *
-     * @return Pracownik
-     */
-    public function setStanowisko(\AppBundle\Entity\Stanowisko $stanowisko = null)
-    {
-        $this->stanowisko = $stanowisko;
-
-        return $this;
-    }
-
-    /**
-     * Get stanowisko
-     *
-     * @return \AppBundle\Entity\Stanowisko
-     */
-    public function getStanowisko()
-    {
-        return $this->stanowisko;
     }
 }

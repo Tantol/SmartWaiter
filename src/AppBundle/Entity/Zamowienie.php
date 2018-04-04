@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="zamowienie")
  */
-class Zamowienie{
+class Zamowienie implements \Serializable{
 
     /**
      * @ORM\Column(type="integer")
@@ -26,19 +26,13 @@ class Zamowienie{
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Status_zamowienia", inversedBy="zamowienia")
-     * @ORM\JoinColumn(name="status", referencedColumnName="id")
-     */
-    protected $status;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="zamowienia")
      * @ORM\JoinColumn(name="konto", referencedColumnName="id", nullable=true)
      */
     protected $konto;
 
     /**
-     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="zamowienie")
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="zamowienie", cascade={"persist"})
      */
     protected $pozycje_zamowien;
 
@@ -55,8 +49,31 @@ class Zamowienie{
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $czas_realizacji;
+    
+        public function serialize()
+    {
+      return serialize(
+        [
+          $this->id,
+          $this->konto,
+          $this->pozycje_zamowien,
+          $this->czas_zlozenia,
+          $this->czas_realizacji,
+        ]
+      );
+    }
 
-
+    public function unserialize($serialized)
+    {
+      $data = unserialize($serialized);
+      list(
+        $this->id,
+          $this->konto,
+          $this->pozycje_zamowien,
+          $this->czas_zlozenia,
+          $this->czas_realizacji,
+        ) = $data;
+    }
 
     /**
      * Get id
@@ -117,30 +134,6 @@ class Zamowienie{
     }
 
     /**
-     * Set status
-     *
-     * @param \AppBundle\Entity\Status_zamowienia $status
-     *
-     * @return Zamowienie
-     */
-    public function setStatus(\AppBundle\Entity\Status_zamowienia $status = null)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \AppBundle\Entity\Status_zamowienia
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * Set konto
      *
      * @param \AppBundle\Entity\User $konto
@@ -197,6 +190,7 @@ class Zamowienie{
     {
         return $this->pozycje_zamowien;
     }
+    
     
     public function __toString() {
         return $this->konto->__toString();

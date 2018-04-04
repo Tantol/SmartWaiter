@@ -262,4 +262,8 @@ class User implements UserInterface
     {
         return $this->groups;
     }
+    
+    public function __toString() {
+        return $this->username;
+    }
 }

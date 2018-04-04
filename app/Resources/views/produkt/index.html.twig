@@ -8,6 +8,8 @@
             <tr>
                 <th>Id</th>
                 <th>Nazwa</th>
+                <th>Marka</th>
+                <th>Ilosc_kalorii w 100 ml/g</th>
                 <th>Zawieta_gluten</th>
                 <th>Actions</th>
             </tr>
@@ -17,6 +19,8 @@
             <tr>
                 <td><a href="{{ path('produkt_show', { 'id': produkt.id }) }}">{{ produkt.id }}</a></td>
                 <td>{{ produkt.nazwa }}</td>
+                <td>{{ produkt.marka }}</td>
+                <td>{{ produkt.iloscKalorii }}
                 <td>{{ produkt.zawietagluten }}</td>
                 <td>
                     <ul>

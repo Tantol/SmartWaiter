@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Zamowienie;
+use AppBundle\Entity\Pozycja_zamowienia;
 
 
 /**
@@ -28,16 +28,16 @@ class Status_zamowienia{
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Zamowienie", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="status")
      */
-    protected $zamowienia;
+    protected $pozycja_zamowienia;
 
     public function __construct()    {
-        $this->zamowienia= new ArrayCollection();
+        $this->pozycja_zamowienia= new ArrayCollection();
     }
 
     /**
-     * @ORM\Column(type="string", length=20, unique=true)
+     * @ORM\Column(type="string", length=20, unique=false)
      */
     protected $nazwa;
 
@@ -76,37 +76,37 @@ class Status_zamowienia{
     }
 
     /**
-     * Add zamowienium
+     * Add pozycja
      *
-     * @param \AppBundle\Entity\Zamowienie $zamowienium
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycja
      *
      * @return Status_zamowienia
      */
-    public function addZamowienium(\AppBundle\Entity\Zamowienie $zamowienium)
+    public function addPozycjaZamowienia(\AppBundle\Entity\Pozycja_zamowienia $pozycja)
     {
-        $this->zamowienia[] = $zamowienium;
+        $this->pozycja_zamowienia[] = $pozycja;
 
         return $this;
     }
 
     /**
-     * Remove zamowienium
+     * Remove pozycja
      *
-     * @param \AppBundle\Entity\Zamowienie $zamowienium
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycja
      */
-    public function removeZamowienium(\AppBundle\Entity\Zamowienie $zamowienium)
+    public function removeZamowienium(\AppBundle\Entity\Pozycja_zamowienia $pozycja)
     {
-        $this->zamowienia->removeElement($zamowienium);
+        $this->pozycja_zamowienia->removeElement($pozycja);
     }
 
     /**
-     * Get zamowienia
+     * Get pozycje zamowienia
      *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getZamowienia()
     {
-        return $this->zamowienia;
+        return $this->pozycja_zamowienia;
     }
     
     public function __toString() {
