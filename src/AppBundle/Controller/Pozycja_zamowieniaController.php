@@ -53,14 +53,16 @@ class Pozycja_zamowieniaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             
             $zamowienie = $this->get('session')->get('zamowienie');
             
+            $pozycja_zamowienium->setCenaJedn($pozycja_zamowienium->getDanie()->getCena());
+            $pozycja_zamowienium->setCzasPrzygotowania($pozycja_zamowienium->getDanie()->getCzasPrzygotowania());
+            $em->persist($pozycja_zamowienium);
+            
             $zamowienie->addPozycjeZamowien($pozycja_zamowienium);
-            
             $this->get('session')->set('zamowienie', $zamowienie);
-            
-            $this->get('session')->set('test', $pozycja_zamowienium->getId());
             
             return $this->redirectToRoute('zamowienie_new');
         }

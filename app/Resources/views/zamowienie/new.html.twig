@@ -14,19 +14,16 @@
             {% endfor %}
         </tbody>
     </table>
-        {{ form_start(pozycjaForm) }}
-        {{ form_widget(pozycjaForm) }}
-        <input type="submit" value="Dodaj pozycje" />
-    {{ form_end(pozycjaForm) }}
-
+    <a href="{{ path('pozycja_zamowienia_new') }}">Dodaj pozycje do zamowienia</a>
+        
     {{ form_start(zamowienieForm) }}
         {{ form_widget(zamowienieForm) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Zloz zamowienie" />
     {{ form_end(zamowienieForm) }}
 
     <ul>
         <li>
-            <a href="{{ path('zamowienie_index') }}">Back to the list</a>
+            <a href="{{ path('zamowienie_index') }}">Wroc do listy wyszstkich zamowien</a>
         </li>
     </ul>
 {% endblock %}

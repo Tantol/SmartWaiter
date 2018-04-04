@@ -57,11 +57,6 @@ class ZamowienieController extends Controller
         
         $zamowienieForm = $this->createForm('AppBundle\Form\ZamowienieType', $zamowienie);
         $zamowienieForm->handleRequest($request);
-        
-        $pozycja = new \AppBundle\Entity\Pozycja_zamowienia();
-        
-        $pozycjaForm = $this->createForm('AppBundle\Form\Pozycja_zamowieniaType', $pozycja);
-        $pozycjaForm->handleRequest($request);
 
         if ($zamowienieForm->isSubmitted() && $zamowienieForm->isValid()) {
             $dbZamowienie = new Zamowienie();
@@ -81,64 +76,13 @@ class ZamowienieController extends Controller
             $em->flush();
             $this->get('session')->remove('zamowienie');
             
-            return $this->redirectToRoute('zamowienie_show', array('id' => $dbZamowienie->getId()));
-            
-        } else if ($pozycjaForm->isSubmitted() && $pozycjaForm->isValid()) {
-            $sZamowienie = $this->get('session')->get('zamowienie');
-            
-            $tempPozycja = $pozycjaForm->getData();
-            $tempPozycja->setCenaJedn($tempPozycja->getDanie()->getCena());
-            $tempPozycja->setCzasPrzygotowania($tempPozycja->getDanie()->getCzasPrzygotowania());
-            
-            $em->persist($tempPozycja);
-            $sZamowienie->addPozycjeZamowien($tempPozycja);
-            $this->get('session')->set('zamowienie', $sZamowienie);
+            return $this->redirectToRoute('zamowienie_show', array('id' => $dbZamowienie->getId()));  
         }
 
         return $this->render('zamowienie/new.html.twig', array(
             'zamowienie' =>  $zamowienie,
             'zamowienieForm' => $zamowienieForm->createView(),
-            'pozycjaForm' => $pozycjaForm->createView(),
         ));
-        
-        /*
-        $zamowienie = new Zamowienie();
-        $pozycje_zamowienia = new \Doctrine\Common\Collections\ArrayCollection();
-        
-        $this->denyAccessUnlessGranted(ZamowienieVoter::ADD, $zamowienie);
-        
-        $zamowienie->setCzasZlozenia(new \DateTime);
-        $zamowienie->setKonto($this->getUser());
-        
-        $zamowienieForm = $this->createForm('AppBundle\Form\ZamowienieType', $zamowienie);
-        $zamowienieForm->handleRequest($request);
-        
-        $pozycja = new \AppBundle\Entity\Pozycja_zamowienia(); 
-        $pozycjaForm = $this->createForm('AppBundle\Form\Pozycja_zamowieniaType', $pozycja);
-        $pozycjaForm->handleRequest($request);
-        
-        if ($pozycjaForm->isSubmitted() && $pozycjaForm->isValid()){
-            $pozycja->setCenaJedn($pozycja->getDanie()->getCena());
-            $pozycja->setCzasPrzygotowania($pozycja->getDanie()->getCzasPrzygotowania());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($pozycja);
-            $em->flush();
-        }
-
-        if ($zamowienieForm->isSubmitted() && $zamowienieForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $zamowienie->addPozycjeZamowien($this->get('session')->get('pozycja'));
-            $em->persist($zamowienie);
-            $em->flush();
-            
-            return $this->redirectToRoute('zamowienie_show', array('id' => $zamowienie->getId()));
-        }
-
-        return $this->render('zamowienie/new.html.twig', array(
-            'zamowienie' => $zamowienie,
-            'zamowienieForm' => $zamowienieForm->createView(),
-            'pozycjaForm' => $pozycjaForm->createView(),
-        ));*/
     }
 
     /**

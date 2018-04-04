@@ -5,12 +5,12 @@
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Dodaj pozycje" />
     {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="{{ path('pozycja_zamowienia_index') }}">Back to the list</a>
+            <a href="{{ path('zamowienie_new') }}">Powroc do zamowienia</a>
         </li>
     </ul>
 {% endblock %}
