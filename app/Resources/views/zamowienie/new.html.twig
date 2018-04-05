@@ -5,13 +5,21 @@
     
     <table>
         <tbody>
+            {% set cenaLaczna = 0 %}
             {% for pozycja in zamowienie.pozycjeZamowien %}
-            <tr>
-                <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
-                <td> Cena (narazie jest za jedno danie) {{ pozycja.cenaJedn }} zł</td>
-                <td> -> {{ pozycja.status }}</td>
-            </tr>
+                {% set cenaPozycji = pozycja.cenaJedn * pozycja.ilosc %}
+                {% set cenaLaczna = cenaLaczna + cenaPozycji %}
+                <tr>
+                    <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
+                    <td> Cena: {{ cenaPozycji }} PLN</td>
+                    <td> -> {{ pozycja.status }}</td>
+                </tr>
             {% endfor %}
+            {% if cenaLaczna >= 0 %}
+                <tr>
+                    <th> Cena laczna zamowienia: {{ cenaLaczna }} PLN<th>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
     <a href="{{ path('pozycja_zamowienia_new') }}">Dodaj pozycje do zamowienia</a>
