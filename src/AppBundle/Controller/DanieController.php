@@ -121,17 +121,47 @@ class DanieController extends Controller
      * Finds and displays a danie entity.
      *
      * @Route("/{id}", name="danie_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Danie $danie)
+    public function showAction(Request $request, Danie $danie)
     {
         $this->denyAccessUnlessGranted(DanieVoter::VIEW, $danie);
         
         $deleteForm = $this->createDeleteForm($danie);
+        
+        $zamowienieForm = $this->createFormBuilder()
+        ->add('ilosc', \Symfony\Component\Form\Extension\Core\Type\NumberType::class)
+        ->getForm();
+        $zamowienieForm->handleRequest($request);
+        
+        if ($zamowienieForm->isSubmitted() && $zamowienieForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $pozycja = new \AppBundle\Entity\Pozycja_zamowienia();
+            $pozycja->setCenaJedn($danie->getCena());
+            $pozycja->setCzasPrzygotowania($danie->getCzasPrzygotowania());
+            $pozycja->setDanie($danie);
+            $pozycja->setIlosc($zamowienieForm['ilosc']->getData());
+            
+            $em->persist($pozycja);
+            
+            if (!$this->get('session')->has('zamowienie')){
+                $zamowienie = new Zamowienie();
+                $this->get('session')->set('zamowienie', $zamowienie);
+            } else {
+                $zamowienie = $this->get('session')->get('zamowienie');
+            }
+            
+            $zamowienie->addPozycjeZamowien($pozycja);
+            $this->get('session')->set('zamowienie', $zamowienie);
+            
+            return $this->redirectToRoute('zamowienie_new');
+        }
 
         return $this->render('danie/show.html.twig', array(
             'danie' => $danie,
             'delete_form' => $deleteForm->createView(),
+            'zamowienie_form' => $zamowienieForm->createView(),
         ));
     }
 

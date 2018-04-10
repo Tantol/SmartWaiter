@@ -52,6 +52,11 @@
             <a href="{{ path('danie_edit', { 'id': danie.id }) }}">Edit</a>
         </li>
         <li>
+            {{ form_start(zamowienie_form) }}
+                <input type="submit" value="Dodaj do zamowienia">
+            {{ form_end(zamowienie_form) }}
+        </li>
+        <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
