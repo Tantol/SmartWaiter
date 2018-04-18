@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for zamowienie in zamowienies %}
+            {% for zamowienie in data %}
                 <tr>
                     <td>
                         {% if zamowienie.czaszlozenia %}
@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for zamowienie in zamowienies %}
+            {% for zamowienie in data %}
                 <tr>
                     <td><a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">{{ zamowienie.id }}</a></td>
                     <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>

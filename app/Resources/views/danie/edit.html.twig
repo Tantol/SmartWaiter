@@ -2,10 +2,57 @@
 
 {% block body %}
     <h1>Danie edit</h1>
-
-    {{ form_start(edit_form) }}
+    {% if danie.skladniki %}
+        {% set iloscKalorii = 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Ilosc</th>
+                    <th>Zawiera gluten</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skladnik in danie.skladniki %}
+                    {% set iloscKalorii = iloscKalorii + (skladnik.produkt.iloscKalorii * skladnik.ilosc / 100) %}
+                    <tr>
+                        <td>{{ skladnik.produkt }}</td>
+                        <td>{{ skladnik.ilosc }}</td>
+                        <td>
+                            {% if  skladnik.produkt.zawietaGluten == 0%}
+                                Nie
+                            {% else %}
+                                Tak
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('skladnik_delete', { 'id': skladnik.id }) }}">Delete</a>
+                                </li>
+                            </ul>
+                        </td>
+                   {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+    <a href="{{ path('skladnik_edit_new', { 'id': danie.id }) }}">Dodaj składnik</a>
+        {{ form_start(edit_form) }}
+        {{ form_label(edit_form.czas_przygotowania) }}
+        {{ form_errors(edit_form.czas_przygotowania) }}
+        {{ form_widget(edit_form.czas_przygotowania) }} minute
+        </br>
+        {{ form_label(edit_form.cena) }}
+        {{ form_errors(edit_form.cena) }}
+        {{ form_widget(edit_form.cena) }} PLN
+        </br>
+        {{ form_label(edit_form.ilosc_kalorii) }}
+        {{ form_errors(edit_form.ilosc_kalorii) }}
+        {{ form_widget(edit_form.ilosc_kalorii) }} Sugerowana ilosc na podstawie skladnikow -> {{ iloscKalorii }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input type="submit" value="Create" />
     {{ form_end(edit_form) }}
 
     <ul>

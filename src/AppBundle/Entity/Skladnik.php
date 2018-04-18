@@ -33,7 +33,7 @@ class Skladnik{
 
     /**
      * @ORM\ManyToOne(targetEntity="Danie", inversedBy="skladniki")
-     * @ORM\JoinColumn(name="danie", referencedColumnName="id")
+     * @ORM\JoinColumn(name="danie", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $danie;
 

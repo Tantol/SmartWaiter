@@ -25,12 +25,60 @@
                 <th>Zawieta_gluten</th>
                 <td>{{ produkt.zawietagluten }}</td>
             </tr>
+            <tr>
+                <th>Min ilosc</th>
+                <td>{{ produkt.minStan }}</td>
+            </tr>
+            <tr>
+                <th>Max ilosc</th>
+                <td>{{ produkt.maxStan }}</td>
+            </tr>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Dostawca</th>
+                        <th>Ilosc</th>
+                        <th>Cena</th>
+                        <th>Data</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>      
+                    {% set calkowitaIlosc = 0 %}
+
+                    {% for stanMagazynowy in produkt.stanyMagazynowe %}
+                        {% set calkowitaIlosc = calkowitaIlosc + stanMagazynowy.ilosc %}
+                        <tr>
+                        <td><a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">{{ stanMagazynowy.id }}</a></td>
+                        <td>{{ stanMagazynowy.dostawca }}</td>
+                        <td>{{ stanMagazynowy.ilosc }}</td>
+                        <td>{{ stanMagazynowy.cena }}</td>
+                        <td>
+                            {% if stanMagazynowy.dataUmieszczenia %}
+                                {{ stanMagazynowy.dataUmieszczenia|date('Y/m/d - H:i:s') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('produkt_index') }}">Back to the list</a>
+            <a href="{{ path('stanmagazynowy_index') }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('produkt_edit', { 'id': produkt.id }) }}">Edit</a>

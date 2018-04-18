@@ -8,37 +8,36 @@
             <tr>
                 <th>Id</th>
                 <th>Produkt</th>
-                <th>Dostawca</th>
-                <th>Ilosc w g/ml</th>
-                <th>Max_stan</th>
+                <th>Ilosc</th>
                 <th>Min_stan</th>
-                <th>Cena</th>
+                <th>Max_stan</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for stanMagazynowy in stanMagazynowies %}
-            {% if stanMagazynowy.ilosc <= stanMagazynowy.minstan%}
+        {% for product in products %}       
+            {% set calkowitaIlosc = 0 %}
+            
+            {% for stanMagazynowy in product.stanyMagazynowe %}
+                {% set calkowitaIlosc = calkowitaIlosc + stanMagazynowy.ilosc %}
+            {% endfor %}
+            
+            {% if calkowitaIlosc <= product.minstan %}
                 <tr class="bg-danger">
-            {% elseif stanMagazynowy.ilosc > stanMagazynowy.maxstan%}
+            {% elseif calkowitaIlosc > product.maxstan%}
                 <tr class="bg-warning">
             {% else %}
                 <tr class="bg-success">
             {% endif %}
-                <td><a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">{{ stanMagazynowy.id }}</a></td>
-                <td>{{ stanMagazynowy.produkt }}</td>
-                <td>{{ stanMagazynowy.dostawca }}</td>
-                <td>{{ stanMagazynowy.ilosc }}</td>
-                <td>{{ stanMagazynowy.maxstan }}</td>
-                <td>{{ stanMagazynowy.minstan }}</td>
-                <td>{{ stanMagazynowy.cena }}</td>
+                <td><a href="{{ path('produkt_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+                <td>{{ product }}</td>
+                <td>{{ calkowitaIlosc }}</td>
+                <td>{{ product.minStan }}</td>
+                <td>{{ product.maxStan }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">edit</a>
+                            <a href="{{ path('produkt_show', { 'id': product.id }) }}">show</a>
                         </li>
                     </ul>
                 </td>
@@ -50,6 +49,9 @@
     <ul>
         <li>
             <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
+        </li>
+        <li>
+            <a href="{{ path('produkt_new') }}">Create a new Product</a>
         </li>
     </ul>
 {% endblock %}

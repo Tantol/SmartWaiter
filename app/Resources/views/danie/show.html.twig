@@ -2,7 +2,9 @@
 
 {% block body %}
     <h1>Danie</h1>
-
+    {% if errorDelete %}
+        <h2> {{ errorDelete }} </h2>
+    {% endif %}
     <table>
         <tbody>
             <tr>
@@ -48,18 +50,24 @@
         <li>
             <a href="{{ path('danie_index') }}">Back to the list</a>
         </li>
-        <li>
-            <a href="{{ path('danie_edit', { 'id': danie.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(zamowienie_form) }}
-                <input type="submit" value="Dodaj do zamowienia">
-            {{ form_end(zamowienie_form) }}
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <li>
+                <a href="{{ path('danie_edit', { 'id': danie.id }) }}">Edit</a>
+            </li>
+        {% endif %}
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_CLIENT') or is_granted('ROLE_WAITER')) %}
+            <li>
+                {{ form_start(zamowienie_form) }}
+                    <input type="submit" value="Dodaj do zamowienia">
+                {{ form_end(zamowienie_form) }}
+            </li>
+        {% endif %}
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

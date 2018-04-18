@@ -3,25 +3,40 @@
 {% block body %}
     <h1>Zamówienie</h1>
     
-    <table>
-        <tbody>
-            {% set cenaLaczna = 0 %}
-            {% for pozycja in zamowienie.pozycjeZamowien %}
-                {% set cenaPozycji = pozycja.cenaJedn * pozycja.ilosc %}
-                {% set cenaLaczna = cenaLaczna + cenaPozycji %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
-                    <td> Cena: {{ cenaPozycji }} PLN</td>
-                    <td> -> {{ pozycja.status }}</td>
+                    <th>Danie</th>
+                    <th>Ilosc</th>
+                    <th>Cena</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-            {% if cenaLaczna >= 0 %}
-                <tr>
-                    <th> Cena laczna zamowienia: {{ cenaLaczna }} PLN<th>
+            </thead>
+            <tbody>
+                {% set cenaLaczna = 0 %}
+                {% set tempId = 1 %}
+                {% for pozycja in zamowienie.pozycjeZamowien %}
+                    {% set cenaPozycji = pozycja.cenaJedn * pozycja.ilosc %}
+                    {% set cenaLaczna = cenaLaczna + cenaPozycji %}
+                    <tr>
+                        <td>{{ pozycja.danie }}</td>
+                        <td>{{ pozycja.ilosc }}</td>
+                        <td>{{ cenaPozycji }} PLN</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('pozycja_zamowienia_delete', { 'id': tempId }) }}">Delete</a>
+                                </li>
+                            </ul>
+                        </td>
+                   {% endfor %}
                 </tr>
-            {% endif %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    {% if cenaLaczna >= 0 %}
+        Cena laczna zamowienia: {{ cenaLaczna }} PLN
+    {% endif %}
+    </br>
     <a href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
         
     {{ form_start(zamowienieForm) }}

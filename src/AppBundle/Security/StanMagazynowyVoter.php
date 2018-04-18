@@ -46,10 +46,46 @@ class StanMagazynowyVoter extends Voter
         // ROLE_ADMIN can do anything! The power!
         if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
             return true;
-        } else {
-            return false;
         }
-
+        $stan = $subject;
+        
+        switch($attribute){
+            case self::VIEW:
+                return $this->canView($stan, $user, $token);
+            case self::ADD:
+                return $this->canAdd($stan, $user, $token);
+            case self::EDIT:
+                return $this->canEdit($stan, $user, $token);
+            case self::DELETE:
+                return $this->canDelete($stan, $user, $token);
+        }
+        
         throw new \LogicException('This code should not be reached!');
+    }
+    
+    private function canView(StanMagazynowy $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        } 
+
+        return false;
+    }
+    
+    private function canAdd(StanMagazynowy $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+
+    private function canEdit(StanMagazynowy $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+    
+    private function canDelete(StanMagazynowy $object, User $user, TokenInterface $token)
+    {
+        return false;
     }
 }

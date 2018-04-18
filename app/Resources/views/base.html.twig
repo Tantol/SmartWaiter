@@ -11,9 +11,17 @@
         <a href="{{ path('homepage') }}" class="btn btn-warning">Strona glowna</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ logout_path() }}" class="btn btn-danger">Logout</a>
+        {% else %}
+            <a href="{{ path('login') }}" class="btn btn-info">Login</a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('adminPanel') }}" class="btn btn-info">Panel administracyjny</a>
+        {% endif %}
+        {% if is_granted('ROLE_COOK') %}
+            <a href="{{ path('cookPanel') }}" class="btn btn-info">Panel kucharza</a>
+        {% endif %}
+        {% if is_granted('ROLE_WAITER') %}
+            <a href="{{ path('waiterPanel') }}" class="btn btn-info">Panel kelnera</a>
         {% endif %}
         <div class="container">
             {% block body %}{% endblock %}

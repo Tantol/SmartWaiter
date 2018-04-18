@@ -42,8 +42,10 @@
 
 
     <ul>
-        <li>
-            <a href="{{ path('danie_new') }}">Create a new danie</a>
-        </li>
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <li>
+                <a href="{{ path('danie_new') }}">Create a new danie</a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

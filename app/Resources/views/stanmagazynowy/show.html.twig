@@ -10,27 +10,35 @@
                 <td>{{ stanMagazynowy.id }}</td>
             </tr>
             <tr>
+                <th>Produkt</th>
+                <td>{{ stanMagazynowy.produkt }}</td>
+            </tr>
+            <tr>
+                <th>Dostawca</th>
+                <td>{{ stanMagazynowy.dostawca }}</td>
+            </tr>
+            <tr>
                 <th>Ilosc</th>
                 <td>{{ stanMagazynowy.ilosc }}</td>
             </tr>
             <tr>
-                <th>Max_stan</th>
-                <td>{{ stanMagazynowy.maxstan }}</td>
-            </tr>
-            <tr>
-                <th>Min_stan</th>
-                <td>{{ stanMagazynowy.minstan }}</td>
-            </tr>
-            <tr>
                 <th>Cena</th>
                 <td>{{ stanMagazynowy.cena }}</td>
+            </tr>
+            <tr>
+                <th>Data</th>
+                <td>
+                    {% if stanMagazynowy.dataUmieszczenia %}
+                        {{ stanMagazynowy.dataUmieszczenia|date('Y/m/d - H:i:s') }}
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('stanmagazynowy_index') }}">Back to the list</a>
+            <a href="{{ path('produkt_show', { 'id': stanMagazynowy.produkt.id }) }}">Back to the product</a>
         </li>
         <li>
             <a href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">Edit</a>

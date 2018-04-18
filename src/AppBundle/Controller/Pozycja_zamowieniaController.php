@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Zamowienie;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Pozycja_zamowienium controller.
@@ -29,11 +27,11 @@ class Pozycja_zamowieniaController extends Controller
         $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::VIEW, new Pozycja_zamowienia());
         
         $em = $this->getDoctrine()->getManager();
-
-        $pozycja_zamowienias = $em->getRepository('AppBundle:Pozycja_zamowienia')->findAll();
+        
+        $pozycja_zamowienias = $em->getRepository('AppBundle:Pozycja_zamowienia')->findAllForCook();
 
         return $this->render('pozycja_zamowienia/index.html.twig', array(
-            'pozycja_zamowienias' => $pozycja_zamowienias,
+            'data' => $pozycja_zamowienias,
         ));
     }
 
@@ -58,7 +56,7 @@ class Pozycja_zamowieniaController extends Controller
             $zamowienie = $this->get('session')->get('zamowienie');
             
             $pozycja_zamowienium->setCenaJedn($pozycja_zamowienium->getDanie()->getCena());
-            $pozycja_zamowienium->setCzasPrzygotowania($pozycja_zamowienium->getDanie()->getCzasPrzygotowania());
+            $pozycja_zamowienium->setPrzewidywanyCzasPrzygotowania($pozycja_zamowienium->getDanie()->getCzasPrzygotowania());
             $em->persist($pozycja_zamowienium);
             
             $zamowienie->addPozycjeZamowien($pozycja_zamowienium);
@@ -117,42 +115,88 @@ class Pozycja_zamowieniaController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
+    
     /**
-     * Deletes a pozycja_zamowienium entity.
+     * Deletes a skladnik from danie.
      *
-     * @Route("/{id}", name="pozycja_zamowienia_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/deleteD", name="pozycja_zamowienia_delete")
      */
-    public function deleteAction(Request $request, Pozycja_zamowienia $pozycja_zamowienium)
+    public function deleteFromZamowienieAction($id)
     {
-        $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::DELETE, $pozycja_zamowienium);
+        $zamowienie = $this->get('session')->get('zamowienie');
         
-        $form = $this->createDeleteForm($pozycja_zamowienium);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($pozycja_zamowienium);
-            $em->flush();
+        $this->denyAccessUnlessGranted(\AppBundle\Security\ZamowienieVoter::ADD, $zamowienie);
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $tempIle = 1;
+        foreach ($zamowienie->getPozycjeZamowien()  as $temp) {
+            if ($id == $tempIle) {
+                $zamowienie->removePozycjeZamowien($temp);
+                $em->remove($temp);
+                break;
+            }
+            $tempIle += 1;
         }
-
-        return $this->redirectToRoute('pozycja_zamowienia_index');
+        
+        $this->get('session')->set('zamowienie', $zamowienie);
+        return $this->redirectToRoute('zamowienie_new'); 
     }
 
-    /**
-     * Creates a form to delete a pozycja_zamowienium entity.
+        /**
+     * Deletes a skladnik entity.
      *
-     * @param Pozycja_zamowienia $pozycja_zamowienium The pozycja_zamowienium entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Route("/{id}/delete", name="pozycja_delete")
+     * @Method("GET")
      */
-    private function createDeleteForm(Pozycja_zamowienia $pozycja_zamowienium)
+    public function deleteAction(Request $request, Pozycja_zamowienia $pozycja)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pozycja_zamowienia_delete', array('id' => $pozycja_zamowienium->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::DELETE, $pozycja);
+        
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($pozycja);
+            $em->persist($pozycja->getZamowienie());
+            $em->flush();
+
+        return $this->redirectToRoute('zamowienie_edit', array('id' => $pozycja->getZamowienie()->getId()));
+    }
+    
+    /**
+     * Displays a form to edit an existing zamowienie entity.
+     *
+     * @Route("/{id}/status{status}", name="pozycja_status")
+     * @Method({"GET"})
+     */
+    public function editStatusAction(Request $request, Pozycja_zamowienia $pozycja, $status)
+    {
+        $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::EDIT, $pozycja);
+        $em = $this->getDoctrine()->getManager();
+        
+        $allStatus = $em->getRepository('AppBundle:Status_zamowienia')->findAll();
+        
+        if ($status === 'W trakcie realizacji'){
+            $pozycja->setKucharz($this->getUser()->getPracownik());
+            $pozycja->setCzasPrzyjecia(new \DateTime);
+        } else if ($status === 'Do wydania'){
+            $pozycja->setCzasWydania(new \DateTime);
+        } else if ($status === 'Zrealizowane'){
+            $pozycja->setKelner($this->getUser()->getPracownik());
+            // TODO sprawdzic czy wszystko $pozycja->getZamowienie()->setCzasRealizacji(new \DateTime);
+        } else if ($status === 'Niezrealizowane'){
+            // TODO sprawdzic czy wszystko $pozycja->getZamowienie()->setCzasRealizacji(new \DateTime);
+        }
+        
+        $pozycja->setStatus($this->findStatus($allStatus, $status));
+        $em->flush();
+        
+        return $this->redirectToRoute('pozycja_zamowienia_index');
+    }
+    
+    private function findStatus($status, $nazwa){
+        foreach($status as $temp){
+            if ($temp->getNazwa() === $nazwa){
+                return $temp;
+            }
+        }
     }
 }

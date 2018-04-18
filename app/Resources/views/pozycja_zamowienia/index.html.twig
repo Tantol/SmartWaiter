@@ -1,43 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Pozycja_zamowienias list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Ilosc</th>
-                <th>Cena_jedn</th>
-                <th>Czas_przygotowania</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for pozycja_zamowienium in pozycja_zamowienias %}
-            <tr>
-                <td><a href="{{ path('pozycja_zamowienia_show', { 'id': pozycja_zamowienium.id }) }}">{{ pozycja_zamowienium.id }}</a></td>
-                <td>{{ pozycja_zamowienium.ilosc }}</td>
-                <td>{{ pozycja_zamowienium.cenajedn }}</td>
-                <td>{{ pozycja_zamowienium.czasPrzygotowania }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('pozycja_zamowienia_show', { 'id': pozycja_zamowienium.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('pozycja_zamowienia_edit', { 'id': pozycja_zamowienium.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('pozycja_zamowienia_new') }}">Create a new pozycja_zamowienium</a>
-        </li>
-    </ul>
+        {% if is_granted('ROLE_COOK')%}
+        <h1>Zamowienia</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data zamowienia</th>
+                    <th>Danie</th>
+                    <th>Ilosc</th>
+                    <th>Akcja</th>
+                </tr>
+            <tbody>
+                {% for pozycja in data %}
+                    {% if pozycja.status != 'Zrealizowane' %}
+                        <tr>
+                            <td>{{ pozycja.zamowienie.czasZlozenia|date('H:i:s') }}</td>
+                            <td>{{ pozycja.danie }}</td>
+                            <td>{{ pozycja.ilosc }}</td>
+                            <td>
+                               <ul>
+                                   {% if pozycja.status == 'Czeka na przyjecie' %}
+                                        <li>
+                                            <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'W trakcie realizacji' }) }}">Przyjmij</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if pozycja.status == 'W trakcie realizacji' %}
+                                        <li>
+                                            <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Do wydania' }) }}">Wydaj</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if pozycja.status == 'Do wydania' %}
+                                        <li>Gotowe</li>
+                                    {% endif %}
+                                </ul> 
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

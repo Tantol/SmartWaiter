@@ -4,6 +4,9 @@
     <h1>Skladnik creation</h1>
 
     {{ form_start(form) }}
+        {{ form_label(form.ilosc) }}
+        {{ form_errors(form.ilosc) }}
+        {{ form_widget(form.ilosc) }} grams or mililiters
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}

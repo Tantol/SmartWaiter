@@ -15,7 +15,7 @@ use AppBundle\Entity\Status_zamowienia;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Pozycja_zamowieniaRepository");
  * @ORM\Table(name="pozycja_zamowienia")
  */
 class Pozycja_zamowienia implements \Serializable{
@@ -35,7 +35,7 @@ class Pozycja_zamowienia implements \Serializable{
 
     /**
      * @ORM\ManyToOne(targetEntity="Zamowienie", inversedBy="pozycje_zamowien")
-     * @ORM\JoinColumn(name="zamowienie", referencedColumnName="id")
+     * @ORM\JoinColumn(name="zamowienie", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $zamowienie;
 
@@ -52,13 +52,35 @@ class Pozycja_zamowienia implements \Serializable{
     /**
      * @ORM\Column(type="integer")
      */
-    protected $czas_przygotowania;
+    protected $przewidywany_czas_przygotowania;
     
-        /**
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $czas_przyjecia;
+    
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $czas_wydania;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Status_zamowienia", inversedBy="pozycja_zamowienia")
      * @ORM\JoinColumn(name="status", referencedColumnName="id")
      */
     protected $status;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Pracownik", inversedBy="pozycja_zamowienia_kucharz")
+     * @ORM\JoinColumn(name="kucharz", referencedColumnName="id")
+     */
+    protected $kucharz;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Pracownik", inversedBy="pozycja_zamowienia_kelner")
+     * @ORM\JoinColumn(name="kelner", referencedColumnName="id")
+     */
+    protected $kelner;
     
     public function serialize()
     {
@@ -69,7 +91,12 @@ class Pozycja_zamowienia implements \Serializable{
           $this->zamowienie,
           $this->ilosc,
           $this->cena_jedn,
-          $this->czas_przygotowania,
+          $this->przewidywany_czas_przygotowania,
+          $this->czas_przyjecia,
+          $this->czas_wydania,
+          $this->status,
+          $this->kucharz,
+          $this->kelner,
         ]
       );
     }
@@ -83,7 +110,13 @@ class Pozycja_zamowienia implements \Serializable{
         $this->zamowienie,
         $this->ilosc,
         $this->cena_jedn,
-        $this->czas_przygotowania,
+        $this->przewidywany_czas_przygotowania,
+        $this->czas_przyjecia,
+        $this->czas_wydania,
+        $this->status,
+        $this->pracownik,
+        $this->kucharz,
+        $this->kelner,
         ) = $data;
     }
     
@@ -92,7 +125,7 @@ class Pozycja_zamowienia implements \Serializable{
      *
      * @param \AppBundle\Entity\Status_zamowienia $status
      *
-     * @return Zamowienie
+     * @return Pozycja_zamowienia
      */
     public function setStatus(\AppBundle\Entity\Status_zamowienia $status = null)
     {
@@ -111,7 +144,54 @@ class Pozycja_zamowienia implements \Serializable{
         return $this->status;
     }
 
+    /**
+     * Set kucharz
+     *
+     * @param \AppBundle\Entity\Pracownik $pracownik
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setKucharz(\AppBundle\Entity\Pracownik $pracownik = null)
+    {
+        $this->kucharz = $pracownik;
 
+        return $this;
+    }
+
+    /**
+     * Get kucharz
+     *
+     * @return \AppBundle\Entity\Pracownik
+     */
+    public function getKucharz()
+    {
+        return $this->kucharz;
+    }
+    
+    /**
+     * Set kelner
+     *
+     * @param \AppBundle\Entity\Pracownik $pracownik
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setKelner(\AppBundle\Entity\Pracownik $pracownik = null)
+    {
+        $this->kelner = $pracownik;
+
+        return $this;
+    }
+
+    /**
+     * Get kelner
+     *
+     * @return \AppBundle\Entity\Pracownik
+     */
+    public function getKelner()
+    {
+        return $this->kucharz;
+    }
+    
     /**
      * Get id
      *
@@ -225,9 +305,9 @@ class Pozycja_zamowienia implements \Serializable{
      *
      * @return Pozycja_zamowienia
      */
-    public function setCzasPrzygotowania($czasPrzygotowania)
+    public function setPrzewidywanyCzasPrzygotowania($czasPrzygotowania)
     {
-        $this->czas_przygotowania = $czasPrzygotowania;
+        $this->przewidywany_czas_przygotowania = $czasPrzygotowania;
     
         return $this;
     }
@@ -237,8 +317,56 @@ class Pozycja_zamowienia implements \Serializable{
      *
      * @return integer
      */
-    public function getCzasPrzygotowania()
+    public function getPrzewidywanyCzasPrzygotowania()
     {
-        return $this->czas_przygotowania;
+        return $this->przewidywany_czas_przygotowania;
+    }
+    
+    /**
+     * Set czasPrzyjecia
+     *
+     * @param \DateTime $czasPrzyjecia
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setCzasPrzyjecia($czas)
+    {
+        $this->czas_przyjecia = $czas;
+
+        return $this;
+    }
+
+    /**
+     * Get czasPrzyjecia
+     *
+     * @return \DateTime
+     */
+    public function getCzasPrzyjecia()
+    {
+        return $this->czas_przyjecia;
+    }
+    
+    /**
+     * Set czasWydania
+     *
+     * @param \DateTime $czasWydania
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setCzasWydania($czas)
+    {
+        $this->czas_wydania = $czas;
+
+        return $this;
+    }
+
+    /**
+     * Get czasWydania
+     *
+     * @return \DateTime
+     */
+    public function getCzasWydania()
+    {
+        return $this->czas_wydania;
     }
 }

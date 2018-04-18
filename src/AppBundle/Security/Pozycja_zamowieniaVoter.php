@@ -46,10 +46,69 @@ class Pozycja_zamowieniaVoter extends Voter
         // ROLE_ADMIN can do anything! The power!
         if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
             return true;
-        } else {
-            return false;
         }
 
+        $pozycja = $subject;
+        
+        switch($attribute){
+            case self::VIEW:
+                return $this->canView($pozycja, $user, $token);
+            case self::ADD:
+                return $this->canAdd($pozycja, $user, $token);
+            case self::EDIT:
+                return $this->canEdit($pozycja, $user, $token);
+            case self::DELETE:
+                return $this->canDelete($pozycja, $user, $token);
+        }
+        
         throw new \LogicException('This code should not be reached!');
+    }
+    
+    private function canView(Pozycja_zamowienia $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_WAITER'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private function canAdd(Pozycja_zamowienia $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_CLIENT'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_WAITER'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private function canEdit(Pozycja_zamowienia $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_WAITER'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private function canDelete(Pozycja_zamowienia $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
     }
 }

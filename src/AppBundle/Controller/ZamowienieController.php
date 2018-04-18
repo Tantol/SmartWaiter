@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Zamowienie controller.
@@ -24,16 +23,18 @@ class ZamowienieController extends Controller
      * @Method("GET")
      */
     public function indexAction()
-    {
-        $this->denyAccessUnlessGranted(ZamowienieVoter::VIEW, new Zamowienie());
-        
+    {   
         $em = $this->getDoctrine()->getManager();
-
-        $zamowienies = $em->getRepository('AppBundle:Zamowienie')->findAll();
-
+        
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_CLIENT')) {
+            $data = $em->getRepository('AppBundle:Zamowienie')->findAllForClient($this->getUser());
+        } else if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $data = $em->getRepository('AppBundle:Pozycja_zamowienia')->findAll();
+        }
+        
         return $this->render('zamowienie/index.html.twig', array(
-            'zamowienies' => $zamowienies,
-        ));
+                'data' => $data,
+            ));
     }
 
     /**
@@ -51,6 +52,10 @@ class ZamowienieController extends Controller
             $this->get('session')->set('zamowienie', $zamowienie);
         } else {
             $zamowienie = $this->get('session')->get('zamowienie');
+        }
+        
+        if ($this->get('session')->has('editZamowienie')){
+            $this->get('session')->remove('editZamowienie');
         }
         
         $this->denyAccessUnlessGranted(ZamowienieVoter::ADD, $zamowienie);
@@ -112,6 +117,8 @@ class ZamowienieController extends Controller
     public function editAction(Request $request, Zamowienie $zamowienie)
     {
         $this->denyAccessUnlessGranted(ZamowienieVoter::EDIT, $zamowienie);
+        
+        $this->get('session')->set('editZamowienie', $zamowienie);
         
         $deleteForm = $this->createDeleteForm($zamowienie);
         $editForm = $this->createForm('AppBundle\Form\ZamowienieType', $zamowienie);

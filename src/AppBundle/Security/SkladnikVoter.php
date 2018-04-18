@@ -46,10 +46,53 @@ class SkladnikVoter extends Voter
         // ROLE_ADMIN can do anything! The power!
         if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
             return true;
-        } else {
-            return false;
         }
 
+        $skladnik = $subject;
+        
+        switch($attribute){
+            case self::VIEW:
+                return $this->canView($skladnik, $user, $token);
+            case self::ADD:
+                return $this->canAdd($skladnik, $user, $token);
+            case self::EDIT:
+                return $this->canEdit($skladnik, $user, $token);
+            case self::DELETE:
+                return $this->canDelete($skladnik, $user, $token);
+        }
+        
         throw new \LogicException('This code should not be reached!');
+    }
+    
+    private function canView(Skladnik $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+    
+    private function canAdd(Skladnik $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private function canEdit(Skladnik $object, User $user, TokenInterface $token)
+    { 
+        return false;
+    }
+    
+    private function canDelete(Skladnik $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
+        return false;
     }
 }

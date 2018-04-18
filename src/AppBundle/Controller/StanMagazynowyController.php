@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Produkt;
 
 /**
  * Stanmagazynowy controller.
@@ -27,11 +28,12 @@ class StanMagazynowyController extends Controller
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::VIEW, new StanMagazynowy());
         
         $em = $this->getDoctrine()->getManager();
-
-        $stanMagazynowies = $em->getRepository('AppBundle:StanMagazynowy')->findAll();
+        
+        $products = $em->getRepository('AppBundle:Produkt')->findAll();
+        
 
         return $this->render('stanmagazynowy/index.html.twig', array(
-            'stanMagazynowies' => $stanMagazynowies,
+            'products' => $products,
         ));
     }
 
@@ -51,6 +53,7 @@ class StanMagazynowyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $stanMagazynowy->setDataUmieszczenia(new \DateTime);
             $em = $this->getDoctrine()->getManager();
             $em->persist($stanMagazynowy);
             $em->flush();

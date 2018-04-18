@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ZamowienieRepository")
  * @ORM\Table(name="zamowienie")
  */
 class Zamowienie implements \Serializable{

@@ -22,7 +22,25 @@ class DefaultController extends Controller
      */
     public function adminPanelAction(Request $request)
     {
-        return $this->render('default/panelAdministratora.html.twig');
+        return $this->render('default/panel.html.twig');
+
+    }
+    
+        /**
+     * @Route("/cookPanel", name="cookPanel")
+     */
+    public function cookPanelAction(Request $request)
+    {
+        return $this->render('default/panel.html.twig');
+
+    }
+    
+    /**
+     * @Route("/waiterPanel", name="waiterPanel")
+     */
+    public function waiterPanelAction(Request $request)
+    {
+        return $this->render('default/panel.html.twig');
 
     }
 }

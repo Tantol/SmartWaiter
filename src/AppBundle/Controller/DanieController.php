@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Zamowienie;
 
 /**
  * Danie controller.
@@ -24,8 +25,6 @@ class DanieController extends Controller
      */
     public function indexAction()
     {
-        $this->denyAccessUnlessGranted(DanieVoter::VIEW, new Danie());
-        
         $em = $this->getDoctrine()->getManager();
 
         $danies = $em->getRepository('AppBundle:Danie')->findAll();
@@ -62,11 +61,11 @@ class DanieController extends Controller
             
             $skladniki = $danie->getSkladniki();
             
+            /*
             $tempKalorie = 0;
-            // $tempDostepne = sizeof($skladniki);
+            $tempDostepne = sizeof($skladniki);
             foreach($skladniki as $skladnik){
                 $tempKalorie += $skladnik->getProdukt()->getIloscKalorii() * $skladnik->getIlosc();
-                /*
                 $tempProduktStanMagazynowy = $tempProdukt->getStanyMagazynowe();
                 if ($tempProduktStanMagazynowy !== null){
                     $tempWymaganaIlosc = $tempIlosc;
@@ -78,10 +77,9 @@ class DanieController extends Controller
                             break;
                         }
                     }
-                }
-                 */
-                    
+                }             
             }
+            */
             /*
             if ($tempDostepne === 0){
                 $dbDanie->setDostepne(1);
@@ -90,8 +88,7 @@ class DanieController extends Controller
             }
             */
             $dbDanie->setDostepne(0);
-            $dbDanie->setIloscKalorii($tempKalorie);
-            
+            $dbDanie->setIloscKalorii($danie->getIloscKalorii());
             $dbDanie->setCena($danie->getCena());
             $dbDanie->setCzasPrzygotowania($danie->getCzasPrzygotowania());
             $dbDanie->setJednostka($danie->getJednostka());
@@ -139,29 +136,42 @@ class DanieController extends Controller
             
             $pozycja = new \AppBundle\Entity\Pozycja_zamowienia();
             $pozycja->setCenaJedn($danie->getCena());
-            $pozycja->setCzasPrzygotowania($danie->getCzasPrzygotowania());
+            $pozycja->setPrzewidywanyCzasPrzygotowania($danie->getCzasPrzygotowania());
             $pozycja->setDanie($danie);
             $pozycja->setIlosc($zamowienieForm['ilosc']->getData());
             
-            $em->persist($pozycja);
-            
-            if (!$this->get('session')->has('zamowienie')){
-                $zamowienie = new Zamowienie();
-                $this->get('session')->set('zamowienie', $zamowienie);
+            if ($this->get('session')->has('editZamowienie')){
+                $zamowienieEdit = $this->get('session')->get('editZamowienie');
+                $pozycja->setZamowienie($zamowienieEdit);
+                $em->merge($pozycja);
+                $em->flush();
+                $this->get('session')->remove('editZamowienie');
+                return $this->redirectToRoute('zamowienie_show', array('id' => $zamowienieEdit->getId()));
             } else {
-                $zamowienie = $this->get('session')->get('zamowienie');
+                $em->persist($pozycja);
+
+                if (!$this->get('session')->has('zamowienie')){
+                    $zamowienie = new Zamowienie();
+                    $this->get('session')->set('zamowienie', $zamowienie);
+                } else {
+                    $zamowienie = $this->get('session')->get('zamowienie');
+                }
+
+                $zamowienie->addPozycjeZamowien($pozycja);
+                $this->get('session')->set('zamowienie', $zamowienie);
+
+                return $this->redirectToRoute('zamowienie_new');
             }
-            
-            $zamowienie->addPozycjeZamowien($pozycja);
-            $this->get('session')->set('zamowienie', $zamowienie);
-            
-            return $this->redirectToRoute('zamowienie_new');
         }
+        
+        $errorDelete = $this->get('session')->get('errorDelete');
+        $this->get('session')->remove('errorDelete');
 
         return $this->render('danie/show.html.twig', array(
             'danie' => $danie,
             'delete_form' => $deleteForm->createView(),
             'zamowienie_form' => $zamowienieForm->createView(),
+            'errorDelete' => $errorDelete,
         ));
     }
 
@@ -175,6 +185,7 @@ class DanieController extends Controller
     {
         $this->denyAccessUnlessGranted(DanieVoter::EDIT, $danie);
         
+
         $deleteForm = $this->createDeleteForm($danie);
         $editForm = $this->createForm('AppBundle\Form\DanieType', $danie);
         $editForm->handleRequest($request);
@@ -184,7 +195,7 @@ class DanieController extends Controller
 
             return $this->redirectToRoute('danie_edit', array('id' => $danie->getId()));
         }
-
+        
         return $this->render('danie/edit.html.twig', array(
             'danie' => $danie,
             'edit_form' => $editForm->createView(),
@@ -206,9 +217,17 @@ class DanieController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$danie->getPozycjeZamowien()->isEmpty()){
+                $this->get('session')->set('errorDelete', 'Nie mozesz usunac dania, ktore jest przypiete do zamowienia.'
+                        . ' Aby to zrobic, usun wpierw zamowienie zawierajace to danie');
+                return $this->redirectToRoute('danie_show', array(
+                   'id' => $danie->getId(),
+                ));
+            } else {
             $em = $this->getDoctrine()->getManager();
             $em->remove($danie);
             $em->flush();
+            }
         }
 
         return $this->redirectToRoute('danie_index');

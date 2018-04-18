@@ -62,6 +62,21 @@ class Pracownik{
      * @ORM\Column(type="string", length=15)
      */
     protected $telefon;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="kucharz")
+     */
+    protected $pozycja_zamowienia_kucharz;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="kelner")
+     */
+    protected $pozycja_zamowienia_kelner;    
+
+    public function __construct()    {
+        $this->pozycja_zamowienia_kucharz = new ArrayCollection();
+        $this->$pozycja_zamowienia_kelner = new ArrayCollection();
+    }
 
 
     /**

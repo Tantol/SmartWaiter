@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Danie;
 
 /**
  * Skladnik controller.
@@ -58,8 +59,13 @@ class SkladnikController extends Controller
             $this->get('session')->set('danie', $danie);
             
             $em->persist($skladnik);
+            
+            if ($danie->getId() != null){
+                return $this->redirectToRoute('danie_edit', array('id' => $danie->getId()));
+            } else {
+                return $this->redirectToRoute('danie_new');
+            }
 
-            return $this->redirectToRoute('danie_new');
         }
 
         return $this->render('skladnik/new.html.twig', array(
@@ -67,6 +73,36 @@ class SkladnikController extends Controller
             'form' => $form->createView(),
         ));
     }
+    
+    /**
+     * Creates a new skladnik entity.
+     *
+     * @Route("/new/edit/{id}", name="skladnik_edit_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newEditAction(Request $request, Danie $danie)
+    {
+        $this->denyAccessUnlessGranted(\AppBundle\Security\DanieVoter::EDIT, $danie);
+        
+        
+        $skladnik = new Skladnik();
+        $form = $this->createForm('AppBundle\Form\SkladnikType', $skladnik);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $skladnik->setDanie($danie);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($skladnik);
+            $em->flush();
+            return $this->redirectToRoute('danie_edit', array('id' => $danie->getId()));
+        }
+
+        return $this->render('skladnik/new.html.twig', array(
+            'skladnik' => $skladnik,
+            'form' => $form->createView(),
+        ));
+    }
+    
 
     /**
      * Finds and displays a skladnik entity.
@@ -78,11 +114,9 @@ class SkladnikController extends Controller
     {
         $this->denyAccessUnlessGranted(SkladnikVoter::VIEW, $skladnik);
         
-        $deleteForm = $this->createDeleteForm($skladnik);
 
         return $this->render('skladnik/show.html.twig', array(
             'skladnik' => $skladnik,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -92,62 +126,82 @@ class SkladnikController extends Controller
      * @Route("/{id}/edit", name="skladnik_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Skladnik $skladnik)
+    public function editAction(Request $request, $id)
     {
+        // wyciaganie z sesji, na szybko ...
+        $tempIle = 1;
+        foreach ($this->get('session')->get('danie')->getSkladniki() as $tempSkl) {
+            if ($id == $tempIle) {
+                $skladnik = $tempSkl;
+                break;
+            }
+            $tempIle += 1;
+        }
+        
         $this->denyAccessUnlessGranted(SkladnikVoter::EDIT, $skladnik);
         
-        $deleteForm = $this->createDeleteForm($skladnik);
+        $deleteForm = $this->createDeleteForm($skladnik, $id);
         $editForm = $this->createForm('AppBundle\Form\SkladnikType', $skladnik);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('skladnik_edit', array('id' => $skladnik->getId()));
+            // tu byls slasch ? todo
+            return $this->redirectToRoute('skladnik_edit', array('id' => $id));
         }
 
         return $this->render('skladnik/edit.html.twig', array(
             'skladnik' => $skladnik,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'id' => $id,
         ));
+    }
+    
+    /**
+     * Deletes a skladnik from danie.
+     *
+     * @Route("/{id}/deleteD", name="skladnik_danie_delete")
+     */
+    public function deleteFromDanieAction($id)
+    {
+        
+        $danie = $this->get('session')->get('danie');
+        
+        $this->denyAccessUnlessGranted(\AppBundle\Security\DanieVoter::DELETE, $danie);
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $tempIle = 1;
+        foreach ($danie->getSkladniki()  as $tempSkl) {
+            if ($id == $tempIle) {
+                $danie->removeSkladniki($tempSkl);
+                $em->remove($tempSkl);
+                break;
+            }
+            $tempIle += 1;
+        }
+        
+        $this->get('session')->set('danie', $danie);
+        return $this->redirectToRoute('danie_new'); 
     }
 
     /**
      * Deletes a skladnik entity.
      *
-     * @Route("/{id}", name="skladnik_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="skladnik_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, Skladnik $skladnik)
     {
         $this->denyAccessUnlessGranted(SkladnikVoter::DELETE, $skladnik);
         
-        $form = $this->createDeleteForm($skladnik);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($skladnik);
+            $em->persist($skladnik->getDanie());
             $em->flush();
-        }
 
-        return $this->redirectToRoute('skladnik_index');
+        return $this->redirectToRoute('danie_edit', array('id' => $skladnik->getDanie()->getId()));
     }
 
-    /**
-     * Creates a form to delete a skladnik entity.
-     *
-     * @param Skladnik $skladnik The skladnik entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Skladnik $skladnik)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('skladnik_delete', array('id' => $skladnik->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }

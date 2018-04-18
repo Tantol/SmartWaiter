@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -62,6 +63,21 @@ class Pracownik{
      * @ORM\Column(type="string", length=15)
      */
     protected $telefon;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="kucharz")
+     */
+    protected $pozycja_zamowienia_kucharz;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Pozycja_zamowienia", mappedBy="kelner")
+     */
+    protected $pozycja_zamowienia_kelner;    
+
+    public function __construct()    {
+        $this->pozycja_zamowienia_kucharz = new ArrayCollection();
+        $this->pozycja_zamowienia_kelner = new ArrayCollection();
+    }
 
 
     /**
@@ -264,5 +280,77 @@ class Pracownik{
     public function getTelefon()
     {
         return $this->telefon;
+    }
+
+    /**
+     * Add pozycjaZamowieniaKucharz
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKucharz
+     *
+     * @return Pracownik
+     */
+    public function addPozycjaZamowieniaKucharz(\AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKucharz)
+    {
+        $this->pozycja_zamowienia_kucharz[] = $pozycjaZamowieniaKucharz;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pozycjaZamowieniaKucharz
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKucharz
+     */
+    public function removePozycjaZamowieniaKucharz(\AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKucharz)
+    {
+        $this->pozycja_zamowienia_kucharz->removeElement($pozycjaZamowieniaKucharz);
+    }
+
+    /**
+     * Get pozycjaZamowieniaKucharz
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPozycjaZamowieniaKucharz()
+    {
+        return $this->pozycja_zamowienia_kucharz;
+    }
+
+    /**
+     * Add pozycjaZamowieniaKelner
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKelner
+     *
+     * @return Pracownik
+     */
+    public function addPozycjaZamowieniaKelner(\AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKelner)
+    {
+        $this->pozycja_zamowienia_kelner[] = $pozycjaZamowieniaKelner;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pozycjaZamowieniaKelner
+     *
+     * @param \AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKelner
+     */
+    public function removePozycjaZamowieniaKelner(\AppBundle\Entity\Pozycja_zamowienia $pozycjaZamowieniaKelner)
+    {
+        $this->pozycja_zamowienia_kelner->removeElement($pozycjaZamowieniaKelner);
+    }
+
+    /**
+     * Get pozycjaZamowieniaKelner
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPozycjaZamowieniaKelner()
+    {
+        return $this->pozycja_zamowienia_kelner;
+    }
+    
+    public function __toString() {
+        return $this->imie . ' ' . $this->nazwisko;
     }
 }

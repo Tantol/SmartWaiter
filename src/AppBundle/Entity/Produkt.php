@@ -67,6 +67,16 @@ class Produkt{
      * @ORM\Column(type="decimal", scale=2, nullable=false)
      */
     protected $ilosc_kalorii;
+    
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    protected $max_stan;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    protected $min_stan;
 
 
     /**
@@ -270,5 +280,53 @@ class Produkt{
     public function getIloscKalorii()
     {
         return $this->ilosc_kalorii;
+    }
+    
+    /**
+     * Set maxStan
+     *
+     * @param string $maxStan
+     *
+     * @return StanMagazynowy
+     */
+    public function setMaxStan($maxStan)
+    {
+        $this->max_stan = $maxStan;
+
+        return $this;
+    }
+
+    /**
+     * Get maxStan
+     *
+     * @return string
+     */
+    public function getMaxStan()
+    {
+        return $this->max_stan;
+    }
+
+    /**
+     * Set minStan
+     *
+     * @param string $minStan
+     *
+     * @return Produkt
+     */
+    public function setMinStan($minStan)
+    {
+        $this->min_stan = $minStan;
+
+        return $this;
+    }
+
+    /**
+     * Get minStan
+     *
+     * @return string
+     */
+    public function getMinStan()
+    {
+        return $this->min_stan;
     }
 }
