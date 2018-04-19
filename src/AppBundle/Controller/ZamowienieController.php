@@ -43,7 +43,7 @@ class ZamowienieController extends Controller
     /**
      * Creates a new zamowienie entity.
      *
-     * @Route("/new", name="zamowienie_new")
+     * @Route("/nowe", name="zamowieniNowe")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)

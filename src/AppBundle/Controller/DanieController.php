@@ -163,7 +163,7 @@ class DanieController extends Controller
                 $zamowienie->addPozycjeZamowien($pozycja);
                 $this->get('session')->set('zamowienie', $zamowienie);
 
-                return $this->redirectToRoute('zamowienie_new');
+                return $this->redirectToRoute('zamowieniNowe');
             }
         }
         

@@ -4,7 +4,7 @@
     {% if is_granted('ROLE_CLIENT')%}
         <h1>Lista Twoich zamówień</h1>
         
-        <a href="{{ path('zamowienie_new') }}">Utworz zamowienie</a>
+        <a href="{{ path('zamowieniNowe') }}">Utworz zamowienie</a>
         <h2>Zamowienia w trakcie realizacji:</h2>
         <table>
             <thead>
@@ -82,7 +82,7 @@
         {% endif %}
     {% endif %}
     {% if is_granted('ROLE_WAITER')%}
-        <a href="{{ path('zamowienie_new') }}">Utworz zamowienie</a>
+        <a href="{{ path('zamowieniNowe') }}">Utworz zamowienie</a>
         <h1>Panel platnosci</h1>
         <table>
             <thead>
@@ -165,7 +165,7 @@
 
         <ul>
             <li>
-                <a href="{{ path('zamowienie_new') }}">Create a new zamowienie</a>
+                <a href="{{ path('zamowieniNowe') }}">Create a new zamowienie</a>
             </li>
         </ul>
     {% endif %}

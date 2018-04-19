@@ -114,7 +114,6 @@ class Pozycja_zamowienia implements \Serializable{
         $this->czas_przyjecia,
         $this->czas_wydania,
         $this->status,
-        $this->pracownik,
         $this->kucharz,
         $this->kelner,
         ) = $data;
