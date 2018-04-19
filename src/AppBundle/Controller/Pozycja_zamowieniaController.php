@@ -45,7 +45,7 @@ class Pozycja_zamowieniaController extends Controller
     {
         $pozycja_zamowienium = new Pozycja_zamowienia();
         
-        $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::ADD, $pozycja_zamowienium);
+        //$this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::ADD, $pozycja_zamowienium);
         
         $form = $this->createForm('AppBundle\Form\Pozycja_zamowieniaType', $pozycja_zamowienium);
         $form->handleRequest($request);
@@ -172,8 +172,6 @@ class Pozycja_zamowieniaController extends Controller
         $this->denyAccessUnlessGranted(Pozycja_zamowieniaVoter::EDIT, $pozycja);
         $em = $this->getDoctrine()->getManager();
         
-        $allStatus = $em->getRepository('AppBundle:Status_zamowienia')->findAll();
-        
         if ($status === 'W trakcie realizacji'){
             $pozycja->setKucharz($this->getUser()->getPracownik());
             $pozycja->setCzasPrzyjecia(new \DateTime);
@@ -211,17 +209,13 @@ class Pozycja_zamowieniaController extends Controller
                 $zamowienie->setCzasRealizacji(new \DateTime);
             }
         }
-        $pozycja->setStatus($this->findStatus($allStatus, $status));
+        
+        $pozycja->setStatus(
+                        $em->getRepository('AppBundle:Status_zamowienia')
+                        ->findOneBy(array('nazwa' => $status)));
+        
         $em->flush();
         
         return $this->redirectToRoute('pozycja_zamowienia_index');
-    }
-    
-    private function findStatus($status, $nazwa){
-        foreach($status as $temp){
-            if ($temp->getNazwa() === $nazwa){
-                return $temp;
-            }
-        }
     }
 }

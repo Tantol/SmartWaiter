@@ -55,6 +55,11 @@ class Zamowienie implements \Serializable{
      */
     protected $uregulowane;
     
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    protected $nrStolika;
+    
     public function serialize()
     {
       return serialize(
@@ -65,6 +70,7 @@ class Zamowienie implements \Serializable{
           $this->czas_zlozenia,
           $this->czas_realizacji,
           $this->uregulowane,
+          $this->nrStolika,
         ]
       );
     }
@@ -79,6 +85,7 @@ class Zamowienie implements \Serializable{
           $this->czas_zlozenia,
           $this->czas_realizacji,
           $this->uregulowane,
+          $this->nrStolika,
         ) = $data;
     }
 
@@ -224,5 +231,29 @@ class Zamowienie implements \Serializable{
     public function getUregulowane()
     {
         return $this->uregulowane;
+    }
+    
+    /**
+     * Set nrStolika
+     *
+     * @param string $nrStolika
+     *
+     * @return Dostawca
+     */
+    public function setNrStolika($nr)
+    {
+        $this->nrStolika = $nr;
+
+        return $this;
+    }
+
+    /**
+     * Get nrStolika
+     *
+     * @return string
+     */
+    public function getNrStolika()
+    {
+        return $this->nrStolika;
     }
 }

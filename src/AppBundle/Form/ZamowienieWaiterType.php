@@ -5,26 +5,23 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class StanMagazynowyType extends AbstractType
+class ZamowienieWaiterType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('ilosc')->add('cena')->add('dostawca')->add('produkt')
-                ->add('dataUmieszczenia', DateType::class, array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd HH:mm:ss'));
+        $builder->add('nrStolika')->add('konto');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\StanMagazynowy'
+            'data_class' => 'AppBundle\Entity\Zamowienie',
+            'roles' => null
         ));
     }
 
@@ -33,7 +30,7 @@ class StanMagazynowyType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_stanmagazynowy';
+        return 'appbundle_zamowienie';
     }
 
 

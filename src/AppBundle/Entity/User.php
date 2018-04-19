@@ -169,7 +169,11 @@ class User implements UserInterface
     public function getSalt() {
 
     }
-
+    
+    public function hasRole($roleName)
+    {
+        return in_array($roleName, $this->getRoles());
+    }
 
     /**
      * Set pracownik

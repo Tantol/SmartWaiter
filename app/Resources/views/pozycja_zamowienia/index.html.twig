@@ -8,6 +8,7 @@
                 <th>Data zamowienia</th>
                 <th>Danie</th>
                 <th>Ilosc</th>
+                <th>Nr stolika</th>
                 <th>Akcja</th>
                 <th></th>
             </tr>
@@ -19,6 +20,7 @@
                             <td>{{ pozycja.zamowienie.czasZlozenia|date('H:i:s') }}</td>
                             <td>{{ pozycja.danie }}</td>
                             <td>{{ pozycja.ilosc }}</td>
+                            <td>{{ pozycja.zamowienie.nrStolika }}</td>
                             <td>
                                 <ul>
                                     {% if pozycja.status == 'Do wydania' %}

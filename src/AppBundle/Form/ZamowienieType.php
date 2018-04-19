@@ -13,14 +13,15 @@ class ZamowienieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder;
+        $builder->add('nrStolika');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Zamowienie'
+            'data_class' => 'AppBundle\Entity\Zamowienie',
+            'roles' => null
         ));
     }
 

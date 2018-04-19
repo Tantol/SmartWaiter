@@ -142,6 +142,9 @@ class DanieController extends Controller
             
             if ($this->get('session')->has('editZamowienie')){
                 $zamowienieEdit = $this->get('session')->get('editZamowienie');
+                $pozycja->setStatus(
+                        $em->getRepository('AppBundle:Status_zamowienia')
+                        ->findOneBy(array('nazwa' => 'Czeka na przyjecie')));
                 $pozycja->setZamowienie($zamowienieEdit);
                 $em->merge($pozycja);
                 $em->flush();

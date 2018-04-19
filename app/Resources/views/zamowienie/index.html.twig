@@ -82,12 +82,14 @@
         {% endif %}
     {% endif %}
     {% if is_granted('ROLE_WAITER')%}
+        <a href="{{ path('zamowienie_new') }}">Utworz zamowienie</a>
         <h1>Panel platnosci</h1>
         <table>
             <thead>
                 <tr>
                     <th>Nr. zamowienia</th>
                     <th>Konto</th>
+                    <th>nr Stolika</th>
                     <th>Naleznosc</th>
                     <th>Szczegoly</th>
                     <th>Action</th>
@@ -107,6 +109,7 @@
                         <td>
                             {{ zamowienie.konto }}
                         </td>
+                        <td>{{ zamowienie.nrStolika }}</td>
                         <td>
                             {{ saldo }}
                         </td>
@@ -132,6 +135,8 @@
                     <th>Id</th>
                     <th>Czas_zlozenia</th>
                     <th>Czas_realizacji</th>
+                    <th>Nr stolika</th>
+                    <th>Konto</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -141,6 +146,8 @@
                     <td><a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">{{ zamowienie.id }}</a></td>
                     <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
                     <td>{% if zamowienie.czasrealizacji %}{{ zamowienie.czasrealizacji|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ zamowienie.nrStolika }}</td>
+                    <td>{{ zamowienie.konto }}</td>
                     <td>
                         <ul>
                             <li>

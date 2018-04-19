@@ -63,13 +63,32 @@ class ZamowienieController extends Controller
         
         $this->denyAccessUnlessGranted(ZamowienieVoter::ADD, $zamowienie);
         
-        $zamowienieForm = $this->createForm('AppBundle\Form\ZamowienieType', $zamowienie);
+        if (true === $this->get('security.authorization_checker')->isGranted('ROLE_WAITER') ||
+            true === $this->get('security.authorization_checker')->isGranted('ROLE_MANAGER') ||
+            true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $zamowienieForm = $this->createForm('AppBundle\Form\ZamowienieWaiterType', $zamowienie);
+        } else {
+            $zamowienieForm = $this->createForm('AppBundle\Form\ZamowienieType', $zamowienie);
+        }
+        
+        
         $zamowienieForm->handleRequest($request);
 
         if ($zamowienieForm->isSubmitted() && $zamowienieForm->isValid()) {
             $dbZamowienie = new Zamowienie();
             $dbZamowienie->setCzasZlozenia(new \DateTime);
-            $dbZamowienie->setKonto($this->getUser());
+            
+            if (true === $this->get('security.authorization_checker')->isGranted('ROLE_MANAGER') || 
+                true === $this->get('security.authorization_checker')->isGranted('ROLE_WAITER') || 
+                true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+                
+                $dbZamowienie->setKonto($zamowienie->getKonto());
+                $dbZamowienie->setNrStolika($zamowienie->getNrStolika());
+                
+            } else {
+                $dbZamowienie->setKonto($this->getUser());
+                $dbZamowienie->setNrStolika($zamowienie->getNrStolika());
+            }
             $dbZamowienie->setUregulowane(false);
             
             $em->persist($dbZamowienie);
