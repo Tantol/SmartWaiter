@@ -66,7 +66,7 @@ class DanieVoter extends Voter
     
     private function canView(Danie $object, User $user, TokenInterface $token)
     {
-            return true;
+        return true;
     }
     
     private function canAdd(Danie $object, User $user, TokenInterface $token)

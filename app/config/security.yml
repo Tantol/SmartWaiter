@@ -38,19 +38,16 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/adminPanel, roles: ROLE_ADMIN }
-        - { path: ^/danie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK] }
+        - { path: ^/danie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pozycja_zamowienia/(.+)/deleteD, roles: ROLE_CLIENT }
-        - { path: ^/pozycja_zamowienia, roles: [ROLE_ADMIN, ROLE_COOK] }
+        - { path: ^/pozycja_zamowienia, roles: [ROLE_ADMIN, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pracownik, roles: ROLE_ADMIN }
-        - { path: ^/produkt, roles: ROLE_ADMIN }
+        - { path: ^/produkt, roles: [ROLE_ADMIN, ROLE_MANAGER] }
         - { path: ^/rodzaj, roles: ROLE_ADMIN }
-        - { path: ^/skladnik/(.+)/deleteD, roles: ROLE_COOK }
-        - { path: ^/skladnik/(.+)/delete, roles: ROLE_COOK }
-        - { path: ^/skladnik/new, roles: ROLE_COOK }
-        - { path: ^/skladnik, roles: ROLE_ADMIN }
-        - { path: ^/stanmagazynowy, roles: [ROLE_ADMIN, ROLE_COOK] }
+        - { path: ^/skladnik, roles: [ROLE_ADMIN, ROLE_MANAGER, ROLE_COOK] }
+        - { path: ^/stanmagazynowy, roles: [ROLE_ADMIN, ROLE_COOK, ROLE_MANAGER] }
         - { path: ^/status_zamowienia, roles: ROLE_ADMIN }
-        - { path: ^/zamowienie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK] }
+        - { path: ^/zamowienie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/dostawca, roles: ROLE_ADMIN }
         - { path: ^/group, roles: ROLE_ADMIN }
         - { path: ^/jednostka, roles: ROLE_ADMIN }

@@ -181,11 +181,36 @@ class Pozycja_zamowieniaController extends Controller
             $pozycja->setCzasWydania(new \DateTime);
         } else if ($status === 'Zrealizowane'){
             $pozycja->setKelner($this->getUser()->getPracownik());
-            // TODO sprawdzic czy wszystko $pozycja->getZamowienie()->setCzasRealizacji(new \DateTime);
+            
+            $czyWszystko = 1;
+            $zamowienie = $pozycja->getZamowienie();
+            $wszystkiePozycje = $zamowienie->getPozycjeZamowien();
+            foreach($wszystkiePozycje as $temp){
+                if (($temp->getStatus()->getNazwa() === 'Zrealizowane') || ($temp->getStatus()->getNazwa() === 'Niezrealizowane')){
+                    $czyWszystko += 1;
+                }
+            }
+            
+            if (count($wszystkiePozycje) === $czyWszystko){
+                $zamowienie->setCzasRealizacji(new \DateTime);
+            }
+            
         } else if ($status === 'Niezrealizowane'){
-            // TODO sprawdzic czy wszystko $pozycja->getZamowienie()->setCzasRealizacji(new \DateTime);
+            $pozycja->setKelner($this->getUser()->getPracownik());
+            
+            $czyWszystko = 1;
+            $zamowienie = $pozycja->getZamowienie();
+            $wszystkiePozycje = $zamowienie->getPozycjeZamowien();
+            foreach($wszystkiePozycje as $temp){
+                if (($temp->getStatus()->getNazwa() === 'Zrealizowane') || ($temp->getStatus()->getNazwa() === 'Niezrealizowane')){
+                    $czyWszystko += 1;
+                }
+            }
+            
+            if (count($wszystkiePozycje) === $czyWszystko){
+                $zamowienie->setCzasRealizacji(new \DateTime);
+            }
         }
-        
         $pozycja->setStatus($this->findStatus($allStatus, $status));
         $em->flush();
         

@@ -11,7 +11,9 @@
                 <th>Ilosc</th>
                 <th>Min_stan</th>
                 <th>Max_stan</th>
-                <th>Actions</th>
+                {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}
+                    <th>Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -34,24 +36,27 @@
                 <td>{{ calkowitaIlosc }}</td>
                 <td>{{ product.minStan }}</td>
                 <td>{{ product.maxStan }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('produkt_show', { 'id': product.id }) }}">show</a>
-                        </li>
-                    </ul>
-                </td>
+                {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('produkt_show', { 'id': product.id }) }}">show</a>
+                            </li>
+                        </ul>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
-        </li>
-        <li>
-            <a href="{{ path('produkt_new') }}">Create a new Product</a>
-        </li>
-    </ul>
+    {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}  
+        <ul>
+            <li>
+                <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
+            </li>
+            <li>
+                <a href="{{ path('produkt_new') }}">Create a new Product</a>
+            </li>
+        </ul>
+    {% endif %}
 {% endblock %}

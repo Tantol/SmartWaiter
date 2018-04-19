@@ -66,7 +66,7 @@ class SkladnikVoter extends Voter
     
     private function canView(Skladnik $object, User $user, TokenInterface $token)
     {
-        return false;
+        return true;
     }
     
     private function canAdd(Skladnik $object, User $user, TokenInterface $token)

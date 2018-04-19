@@ -5,31 +5,124 @@
         <h1>Lista Twoich zamówień</h1>
         
         <a href="{{ path('zamowienie_new') }}">Utworz zamowienie</a>
-
+        <h2>Zamowienia w trakcie realizacji:</h2>
         <table>
             <thead>
                 <tr>
+                    <th>Nr. zamowienia</th>
                     <th>Zamówienie złożone o</th>
                     <th>Szczegóły</th>
                 </tr>
             </thead>
             <tbody>
             {% for zamowienie in data %}
+                {% if zamowienie.czasrealizacji == null %}
+                    <tr>
+                        <td>{{ zamowienie.id }}</td>
+                        <td>
+                            {% if zamowienie.czaszlozenia %}
+                                {{ zamowienie.czaszlozenia|date('H:i:s') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <h2>Zamowienia do uregulowania:</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td>
-                        {% if zamowienie.czaszlozenia %}
-                            {{ zamowienie.czaszlozenia|date('H:i:s') }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
-                    </td>
+                    <th>Nr. zamowienia</th>
+                    <th>Zamówienie złożone o</th>
+                    <th>Zamówienie zrealizowane o</th>
+                    <th>Należność do uregulowania</th>
+                    <th>Szczegóły</th>
                 </tr>
+            </thead>
+            <tbody>
+            {% set saldoCalkowite = 0 %}
+            {% for zamowienie in data %}
+                {% if (zamowienie.czasrealizacji != null and zamowienie.uregulowane == 0 ) %}
+                    {% set saldo = 0 %}
+                    {% for pozycja in zamowienie.pozycjeZamowien%}
+                        {% if pozycja.status != 'Niezrealizowane' %}
+                            {% set saldo = saldo + pozycja.cenaJedn * pozycja.ilosc %}
+                            {% set saldoCalkowite = saldo + saldoCalkowite %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if saldo > 0 %}
+                        <tr>
+                            <td>{{ zamowienie.id }}</td>
+                            <td>
+                                {{ zamowienie.czaszlozenia|date('H:i:s') }}
+                            </td>
+                            <td>
+                                {{ zamowienie.czasrealizacji|date('H:i:s') }}
+                            </td>
+                            <td>
+                                {{ saldo }}
+                            </td>
+                            <td>
+                                <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if saldoCalkowite > 0 %}
+            <h2>Laczna kwota do uregulowania: {{ saldoCalkowite }}</h2>
+        {% else %}
+            BRAK
+        {% endif %}
+    {% endif %}
+    {% if is_granted('ROLE_WAITER')%}
+        <h1>Panel platnosci</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nr. zamowienia</th>
+                    <th>Konto</th>
+                    <th>Naleznosc</th>
+                    <th>Szczegoly</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for zamowienie in data %}
+                {% if zamowienie.czasrealizacji != null %}
+                    {% set saldo = 0 %}
+                    {% for pozycja in zamowienie.pozycjeZamowien%}
+                        {% if pozycja.status != 'Niezrealizowane' %}
+                            {% set saldo = saldo + pozycja.cenaJedn * pozycja.ilosc %}
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td>{{ zamowienie.id }}</td>
+                        <td>
+                            {{ zamowienie.konto }}
+                        </td>
+                        <td>
+                            {{ saldo }}
+                        </td>
+                        <td>
+                            <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('zamowienie_uregulowane', { 'id': zamowienie.id }) }}" class="btn btn-success">Potwierdz uregolowanie naleznosci</a>
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
     {% endif %}
-    {% if is_granted('ROLE_ADMIN')%}
+    {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER'))%}
         <h1>Widok administracyjny</h1>
         <h2>Zamowienies list</h2>
 
@@ -47,6 +140,7 @@
                 <tr>
                     <td><a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">{{ zamowienie.id }}</a></td>
                     <td>{% if zamowienie.czaszlozenia %}{{ zamowienie.czaszlozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if zamowienie.czasrealizacji %}{{ zamowienie.czasrealizacji|date('Y-m-d H:i:s') }}{% endif %}</td>
                     <td>
                         <ul>
                             <li>

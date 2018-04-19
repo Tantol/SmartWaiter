@@ -93,18 +93,13 @@
             <thead>
                 <tr>
                     <th>Zamowienia</th>
-                    <th>Popros kelnera</th>
                     <th>Dania</th>
-                    <th>Stan produktow w magazynie</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
                         <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-info" role="button">Zamowienia</a>
-                    </td>
-                    <td>
-                        <a href="{{ path('zamowienie_index') }}" class="btn btn-info" role="button">Zawolaj niewolnika</a>
                     </td>
                     <td>
                         <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
@@ -118,7 +113,58 @@
     </div>
 {% endif %}
 {% if is_granted('ROLE_WAITER') %}
-    <a href="{{ path('waiterPanel') }}" class="btn btn-info">Panel kelnera</a>
+    <div>
+        <h3> Dla kelnera: </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Platnosci</th>
+                    <th>Kuchnia</th>
+                    <th>Menu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="{{ path('zamowienie_index') }}" class="btn btn-info" role="button">Zamowienia oraz platnosci</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-info" role="button">Kuchnia i dania</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% if is_granted('ROLE_MANAGER') %}
+    <div>
+        <h3> Dla menedzera: </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Zamowienia</th>
+                    <th>Dania</th>
+                    <th>Magazyn i produkty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="{{ path('zamowienie_index') }}" class="btn btn-info" role="button">Zamowienia</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('stanmagazynowy_index') }}" class="btn btn-info" role="button">Magazyn</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endif %}
 {% endblock %}
 

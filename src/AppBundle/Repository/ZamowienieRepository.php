@@ -16,8 +16,7 @@ class ZamowienieRepository extends \Doctrine\ORM\EntityRepository
             );
         $query->setParameter('konto', $konto);
         
-        return $query->getResult();
-        
+        return $query->getResult();    
     }
     
     public function findAllForCook()
@@ -27,8 +26,17 @@ class ZamowienieRepository extends \Doctrine\ORM\EntityRepository
                 'SELECT z FROM AppBundle:Zamowienie z ORDER BY z.czas_zlozenia DESC'
             );
         
-        return $query->getResult();
+        return $query->getResult();  
+    }
+    
+    public function findAllForWaiter()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT z FROM AppBundle:Zamowienie z WHERE z.uregulowane = 0 ORDER BY z.id DESC'
+            );
         
+        return $query->getResult();  
     }
 }
 

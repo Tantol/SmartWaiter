@@ -28,8 +28,11 @@ class ZamowienieController extends Controller
         
         if ($this->get('security.authorization_checker')->isGranted('ROLE_CLIENT')) {
             $data = $em->getRepository('AppBundle:Zamowienie')->findAllForClient($this->getUser());
-        } else if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $data = $em->getRepository('AppBundle:Pozycja_zamowienia')->findAll();
+        } else if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || 
+                   $this->get('security.authorization_checker')->isGranted('ROLE_MANAGER')) {
+            $data = $em->getRepository('AppBundle:Zamowienie')->findAll();
+        } else if ($this->get('security.authorization_checker')->isGranted('ROLE_WAITER')){
+            $data = $em->getRepository('AppBundle:Zamowienie')->findAllForWaiter();
         }
         
         return $this->render('zamowienie/index.html.twig', array(
@@ -67,6 +70,7 @@ class ZamowienieController extends Controller
             $dbZamowienie = new Zamowienie();
             $dbZamowienie->setCzasZlozenia(new \DateTime);
             $dbZamowienie->setKonto($this->getUser());
+            $dbZamowienie->setUregulowane(false);
             
             $em->persist($dbZamowienie);
             
@@ -173,5 +177,22 @@ class ZamowienieController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    /**
+     * Finds and displays a zamowienie entity.
+     *
+     * @Route("/uregulowane/{id}", name="zamowienie_uregulowane")
+     * @Method("GET")
+     */
+    public function uregulowaneAction(Zamowienie $zamowienie)
+    {
+        $this->denyAccessUnlessGranted(ZamowienieVoter::EDIT, $zamowienie);
+        
+        $zamowienie->setUregulowane(true);
+        
+        $this->getDoctrine()->getManager()->flush();
+        
+        return $this->redirectToRoute('zamowienie_index');
     }
 }

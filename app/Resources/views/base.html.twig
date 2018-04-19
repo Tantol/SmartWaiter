@@ -23,6 +23,9 @@
         {% if is_granted('ROLE_WAITER') %}
             <a href="{{ path('waiterPanel') }}" class="btn btn-info">Panel kelnera</a>
         {% endif %}
+        {% if is_granted('ROLE_MANAGER') %}
+            <a href="{{ path('managerPanel') }}" class="btn btn-info">Panel menedzera</a>
+        {% endif %}
         <div class="container">
             {% block body %}{% endblock %}
         </div>

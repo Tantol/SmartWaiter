@@ -50,7 +50,12 @@ class Zamowienie implements \Serializable{
      */
     protected $czas_realizacji;
     
-        public function serialize()
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $uregulowane;
+    
+    public function serialize()
     {
       return serialize(
         [
@@ -59,6 +64,7 @@ class Zamowienie implements \Serializable{
           $this->pozycje_zamowien,
           $this->czas_zlozenia,
           $this->czas_realizacji,
+          $this->uregulowane,
         ]
       );
     }
@@ -72,6 +78,7 @@ class Zamowienie implements \Serializable{
           $this->pozycje_zamowien,
           $this->czas_zlozenia,
           $this->czas_realizacji,
+          $this->uregulowane,
         ) = $data;
     }
 
@@ -191,8 +198,31 @@ class Zamowienie implements \Serializable{
         return $this->pozycje_zamowien;
     }
     
-    
     public function __toString() {
         return $this->konto->__toString();
+    }
+    
+    /**
+     * Set uregulowane
+     *
+     * @param boolean $uregulowane
+     *
+     * @return Zamowienie
+     */
+    public function setUregulowane($uregulowane)
+    {
+        $this->uregulowane = $uregulowane;
+    
+        return $this;
+    }
+
+    /**
+     * Get uregulowane
+     *
+     * @return boolean
+     */
+    public function getUregulowane()
+    {
+        return $this->uregulowane;
     }
 }

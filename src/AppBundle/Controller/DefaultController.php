@@ -43,4 +43,13 @@ class DefaultController extends Controller
         return $this->render('default/panel.html.twig');
 
     }
+    
+    /**
+     * @Route("/menedzerPanel", name="managerPanel")
+     */
+    public function manadzerPanelAction(Request $request)
+    {
+        return $this->render('default/panel.html.twig');
+
+    }
 }

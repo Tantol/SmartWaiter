@@ -66,7 +66,10 @@ class ZamowienieVoter extends Voter
     
     private function canView(Zamowienie $object, User $user, TokenInterface $token)
     {
-        if ($user === $object->getKonto()) {
+        if ($this->decisionManager->decide($token, array('ROLE_MANAGER')) ||
+            $this->decisionManager->decide($token, array('ROLE_WAITER'))) {
+            return true;
+        } else if ($user === $object->getKonto()) {
             return true;
         }
 
