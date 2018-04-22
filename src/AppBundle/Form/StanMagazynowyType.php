@@ -14,17 +14,23 @@ class StanMagazynowyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('ilosc')->add('cena')->add('dostawca')->add('produkt')
-                ->add('dataUmieszczenia', DateType::class, array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd HH:mm:ss'));
+        if ($options['edit'] === 'true'){
+            $builder->add('ilosc')->add('cena')->add('dataUmieszczenia', DateType::class, array(
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd HH:mm:ss'))
+            ->add('dostawca')->add('produkt');
+        } else {
+            $builder->add('ilosc')->add('cena')
+            ->add('dostawca')->add('produkt');
+        }
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\StanMagazynowy'
+            'data_class' => 'AppBundle\Entity\StanMagazynowy',
+            'edit' => null
         ));
     }
 

@@ -24,12 +24,17 @@
                 <td>{{ danie.cena }}</td>
             </tr>
             <tr>
-                <th>Dostepne</th>
-                <td>{{ danie.dostepne }}</td>
-            </tr>
-            <tr>
                 <th>Ilosc_kalorii</th>
                 <td>{{ danie.ilosckalorii }}</td>
+            </tr>
+            <tr>
+                <th>Objetosc</t>
+                <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
+            <tr>
+                <th>Zdjecie</th>
+                <td>
+                    <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
+                </td>
             </tr>
             <tr>
                 <th>Skladniki:</th>
@@ -52,6 +57,9 @@
         </li>
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
             <li>
+                Dostepne : {{ danie.dostepne }}
+            </li>
+            <li>
                 <a href="{{ path('danie_edit', { 'id': danie.id }) }}">Edit</a>
             </li>
         {% endif %}
@@ -59,6 +67,7 @@
             <li>
                 {{ form_start(zamowienie_form) }}
                     <input type="submit" value="Dodaj do zamowienia">
+                    <p><span id="demo"></span></p>
                 {{ form_end(zamowienie_form) }}
             </li>
         {% endif %}
@@ -70,4 +79,15 @@
             </li>
         {% endif %}
     </ul>
+{% endblock %}
+{% block javascripts %}
+<script>
+    var slider = document.getElementById("form_ilosc");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+</script>
 {% endblock %}

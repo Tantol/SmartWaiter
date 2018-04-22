@@ -10,7 +10,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('produkt_index') }}">Back to the list</a>
+            <a href="{{ path('produkt_show', { 'id': produkt.id }) }}">Back</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

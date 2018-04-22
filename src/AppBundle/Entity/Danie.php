@@ -37,6 +37,11 @@ class Danie implements \Serializable{
      * @ORM\JoinColumn(name="jednostka", referencedColumnName="id")
      */
     protected $jednostka;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $objetosc;
 
     /**
      * @ORM\OneToMany(targetEntity="Skladnik", mappedBy="danie")
@@ -70,15 +75,18 @@ class Danie implements \Serializable{
      */
     protected $cena;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $dostepne;
+    protected $dostepne = 5;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $ilosc_kalorii;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Gallery", inversedBy="dania")
+     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=false)
+     */
+    protected $image;
     
     public function serialize()
     {
@@ -87,12 +95,14 @@ class Danie implements \Serializable{
           $this->id,
           $this->rodzaj,
           $this->jednostka,
+          $this->objetosc,
           $this->skladniki,
           $this->pozycje_zamowien,
           $this->nazwa,
           $this->czas_przygotowania,
           $this->cena,
           $this->dostepne,
+          $this->image,
         ]
       );
     }
@@ -104,12 +114,14 @@ class Danie implements \Serializable{
         $this->id,
         $this->rodzaj,
         $this->jednostka,
+        $this->objetosc,
         $this->skladniki,
         $this->pozycje_zamowien,
         $this->nazwa,
         $this->czas_przygotowania,
         $this->cena,
         $this->dostepne,
+        $this->image,
         ) = $data;
     }
 
@@ -361,5 +373,53 @@ class Danie implements \Serializable{
     public function getCzasPrzygotowania()
     {
         return $this->czas_przygotowania;
+    }
+
+    /**
+     * Set image.
+     *
+     * @param \AppBundle\Entity\Gallery $image
+     *
+     * @return Danie
+     */
+    public function setImage(\AppBundle\Entity\Gallery $image)
+    {
+        $this->image = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Get image.
+     *
+     * @return \AppBundle\Entity\Gallery
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set objetosc.
+     *
+     * @param int $objetosc
+     *
+     * @return Danie
+     */
+    public function setObjetosc($objetosc)
+    {
+        $this->objetosc = $objetosc;
+    
+        return $this;
+    }
+
+    /**
+     * Get objetosc.
+     *
+     * @return int
+     */
+    public function getObjetosc()
+    {
+        return $this->objetosc;
     }
 }

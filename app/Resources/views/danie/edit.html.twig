@@ -39,7 +39,15 @@
         </table>
     {% endif %}
     <a href="{{ path('skladnik_edit_new', { 'id': danie.id }) }}">Dodaj składnik</a>
+        </br>
         {{ form_start(edit_form) }}
+        {{ form_label(edit_form.image) }}
+        {{ form_errors(edit_form.image) }}
+        {{ form_widget(edit_form.image) }}
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <a href="{{ path('gallery_new') }}">Dodaj zdjecie (jezeli nie mago na liscie obok)</a>
+        {% endif %}
+        </br>
         {{ form_label(edit_form.czas_przygotowania) }}
         {{ form_errors(edit_form.czas_przygotowania) }}
         {{ form_widget(edit_form.czas_przygotowania) }} minute

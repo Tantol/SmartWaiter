@@ -48,7 +48,7 @@ security:
         - { path: ^/stanmagazynowy, roles: [ROLE_ADMIN, ROLE_COOK, ROLE_MANAGER] }
         - { path: ^/status_zamowienia, roles: ROLE_ADMIN }
         - { path: ^/zamowienie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
-        - { path: ^/dostawca, roles: ROLE_ADMIN }
+        - { path: ^/dostawca, roles: [ROLE_ADMIN, ROLE_MANAGER] }
         - { path: ^/group, roles: ROLE_ADMIN }
         - { path: ^/jednostka, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_ADMIN }

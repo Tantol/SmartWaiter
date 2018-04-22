@@ -41,6 +41,8 @@ class Skladnik{
      * @ORM\Column(type="integer")
      */
     protected $ilosc;
+    
+    protected $dostepne;
 
     /**
      * Get id
@@ -122,5 +124,29 @@ class Skladnik{
     public function getDanie()
     {
         return $this->danie;
+    }
+    
+    /**
+     * Set dostepne
+     *
+     * @param integer $dostepne
+     *
+     * @return Skladnik
+     */
+    public function setDostepne($dostepne)
+    {
+        $this->dostepne = $dostepne;
+
+        return $this;
+    }
+
+    /**
+     * Get dostepne
+     *
+     * @return integer
+     */
+    public function getDostepne()
+    {
+        return $this->dostepne;
     }
 }

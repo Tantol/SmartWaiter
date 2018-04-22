@@ -62,7 +62,7 @@ class Pozycja_zamowieniaController extends Controller
             $zamowienie->addPozycjeZamowien($pozycja_zamowienium);
             $this->get('session')->set('zamowienie', $zamowienie);
             
-            return $this->redirectToRoute('zamowienie_new');
+            return $this->redirectToRoute('zamowieniNowe');
         }
 
         return $this->render('pozycja_zamowienia/new.html.twig', array(
@@ -140,7 +140,7 @@ class Pozycja_zamowieniaController extends Controller
         }
         
         $this->get('session')->set('zamowienie', $zamowienie);
-        return $this->redirectToRoute('zamowienie_new'); 
+        return $this->redirectToRoute('zamowieniNowe'); 
     }
 
         /**
@@ -175,6 +175,9 @@ class Pozycja_zamowieniaController extends Controller
         if ($status === 'W trakcie realizacji'){
             $pozycja->setKucharz($this->getUser()->getPracownik());
             $pozycja->setCzasPrzyjecia(new \DateTime);
+            
+            $this->updateStan($pozycja);
+            
         } else if ($status === 'Do wydania'){
             $pozycja->setCzasWydania(new \DateTime);
         } else if ($status === 'Zrealizowane'){
@@ -217,5 +220,32 @@ class Pozycja_zamowieniaController extends Controller
         $em->flush();
         
         return $this->redirectToRoute('pozycja_zamowienia_index');
+    }
+    
+     private function updateStan(Pozycja_zamowienia $pozycja){
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        //$stanMagazynowy = $em->getRepository('AppBundle:StanMagazynowy')->findAll();
+        
+        foreach ($pozycja->getDanie()->getSkladniki() as $skladnik){
+            $ilosc = 20;
+            foreach ($skladnik->getProdukt()->getStanyMagazynowe() as $stan){
+                
+                $tempIlosc = $stan->getIlosc() - $ilosc;
+                if ($tempIlosc === 0){
+                    $ilosc -= $stan->getIlosc();
+                    $em->remove($stan);
+                } else if ($tempIlosc > 0){
+                    $stan->setIlosc($tempIlosc);
+                    $ilosc -= $stan->getIlosc();
+                    $em->merge($stan);
+                    break;
+                } else if ($tempIlosc < 0) {
+                    $ilosc -= $stan->getIlosc();
+                    $em->remove($stan);
+                }
+            }
+        }
     }
 }

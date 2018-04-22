@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="danie")
  */
-class Danie{
+class Danie implements \Serializable{
 
 
     /**
@@ -37,6 +37,11 @@ class Danie{
      * @ORM\JoinColumn(name="jednostka", referencedColumnName="id")
      */
     protected $jednostka;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $objetosc;
 
     /**
      * @ORM\OneToMany(targetEntity="Skladnik", mappedBy="danie")
@@ -66,25 +71,62 @@ class Danie{
     protected $czas_przygotowania;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    protected $koszt_przygotowania;
-
-    /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
      */
     protected $cena;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $dostepne;
-
 
     /**
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $ilosc_kalorii;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Gallery", inversedBy="dania")
+     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=false)
+     */
+    protected $image;
+    
+    public function serialize()
+    {
+      return serialize(
+        [
+          $this->id,
+          $this->rodzaj,
+          $this->jednostka,
+          $this->objetosc,
+          $this->skladniki,
+          $this->pozycje_zamowien,
+          $this->nazwa,
+          $this->czas_przygotowania,
+          $this->cena,
+          $this->dostepne,
+          $this->image,
+        ]
+      );
+    }
+
+    public function unserialize($serialized)
+    {
+      $data = unserialize($serialized);
+      list(
+        $this->id,
+        $this->rodzaj,
+        $this->jednostka,
+        $this->objetosc,
+        $this->skladniki,
+        $this->pozycje_zamowien,
+        $this->nazwa,
+        $this->czas_przygotowania,
+        $this->cena,
+        $this->dostepne,
+        $this->image,
+        ) = $data;
+    }
 
     /**
      * Get id
@@ -94,30 +136,6 @@ class Danie{
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set kosztPrzygotowania
-     *
-     * @param string $kosztPrzygotowania
-     *
-     * @return Danie
-     */
-    public function setKosztPrzygotowania($kosztPrzygotowania)
-    {
-        $this->koszt_przygotowania = $kosztPrzygotowania;
-
-        return $this;
-    }
-
-    /**
-     * Get kosztPrzygotowania
-     *
-     * @return string
-     */
-    public function getKosztPrzygotowania()
-    {
-        return $this->koszt_przygotowania;
     }
 
     /**
@@ -334,5 +352,53 @@ class Danie{
     
     public function __toString() {
         return $this->nazwa;
+    }
+
+    /**
+     * Set czasPrzygotowania
+     *
+     * @param integer $czasPrzygotowania
+     *
+     * @return Danie
+     */
+    public function setCzasPrzygotowania($czasPrzygotowania)
+    {
+        $this->czas_przygotowania = $czasPrzygotowania;
+    
+        return $this;
+    }
+
+    /**
+     * Get czasPrzygotowania
+     *
+     * @return integer
+     */
+    public function getCzasPrzygotowania()
+    {
+        return $this->czas_przygotowania;
+    }
+
+    /**
+     * Set image.
+     *
+     * @param \AppBundle\Entity\Gallery $image
+     *
+     * @return Danie
+     */
+    public function setImage(\AppBundle\Entity\Gallery $image)
+    {
+        $this->image = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Get image.
+     *
+     * @return \AppBundle\Entity\Gallery
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

@@ -3,26 +3,34 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DanieType extends AbstractType
+class GalleryType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nazwa')->add('czas_przygotowania')->add('cena')->add('rodzaj')->add('jednostka')
-                ->add('objetosc')
-                ->add('ilosc_kalorii')->add('image');
-    }/**
+        $builder
+            ->add('name')
+            ->add('image', FileType::class, [
+                'data_class' => null,
+                'label' => 'The Image',
+                'mapped' => false,
+            ])
+        ;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Danie'
+            'data_class' => 'AppBundle\Entity\Gallery'
         ));
     }
 
@@ -31,8 +39,6 @@ class DanieType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_danie';
+        return 'appbundle_gallery';
     }
-
-
 }

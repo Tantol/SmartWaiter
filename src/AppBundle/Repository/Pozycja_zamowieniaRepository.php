@@ -18,5 +18,15 @@ class Pozycja_zamowieniaRepository extends \Doctrine\ORM\EntityRepository
                 ->getResult();
         
     }
+    
+    public function findAllByStatus($nazwa){
+        return $this->createQueryBuilder('p')
+                ->select('p, s')
+                ->leftJoin('p.status', 's')
+                ->where('s.nazwa = :nazwa')
+                ->setParameter('nazwa', $nazwa)
+                ->getQuery()
+                ->getResult();
+    }
 }
 

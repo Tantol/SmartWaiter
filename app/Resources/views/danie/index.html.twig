@@ -10,33 +10,59 @@
                 <th>Nazwa</th>
                 <th>Czas_przygotowania</th>
                 <th>Cena</th>
-                <th>Dostepne</th>
                 <th>Ilosc_kalorii</th>
-                <th>Jednostka</th>
+                <th>Objetosc</th>
                 <th>Rodzaj</th>
+                <th>Zdjecie</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for danie in danies %}
-            <tr>
-                <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
-                <td>{{ danie.nazwa }}</td>
-                <td>{{ danie.czasprzygotowania }}</td>
-                <td>{{ danie.cena }}</td>
-                <td>{{ danie.dostepne }}</td>
-                <td>{{ danie.ilosckalorii }}</td>
-                <td>{{ danie.jednostka }}</td>
-                <td>{{ danie.rodzaj }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+        {% if (is_granted('ROLE_CLIENT') and is_granted('ROLE_ADMIN') == null ) %}
+            {% for danie in danies if danie.dostepne > 0 %}
+                <tr>
+                    <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
+                    <td>{{ danie.nazwa }}</td>
+                    <td>{{ danie.czasprzygotowania }}</td>
+                    <td>{{ danie.cena }}</td>
+                    <td>{{ danie.ilosckalorii }}</td>
+                    <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
+                    <td>{{ danie.rodzaj }}</td>
+                    <td>
+                        <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
+                    </td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            {% for danie in danies %}
+                <tr>
+                    <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
+                    <td>{{ danie.nazwa }}</td>
+                    <td>{{ danie.czasprzygotowania }}</td>
+                    <td>{{ danie.cena }}</td>
+                    <td>{{ danie.ilosckalorii }}</td>
+                    <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
+                    <td>{{ danie.rodzaj }}</td>
+                    <td>
+                        <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
+                    </td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 
@@ -45,7 +71,7 @@
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
             <li>
                 <a href="{{ path('danie_new') }}">Create a new danie</a>
-            </li>
+            </li>       
         {% endif %}
     </ul>
 {% endblock %}

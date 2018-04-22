@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Produkt;
+use AppBundle\Entity\Pozycja_zamowienia;
 
 /**
  * Stanmagazynowy controller.
@@ -40,12 +41,16 @@ class StanMagazynowyController extends Controller
     /**
      * Creates a new stanMagazynowy entity.
      *
-     * @Route("/new", name="stanmagazynowy_new")
+     * @Route("/new/{produkt}", name="stanmagazynowy_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Produkt $produkt = null)
     {
         $stanMagazynowy = new Stanmagazynowy();
+        
+        if ($produkt != null){
+            $stanMagazynowy->setProdukt($produkt);
+        }
         
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::ADD, $stanMagazynowy);
         
@@ -58,7 +63,7 @@ class StanMagazynowyController extends Controller
             $em->persist($stanMagazynowy);
             $em->flush();
 
-            return $this->redirectToRoute('stanmagazynowy_show', array('id' => $stanMagazynowy->getId()));
+            return $this->redirectToRoute('produkt_show', array('id' => $stanMagazynowy->getProdukt()->getId()));
         }
 
         return $this->render('stanmagazynowy/new.html.twig', array(
@@ -96,7 +101,8 @@ class StanMagazynowyController extends Controller
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::EDIT, $stanMagazynowy);
         
         $deleteForm = $this->createDeleteForm($stanMagazynowy);
-        $editForm = $this->createForm('AppBundle\Form\StanMagazynowyType', $stanMagazynowy);
+        $editForm = $this->createForm('AppBundle\Form\StanMagazynowyType', $stanMagazynowy,
+                array('edit' => 'true'));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

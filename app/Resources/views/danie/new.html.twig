@@ -45,6 +45,13 @@
     <a href="{{ path('skladnik_new') }}">Dodaj składnik</a>
     
     {{ form_start(form) }}
+        {{ form_label(form.image) }}
+        {{ form_errors(form.image) }}
+        {{ form_widget(form.image) }}
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <a href="{{ path('gallery_new') }}">Dodaj zdjecie (jezeli nie mago na liscie obok)</a>
+        {% endif %}
+        </br>
         {{ form_label(form.czas_przygotowania) }}
         {{ form_errors(form.czas_przygotowania) }}
         {{ form_widget(form.czas_przygotowania) }} minute

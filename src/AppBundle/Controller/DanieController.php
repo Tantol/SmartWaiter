@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Zamowienie;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Danie controller.
@@ -28,6 +30,10 @@ class DanieController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $danies = $em->getRepository('AppBundle:Danie')->findAll();
+        
+        foreach($danies as $danie){
+            $danie->setDostepne($this->isAvailable($danie));
+        }
 
         return $this->render('danie/index.html.twig', array(
             'danies' => $danies,
@@ -94,6 +100,8 @@ class DanieController extends Controller
             $dbDanie->setJednostka($danie->getJednostka());
             $dbDanie->setNazwa($danie->getNazwa());
             $dbDanie->setRodzaj($danie->getRodzaj());
+            $dbDanie->setImage($danie->getImage());
+            $dbDanie->setObjetosc($danie->getObjetosc());
             
             $em->persist($dbDanie);
             
@@ -124,10 +132,13 @@ class DanieController extends Controller
     {
         $this->denyAccessUnlessGranted(DanieVoter::VIEW, $danie);
         
+        $danie->setDostepne($this->isAvailable($danie));
+        
         $deleteForm = $this->createDeleteForm($danie);
         
         $zamowienieForm = $this->createFormBuilder()
-        ->add('ilosc', \Symfony\Component\Form\Extension\Core\Type\NumberType::class)
+        ->add('ilosc', RangeType::class, array(
+            'attr' => array('min' => 1, 'max' => $danie->getDostepne())))
         ->getForm();
         $zamowienieForm->handleRequest($request);
         
@@ -188,7 +199,7 @@ class DanieController extends Controller
     {
         $this->denyAccessUnlessGranted(DanieVoter::EDIT, $danie);
         
-
+        $danie->setIloscKalorii(null);
         $deleteForm = $this->createDeleteForm($danie);
         $editForm = $this->createForm('AppBundle\Form\DanieType', $danie);
         $editForm->handleRequest($request);
@@ -196,7 +207,7 @@ class DanieController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('danie_edit', array('id' => $danie->getId()));
+            return $this->redirectToRoute('danie_show', array('id' => $danie->getId()));
         }
         
         return $this->render('danie/edit.html.twig', array(
@@ -250,5 +261,34 @@ class DanieController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    private function isAvailable(Danie $danie){
+        
+        $skladniki = $danie->getSkladniki();
+        
+        if (count($skladniki) === 0){
+            return 0;
+        }
+        
+        $tempDostepnosc = 999;
+
+        foreach($skladniki as $skladnik){
+            $produkt = $skladnik->getProdukt();
+            $wMagazynie = 0;
+            
+            foreach($produkt->getStanyMagazynowe() as $stan){
+                $wMagazynie += $stan->getIlosc();
+            }
+
+            $temp = $wMagazynie/$skladnik->getIlosc();
+            $skladnik->setDostepne(floor($temp));
+
+            if ($temp < $tempDostepnosc){
+                $tempDostepnosc = $temp;
+            }
+        }
+        
+        return floor($tempDostepnosc);
     }
 }

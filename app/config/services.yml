@@ -13,6 +13,16 @@ services:
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
         public: false
+        
+    app.image_upload:
+        class: AppBundle\Services\ImageUpload
+        arguments: ['%upload_dir%']
+        public: true
+
+    app.image_remove:
+        class: AppBundle\Services\ImageRemove
+        arguments: ['%upload_dir%']
+        public: true
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -34,6 +44,7 @@ services:
     AppBundle\DataFixtures\:
         resource: '../../src/AppBundle/DataFixtures'
         tags: ['doctrine.fixture.orm']
+
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:

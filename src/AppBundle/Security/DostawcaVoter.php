@@ -44,12 +44,47 @@ class DostawcaVoter extends Voter
         }
 
         // ROLE_ADMIN can do anything! The power!
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, array('ROLE_ADMIN')) or 
+            $this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
             return true;
-        } else {
-            return false;
+        }
+        $dostawca = $subject;
+        
+        switch($attribute){
+            case self::VIEW:
+                return $this->canView($dostawca, $user, $token);
+            case self::ADD:
+                return $this->canAdd($dostawca, $user, $token);
+            case self::EDIT:
+                return $this->canEdit($dostawca, $user, $token);
+            case self::DELETE:
+                return $this->canDelete($dostawca, $user, $token);
+        }
+        
+        throw new \LogicException('This code should not be reached!');
+    }
+    
+    private function canView(Dostawca $object, User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
         }
 
-        throw new \LogicException('This code should not be reached!');
+        return false;
+    }
+    
+    private function canAdd(Dostawca $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+
+    private function canEdit(Dostawca $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+    
+    private function canDelete(Dostawca $object, User $user, TokenInterface $token)
+    {
+        return false;
     }
 }

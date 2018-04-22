@@ -20,6 +20,7 @@ class Produkt{
 
     /**
      * @ORM\OneToMany(targetEntity="StanMagazynowy", mappedBy="produkt")
+     * @ORM\OrderBy({"data_umieszczenia" = "ASC"})
      */
     protected $stany_magazynowe;
 

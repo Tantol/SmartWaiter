@@ -2,12 +2,12 @@
 namespace AppBundle\Security;
 
 use AppBundle\Entity\User;
-use AppBundle\Entity\StanMagazynowy;
+use AppBundle\Entity\Gallery;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
-class StanMagazynowyVoter extends Voter
+class GalleryVoter extends Voter
 {
     const VIEW = 'view';
     const ADD = 'add';
@@ -27,7 +27,7 @@ class StanMagazynowyVoter extends Voter
             return false;
         }
 
-        if (!$subject instanceof StanMagazynowy) {
+        if (!$subject instanceof Gallery) {
             return false;
         }
 
@@ -44,49 +44,61 @@ class StanMagazynowyVoter extends Voter
         }
 
         // ROLE_ADMIN can do anything! The power!
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN')) or 
-            $this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
             return true;
         }
-        $stan = $subject;
+        
+        $gallery = $subject;
         
         switch($attribute){
             case self::VIEW:
-                return $this->canView($stan, $user, $token);
+                return $this->canView($gallery, $user, $token);
             case self::ADD:
-                return $this->canAdd($stan, $user, $token);
+                return $this->canAdd($gallery, $user, $token);
             case self::EDIT:
-                return $this->canEdit($stan, $user, $token);
+                return $this->canEdit($gallery, $user, $token);
             case self::DELETE:
-                return $this->canDelete($stan, $user, $token);
+                return $this->canDelete($gallery, $user, $token);
         }
         
         throw new \LogicException('This code should not be reached!');
     }
     
-    private function canView(StanMagazynowy $object, User $user, TokenInterface $token)
+    private function canView(Gallery $object, User $user, TokenInterface $token)
+    {
+        return true;
+    }
+    
+    private function canAdd(Gallery $object, User $user, TokenInterface $token)
     {
         if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
             return true;
         } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
             return true;
-        } 
-
-        return false;
-    }
-    
-    private function canAdd(StanMagazynowy $object, User $user, TokenInterface $token)
-    {
+        }
+        
         return false;
     }
 
-    private function canEdit(StanMagazynowy $object, User $user, TokenInterface $token)
+    private function canEdit(Gallery $object, User $user, TokenInterface $token)
     {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
         return false;
     }
     
-    private function canDelete(StanMagazynowy $object, User $user, TokenInterface $token)
+    private function canDelete(Gallery $object, User $user, TokenInterface $token)
     {
+        if ($this->decisionManager->decide($token, array('ROLE_COOK'))) {
+            return true;
+        } else if ($this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
+            return true;
+        }
+        
         return false;
     }
 }
