@@ -234,7 +234,7 @@ class Pozycja_zamowieniaController extends Controller
             foreach ($skladnik->getProdukt()->getStanyMagazynowe() as $stan){
                 
                 $tempIlosc = $stan->getIlosc() - $ilosc;
-                if ($tempIlosc === 0){
+                if ($tempIlosc <= 0){
                     $kosztWytPoz += $stan->getIlosc() * $stan->getCena();
                     $ilosc -= $stan->getIlosc();
                     $em->remove($stan);
@@ -244,10 +244,6 @@ class Pozycja_zamowieniaController extends Controller
                     $ilosc = 0;
                     $em->merge($stan);
                     break;
-                } else if ($tempIlosc < 0) {
-                    $kosztWytPoz += $stan->getIlosc() * $stan->getCena();
-                    $ilosc -= $stan->getIlosc();
-                    $em->remove($stan);
                 }
             }
         }
