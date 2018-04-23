@@ -18,6 +18,17 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/panelUzytkownika", name="panelUzytkownika")
+     */
+    public function uzytkownikAction(Request $request)
+    {
+        return $this->render('default/panelUzytkownika.html.twig', array(
+            'user' => $this->getUser(),
+        ));
+
+    }
+    
+    /**
      * @Route("/adminPanel", name="adminPanel")
      */
     public function adminPanelAction(Request $request)

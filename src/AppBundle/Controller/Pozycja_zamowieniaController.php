@@ -229,23 +229,28 @@ class Pozycja_zamowieniaController extends Controller
         //$stanMagazynowy = $em->getRepository('AppBundle:StanMagazynowy')->findAll();
         
         foreach ($pozycja->getDanie()->getSkladniki() as $skladnik){
-            $ilosc = 20;
+            $ilosc = $skladnik->getIlosc() * $pozycja->getIlosc();
+            $kosztWytPoz = 0;
             foreach ($skladnik->getProdukt()->getStanyMagazynowe() as $stan){
                 
                 $tempIlosc = $stan->getIlosc() - $ilosc;
                 if ($tempIlosc === 0){
+                    $kosztWytPoz += $stan->getIlosc() * $stan->getCena();
                     $ilosc -= $stan->getIlosc();
                     $em->remove($stan);
                 } else if ($tempIlosc > 0){
                     $stan->setIlosc($tempIlosc);
-                    $ilosc -= $stan->getIlosc();
+                    $kosztWytPoz += $ilosc * $stan->getCena();
+                    $ilosc = 0;
                     $em->merge($stan);
                     break;
                 } else if ($tempIlosc < 0) {
+                    $kosztWytPoz += $stan->getIlosc() * $stan->getCena();
                     $ilosc -= $stan->getIlosc();
                     $em->remove($stan);
                 }
             }
         }
+        $pozycja->setKosztWytPoz($kosztWytPoz);
     }
 }

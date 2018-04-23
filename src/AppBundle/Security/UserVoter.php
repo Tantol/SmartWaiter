@@ -12,6 +12,7 @@ class UserVoter extends Voter
     const ADD = 'add';
     const EDIT = 'edit';
     const DELETE = 'delete';
+    const CHANGE = 'change';
     
     private $decisionManager;
 
@@ -22,7 +23,7 @@ class UserVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, array(self::VIEW, self::ADD, self::EDIT, self::DELETE))) {
+        if (!in_array($attribute, array(self::VIEW, self::ADD, self::EDIT, self::DELETE, self::CHANGE))) {
             return false;
         }
 
@@ -46,10 +47,55 @@ class UserVoter extends Voter
         // ROLE_ADMIN can do anything! The power!
         if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
             return true;
-        } else {
-            return false;
         }
-
+        $userObject = $subject;
+        
+        switch($attribute){
+            case self::VIEW:
+                return $this->canView($userObject, $user, $token);
+            case self::ADD:
+                return $this->canAdd($userObject, $user, $token);
+            case self::EDIT:
+                return $this->canEdit($userObject, $user, $token);
+            case self::DELETE:
+                return $this->canDelete($userObject, $user, $token);
+            case self::CHANGE:
+                return $this->canChange($userObject, $user, $token);
+        }
+        
         throw new \LogicException('This code should not be reached!');
     }
-}
+    
+    private function canView(User $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+    
+    private function canAdd(User $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+
+    private function canEdit(User $object, User $user, TokenInterface $token)
+    {
+        return false;
+    }
+    
+    private function canDelete(User $object, User $user, TokenInterface $token)
+    {
+        if ($user === $object) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private function canChange(User $object, User $user, TokenInterface $token)
+    {
+        if ($user === $object) {
+            return true;
+        }
+        
+        return false;
+    }
+}  

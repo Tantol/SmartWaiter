@@ -13,14 +13,20 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username')->add('email')->add('pracownik')->add('groups');
+        if ($options['email']){
+            $builder->add('email');
+        } else {
+            $builder->add('username')->add('email')->add('pracownik')->add('groups');
+        }
+
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\User',
+            'email' => false
         ));
     }
 

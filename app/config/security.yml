@@ -37,20 +37,26 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/panelUzytkownika, roles: ROLE_USER }
+        - { path: ^/cookPanel, roles: ROLE_COOK }
+        - { path: ^/waiterPanel, roles: ROLE_WAITER }
         - { path: ^/adminPanel, roles: ROLE_ADMIN }
-        - { path: ^/danie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
+        - { path: ^/danie, roles: [ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pozycja_zamowienia/(.+)/deleteD, roles: ROLE_CLIENT }
-        - { path: ^/pozycja_zamowienia, roles: [ROLE_ADMIN, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
+        - { path: ^/pozycja_zamowienia, roles: [ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pracownik, roles: ROLE_ADMIN }
-        - { path: ^/produkt, roles: [ROLE_ADMIN, ROLE_MANAGER] }
+        - { path: ^/produkt, roles: ROLE_MANAGER }
         - { path: ^/rodzaj, roles: ROLE_ADMIN }
-        - { path: ^/skladnik, roles: [ROLE_ADMIN, ROLE_MANAGER, ROLE_COOK] }
-        - { path: ^/stanmagazynowy, roles: [ROLE_ADMIN, ROLE_COOK, ROLE_MANAGER] }
+        - { path: ^/skladnik, roles: [ROLE_MANAGER, ROLE_COOK] }
+        - { path: ^/stanmagazynowy, roles: [ROLE_COOK, ROLE_MANAGER] }
         - { path: ^/status_zamowienia, roles: ROLE_ADMIN }
-        - { path: ^/zamowienie, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
-        - { path: ^/dostawca, roles: [ROLE_ADMIN, ROLE_MANAGER] }
+        - { path: ^/zamowienie, roles: [ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
+        - { path: ^/dostawca, roles: ROLE_MANAGER }
         - { path: ^/group, roles: ROLE_ADMIN }
         - { path: ^/jednostka, roles: ROLE_ADMIN }
+        - { path: ^/user/(.+)/changePassword, roles: ROLE_USER }
+        - { path: ^/user/(.+)/delete, roles: ROLE_USER }
+        - { path: ^/user/(.+)/editEmail, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         

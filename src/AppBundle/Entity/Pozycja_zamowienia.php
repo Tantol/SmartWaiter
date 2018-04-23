@@ -82,6 +82,11 @@ class Pozycja_zamowienia implements \Serializable{
      */
     protected $kelner;
     
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true) 
+     */
+    protected $kosztWytPoz;
+    
     public function serialize()
     {
       return serialize(
@@ -97,6 +102,7 @@ class Pozycja_zamowienia implements \Serializable{
           $this->status,
           $this->kucharz,
           $this->kelner,
+          $this->kosztWytPoz,
         ]
       );
     }
@@ -116,6 +122,7 @@ class Pozycja_zamowienia implements \Serializable{
         $this->status,
         $this->kucharz,
         $this->kelner,
+        $this->kosztWytPoz,
         ) = $data;
     }
     
@@ -247,6 +254,30 @@ class Pozycja_zamowienia implements \Serializable{
     public function getCenaJedn()
     {
         return $this->cena_jedn;
+    }
+    
+    /**
+     * Set kosztWytPoz
+     *
+     * @param string $cenaJedn
+     *
+     * @return Pozycja_zamowienia
+     */
+    public function setKosztWytPoz($cena)
+    {
+        $this->kosztWytPoz = $cena;
+
+        return $this;
+    }
+
+    /**
+     * Get kosztWytPoz
+     *
+     * @return string
+     */
+    public function getKosztWytPoz()
+    {
+        return $this->kosztWytPoz;
     }
 
     /**

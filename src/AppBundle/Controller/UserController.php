@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\Model\ChangePassword;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -79,7 +80,64 @@ class UserController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+    
+        /**
+     * Displays a form to edit an existing user entity.
+     *
+     * @Route("/{id}/editEmail", name="userEditEmail")
+     * @Method({"GET", "POST"})
+     */
+    public function editEmailAction(Request $request, User $user)
+    {
+        $this->denyAccessUnlessGranted('change', $user);
+        
+        $editForm = $this->createForm('AppBundle\Form\UserType', $user, array(
+            "email" => true,
+        ));
+        $editForm->handleRequest($request);
 
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('panelUzytkownika');
+        }
+
+        return $this->render('user/edit.html.twig', array(
+            'edit_form' => $editForm->createView(),
+        ));
+    }
+    
+    /**
+     * Displays a form to edit an existing user entity.
+     *
+     * @Route("/{id}/changePassword", name="userChangePassword")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\Request
+     * @internal param UserPasswordEncoderInterface #encoder
+     * @Method({"GET", "POST"})
+     */
+    public function passwordAction(Request $request, User $user, UserPasswordEncoderInterface $encoder)
+    {
+        $this->denyAccessUnlessGranted('change', $user);
+        
+        $changePasswordModel = new ChangePassword();
+        
+        $passwordForm = $this->createForm('AppBundle\Form\ChangePasswordType', $changePasswordModel);
+        $passwordForm->handleRequest($request);
+
+        if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $passwordForm['newPassword']->getData()));
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('logout');
+        }
+
+        return $this->render('user/editPassword.html.twig', array(
+            'edit_form' => $passwordForm->createView(),
+        ));
+    }
+    
     /**
      * Deletes a user entity.
      *

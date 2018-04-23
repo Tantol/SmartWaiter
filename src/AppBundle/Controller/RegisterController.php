@@ -34,6 +34,7 @@ class RegisterController extends Controller
         if ($form->isSubmitted() && $form->isValid()){
             // Create the user
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            $user->addGroup($em->getRepository('AppBundle:Group')->findOneBy(array('name' => 'Klient')));
             
             $em->persist($user);
             $em->flush();
