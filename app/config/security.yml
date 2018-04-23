@@ -40,6 +40,7 @@ security:
         - { path: ^/panelUzytkownika, roles: ROLE_USER }
         - { path: ^/cookPanel, roles: ROLE_COOK }
         - { path: ^/waiterPanel, roles: ROLE_WAITER }
+        - { path: ^/menedzerPanel, roles: ROLE_MANAGER }
         - { path: ^/adminPanel, roles: ROLE_ADMIN }
         - { path: ^/danie, roles: [ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pozycja_zamowienia/(.+)/deleteD, roles: ROLE_CLIENT }
