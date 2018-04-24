@@ -52,6 +52,13 @@
             <a href="{{ path('gallery_new') }}">Dodaj zdjecie (jezeli nie mago na liscie obok)</a>
         {% endif %}
         </br>
+        {{ form_label(form.rodzaj) }}
+        {{ form_errors(form.rodzaj) }}
+        {{ form_widget(form.rodzaj) }}
+        {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
+            <a href="{{ path('rodzaj_new') }}">Dodaj rodzaj (jezeli nie mago na liscie obok)</a>
+        {% endif %}
+        </br>
         {{ form_label(form.czas_przygotowania) }}
         {{ form_errors(form.czas_przygotowania) }}
         {{ form_widget(form.czas_przygotowania) }} minute

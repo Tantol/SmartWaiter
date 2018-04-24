@@ -47,14 +47,14 @@ security:
         - { path: ^/pozycja_zamowienia, roles: [ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/pracownik, roles: ROLE_ADMIN }
         - { path: ^/produkt, roles: ROLE_MANAGER }
-        - { path: ^/rodzaj, roles: ROLE_ADMIN }
+        - { path: ^/rodzaj, roles: [ROLE_ADMIN, ROLE_MANAGER] }
         - { path: ^/skladnik, roles: [ROLE_MANAGER, ROLE_COOK] }
         - { path: ^/stanmagazynowy, roles: [ROLE_COOK, ROLE_MANAGER] }
         - { path: ^/status_zamowienia, roles: ROLE_ADMIN }
         - { path: ^/zamowienie, roles: [ROLE_CLIENT, ROLE_COOK, ROLE_MANAGER, ROLE_WAITER] }
         - { path: ^/dostawca, roles: ROLE_MANAGER }
         - { path: ^/group, roles: ROLE_ADMIN }
-        - { path: ^/jednostka, roles: ROLE_ADMIN }
+        - { path: ^/jednostka, roles: [ROLE_ADMIN, ROLE_MANAGER] }
         - { path: ^/user/(.+)/changePassword, roles: ROLE_USER }
         - { path: ^/user/(.+)/delete, roles: ROLE_USER }
         - { path: ^/user/(.+)/editEmail, roles: ROLE_USER }

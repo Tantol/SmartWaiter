@@ -44,7 +44,7 @@ class RodzajVoter extends Voter
         }
 
         // ROLE_ADMIN can do anything! The power!
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, array('ROLE_ADMIN')) or $this->decisionManager->decide($token, array('ROLE_MANAGER'))) {
             return true;
         } else {
             return false;
