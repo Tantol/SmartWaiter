@@ -1,0 +1,60 @@
+#menu2:hover .two_menu{
+    display: block;
+}
+
+
+.my_navigation{
+    position: absolute;
+    z-index: 1000;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition: height 0.3s ease-in;
+            -moz-transition: height 0.3s ease-in;
+            -o-transition: height 0.3s ease-in;
+            -ms-transition: height 0.3s ease-in;
+            transition: height 0.3s ease-in;
+}
+
+ul li:hover .my_navigation{
+    height: 215px;
+}
+
+nav#menu #menu-nav li .my_navigation li{
+    display: block;
+    margin: 0;
+    z-index: 99999;
+}
+
+#inne #supersized{
+    display: none;
+}
+
+.zalogujpage form{
+    height: 300px;
+    width: 300px;
+    position: relative;
+    left: 50%;
+    margin: 250px 0 200px -100px;
+}
+
+#fieldset{
+    width: 250px;
+    float: left;
+    overflow: hidden;
+}
+
+footer{
+    overflow: hidden;
+}
+
+#rejestracjapage form{
+    overflow: hidden;
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.buttonrej{
+    margin: 0 auto;
+    width: 100px;
+}

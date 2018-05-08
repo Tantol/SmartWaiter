@@ -2,20 +2,23 @@
 
 {% block title %}Login Page{% endblock %}
 
+
+
 {% block body %}
-<div class="card">
-    <div class="card-header">
-        <h3>Login</h3>
-    </div>
-    <div class="card-body">
-        <form action="{{ path('login') }}" method="post">
+
+
+
+
+<div class="zalogujpage">
+    
+        <form id="zaloguj" action="{{ path('login') }}" method="post">
             <div class="form-group">
-                <label for="username">Username or email:</label>
+                <label for="username">Nick lub adres e-mail:</label>
                 <input class="form-control" type="text" name="_username" id="username" 
                        value="{{ username }}">
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">Hasło:</label>
                 <input class="form-control" type="password" name="_password" id="password">
             </div>
             <div class="card-footer">
@@ -29,12 +32,32 @@
                         {{ errors.messageKey }}
                     </div>
                 {% endif %}
-                <button class="btn btn-info">Connect</button>
+                <button class="btn btn-info">Zaloguj się</button>
             </div>
         </form>
-    </div>
-    <div class="card-footer">
-        <a href="{{ path('register') }}">Nie masz jeszcze konta? Zarejestruj sie</a>
-    </div>
+    
 </div>
+
+
+<!-- End Footer -->
+
+<!-- Back To Top -->
+<a id="back-to-top" href="#">
+	<i class="font-icon-arrow-simple-up"></i>
+</a>
+
+
+<!-- Js -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="_include/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+<script src="_include/js/supersized.3.2.7.min.js"></script> <!-- Slider -->
+<script src="_include/js/waypoints.js"></script> <!-- WayPoints -->
+<script src="_include/js/waypoints-sticky.js"></script> <!-- Waypoints for Header -->
+<script src="_include/js/jquery.isotope.js"></script> <!-- Isotope Filter -->
+<script src="_include/js/jquery.fancybox.pack.js"></script> <!-- Fancybox -->
+<script src="_include/js/jquery.fancybox-media.js"></script> <!-- Fancybox for Media -->
+<script src="_include/js/jquery.tweet.js"></script> <!-- Tweet -->
+<script src="_include/js/plugins.js"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="_include/js/main.js"></script> <!-- Default JS -->
+<!-- End Js -->
 {% endblock %}

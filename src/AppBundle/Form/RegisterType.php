@@ -32,13 +32,13 @@ class RegisterType extends AbstractType{
             'first_options'  => array( 
                 'attr' => array(
                  'class' => 'form-control'), 
-                'label' => 'Password'),
+                'label' => 'Hasło'),
             'second_options' => array( 
                 'attr' => array(
                  'class' => 'form-control'), 
-                'label' => 'Repeat password')
+                'label' => 'Powtórz hasło')
                     ))
-                ->add('submit', Type\SubmitType::class, [
+                ->add('Zarejestruj', Type\SubmitType::class, [
                     'attr' => [
                         'class' => 'btn btn-success'
                     ]

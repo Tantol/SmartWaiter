@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Danie</h1>
+
+<div class="zalogujpage">
+
+    <h1>{{ danie.nazwa }}</h1>
     {% if errorDelete %}
         <h2> {{ errorDelete }} </h2>
     {% endif %}
@@ -90,4 +93,6 @@
       output.innerHTML = this.value;
     }
 </script>
+    
+</div>
 {% endblock %}

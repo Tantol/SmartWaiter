@@ -1,70 +1,63 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}SmartWaiter | Nowoczesny system obsługi restauracji{% endblock %}
 {% block body %}
-    <h1>Danies list</h1>
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nazwa</th>
-                <th>Czas_przygotowania</th>
-                <th>Cena</th>
-                <th>Ilosc_kalorii</th>
-                <th>Objetosc</th>
-                <th>Rodzaj</th>
-                <th>Zdjecie</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% if (is_granted('ROLE_CLIENT') and is_granted('ROLE_ADMIN') == null ) %}
-            {% for danie in danies if danie.dostepne > 0 %}
-                <tr>
-                    <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
-                    <td>{{ danie.nazwa }}</td>
-                    <td>{{ danie.czasprzygotowania }}</td>
-                    <td>{{ danie.cena }}</td>
-                    <td>{{ danie.ilosckalorii }}</td>
-                    <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
-                    <td>{{ danie.rodzaj }}</td>
-                    <td>
-                        <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
-                    </td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
+
+
+
+
+<div id="work" class="page">
+	<div class="container">
+<div class="row">
+    <div class="span9">
+            	<div class="row">
+                	<section id="projects">
+                    	<ul id="thumbs">
+                            {% if (is_granted('ROLE_CLIENT') and is_granted('ROLE_ADMIN') == null ) %}
+                            {% for danie in danies if danie.dostepne > 0 %}
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="{{ danie.nazwa }}" href="{{ asset('uploads/' ~ danie.image.image) }}">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="Czas przygotowania: {{ danie.czasprzygotowania }} minut<br>Cena: {{ danie.czasprzygotowania }} zł<br>Ilość kalorii: {{ danie.ilosckalorii }} kcal<br>{{ danie.objetosc }} {{ danie.jednostka }}<br>Rodzaj: {{ danie.rodzaj }}<br>Kliknij  <a href='{{ path('danie_show', { 'id': danie.id }) }}'>tutaj</a> aby zamówić danie lub zobaczyć szczegóły">
                             </li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            {% for danie in danies %}
-                <tr>
-                    <td><a href="{{ path('danie_show', { 'id': danie.id }) }}">{{ danie.id }}</a></td>
-                    <td>{{ danie.nazwa }}</td>
-                    <td>{{ danie.czasprzygotowania }}</td>
-                    <td>{{ danie.cena }}</td>
-                    <td>{{ danie.ilosckalorii }}</td>
-                    <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
-                    <td>{{ danie.rodzaj }}</td>
-                    <td>
-                        <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
-                    </td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('danie_show', { 'id': danie.id }) }}">show</a>
+                            {% endfor %}
+                            {% else %}
+                                {% for danie in danies %}
+                            <li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="{{ danie.nazwa }}" href="{{ asset('uploads/' ~ danie.image.image) }}">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="Czas przygotowania: {{ danie.czasprzygotowania }} minut<br>Cena: {{ danie.czasprzygotowania }} zł<br>Ilość kalorii: {{ danie.ilosckalorii }} kcal<br>{{ danie.objetosc }} {{ danie.jednostka }}<br>Rodzaj: {{ danie.rodzaj }}<br>Kliknij  <a href='{{ path('danie_show', { 'id': danie.id }) }}'>tutaj</a> aby zamówić danie lub zobaczyć szczegóły">
                             </li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endif %}
-        </tbody>
-    </table>
+                            {% endfor %}
+                            {% endif %}
+                            
+
+</ul>
+                    </section>
+                    
+            	</div>
+            </div>
+        </div>
+        <!-- End Portfolio Projects -->
+    </div>
+</div>
+
+
 
 
     <ul>
@@ -74,4 +67,15 @@
             </li>       
         {% endif %}
     </ul>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="/_include/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+<script src="/_include/js/supersized.3.2.7.min.js"></script> <!-- Slider -->
+<script src="/_include/js/waypoints.js"></script> <!-- WayPoints -->
+<script src="/_include/js/waypoints-sticky.js"></script> <!-- Waypoints for Header -->
+<script src="/_include/js/jquery.isotope.js"></script> <!-- Isotope Filter -->
+<script src="/_include/js/jquery.fancybox.pack.js"></script> <!-- Fancybox -->
+<script src="/_include/js/jquery.fancybox-media.js"></script> <!-- Fancybox for Media -->
+<script src="/_include/js/jquery.tweet.js"></script> <!-- Tweet -->
+<script src="/_include/js/plugins.js"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="/_include/js/main.js"></script> <!-- Default JS -->
 {% endblock %}

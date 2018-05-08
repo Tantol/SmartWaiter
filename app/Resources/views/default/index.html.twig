@@ -1,61 +1,414 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Strona startowa{% endblock %}
+{% block title %}SmartWaiter | Nowoczesny system obsługi restauracji{% endblock %}
 
 {% block body %}
-<div class="card">
-    <div class="card-header">
-        <h3>Witamy w resteuracji ile jest kuciakow w tabliczce kuciakow</h3>
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+
+
+
+
+<!-- This section is for Splash Screen -->
+<div class="ole">
+<section id="jSplash">
+	<div id="circle"></div>
+</section>
+</div>
+<!-- End of Splash Screen -->
+
+<!-- Homepage Slider -->
+<div id="home-slider">	
+    
+
+    <div class="slider-text">
+    	<div id="slidecaption"></div>
+    </div>   
+	
+	<div class="control-nav">
+        <a id="prevslide" class="load-item"><i class="font-icon-arrow-simple-left"></i></a>
+        <a id="nextslide" class="load-item"><i class="font-icon-arrow-simple-right"></i></a>
+        <ul id="slide-list"></ul>
+        
+        <a id="nextsection" href="#work"><i class="font-icon-arrow-simple-down"></i></a>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped table-dark">
-                <tbody>
-                    <tr>
-                        No FRONTEND ! Ruszac ... Jak macie jakies pytanie, chcecie cos gdzies dodatkowo podpiac, to fb</br>
-                        Jak chcecie mozecie na wlasna reke grzebac w backendzie, ale JAK COS ZJEBIECIE NIE POMOGE xD Moge wytlumaczyc jak ktos chce sie czegos dowiedziec</br>
-                        Jezeli sa jakies niezrozumiale "variables" typu "error" "errorCosTam" to pytajcie, moglem sie czasem zapomniec i poprostu dac "na szybko"</br>
-                        Konta ktore mozna uzywac i sa zrobione (zabezpieczenia cuda na kiju, taka karuzela z pasami...)</br>
-                        Klient: klient, klient</br>
-                        Kucharz: kucharz, kucharz</br>
-                        Kelner: kelner, kelner</br>
-                        Manager: menedzer, menedzer</br>
-                        Admin: admin, admin</br>
-                        :)
-                    </tr>
-                </tbody>
-            </table>
+</div>
+<!-- End Homepage Slider -->
+
+<!-- Header -->
+
+<!-- End Header -->
+
+<!-- Our Work Section -->
+<div id="work" class="page">
+	<div class="container">
+    	<!-- Title Page -->
+        <div class="row">
+
+            <div class="span12">
+
+                <div class="title-page">
+                                {% if is_granted('ROLE_CLIENT') == null %}
+            <a href="{{ path('login') }}">Zaloguj</a> się lub <a href="{{ path('register') }}">zarejestruj</a> aby mieć możliwość zamówienia dania.
+            {% endif %}
+                    
+ 
+                    
+                    
+                    <h2 class="title">Nasze dania</h2>
+                    <h3 class="title-description">Prezentujemy nasze popisowe dania z <a href="{{ path('danie_index') }}">Karty dań</a>.</h3>
+                </div>
+            </div>
+        </div>
+        <!-- End Title Page -->
+        
+        <!-- Portfolio Projects -->
+        <div class="row">
+        	<div class="span3">
+            	<!-- Filter -->
+                <nav id="options" class="work-nav">
+                    <ul id="filters" class="option-set" data-option-key="filter">
+                    	<li class="type-work">Kategorie</li>
+                        <li><a href="#filter" data-option-value="*" class="selected">Wszystkie dania</a></li>
+                        <li><a href="#filter" data-option-value=".design">Zupy</a></li>
+                        <li><a href="#filter" data-option-value=".photography">Desery</a></li>
+                        <li><a href="#filter" data-option-value=".video">Sałatki</a></li>
+                    </ul>
+                </nav>
+                <!-- End Filter -->
+            </div>
+            
+            <div class="span9">
+            	<div class="row">
+                	<section id="projects">
+                    	<ul id="thumbs">
+                        
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Krem brokułowy" href="_include/img/work/full/krem_brokulowy.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-01.jpeg" alt="Krem brokułowy to następny klasyk wszystkich kuchni świata, bo kto jej nie zna i kto jej nie próbował. Jest to dobra i zdrowa propozycja na pierwsze danie.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Zupa pomidorowa" href="_include/img/work/full/full-02.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-02.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 photography">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Ciasto z wiśniami" href="_include/img/work/full/full-05.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-05.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 video">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Sałatka" href="_include/img/work/full/full-09.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-09.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 photography">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Owocowa szklaneczka" href="_include/img/work/full/full-06.jpg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-06.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 photography">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Owocowa babka" href="_include/img/work/full/full-07.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-07.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 video">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Sałatka" href="_include/img/work/full/full-08.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-08.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Zuba z dynii" href="_include/img/work/full/full-03.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-03.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                            
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3 design">
+                            	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                            	<a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Zupa z krewetkami" href="_include/img/work/full/full-04.jpeg">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="_include/img/work/thumbs/thumb-04.jpeg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+                            </li>
+                        	<!-- End Item Project -->
+                        </ul>
+                    </section>
+                    
+            	</div>
+            </div>
+        </div>
+        <!-- End Portfolio Projects -->
+    </div>
+</div>
+<!-- End Our Work Section -->
+
+<!-- About Section -->
+<div id="about" class="page-alternate">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">O nas</h2>
+                <h3 class="title-description">Krótko o nas</h3>
+            </div>
         </div>
     </div>
-    <div class="card-footer">
-    </div>
-    </div>
-    {% if is_granted('ROLE_CLIENT') %}
-        <div>
-            <h3> Dla klienta: </h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Zamowienia</th>
-                        <th>Dania</th>
-                        <th>...</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <a href="{{ path('zamowienie_index') }}" class="btn btn-info" role="button">Twoje zamowienia</a>
-                        </td>
-                        <td>
-                            <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
-                        </td>
-                        <td>
-                            Jak chcecie tu jakies wyswietlania czego kolwiek, nawet hasel ... to poprostu mi napiszcie to wam "wypluje" z bazy
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- End Title Page -->
+    
+    <!-- People -->
+    <div class="row">
+    	
+        <!-- Start Profile -->
+    	<div class="span4 profile">
+        	<div class="image-wrap">
+                <div class="hover-wrap">
+                    <span class="overlay-img"></span>
+                    <span class="overlay-text-thumb">BackEnd</span>
+                </div>
+                <img src="_include/img/profile/profile-01.jpg" alt="John Doe">
+            </div>
+            <h3 class="profile-name">Antoni Wałęcki</h3>
+            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
+            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            	
+            <!-- <div class="social">
+            	<ul class="social-icons">
+                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-dribbble"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-facebook"></i></a></li>
+                </ul>
+            </div>-->
         </div>
-    {% endif %}
+        <!-- End Profile -->
+        
+        <!-- Start Profile -->
+    	<div class="span4 profile">
+        	<div class="image-wrap">
+                <div class="hover-wrap">
+                    <span class="overlay-img"></span>
+                    <span class="overlay-text-thumb">FrontEnd</span>
+                </div>
+                <img src="_include/img/profile/profile-02.jpg" alt="Jane Helf">
+            </div>
+            <h3 class="profile-name">Krzysztof Grzelak</h3>
+            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
+            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            	
+            <!-- <div class="social">
+            	<ul class="social-icons">
+                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-email"></i></a></li>
+                </ul>
+            </div>-->
+        </div>
+        <!-- End Profile -->
+        
+        <!-- Start Profile -->
+    	<div class="span4 profile">
+        	<div class="image-wrap">
+                <div class="hover-wrap">
+                    <span class="overlay-img"></span>
+                    <span class="overlay-text-thumb">BackEnd</span>
+                </div>
+                <img src="_include/img/profile/profile-03.jpg" alt="Joshua Insanus">
+            </div>
+            <h3 class="profile-name">Piotr Żarczyński</h3>
+            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
+            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            	
+           <!--  <div class="social">
+            	<ul class="social-icons">
+                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-linkedin"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-google-plus"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-vimeo"></i></a></li>
+                </ul>
+            </div>-->
+        </div>
+        <!-- End Profile -->
+        
+        <!-- Start Profile -->
+    	<div class="span4 profile">
+        	<div class="image-wrap">
+                <div class="hover-wrap">
+                    <span class="overlay-img"></span>
+                    <span class="overlay-text-thumb">FrontEnd</span>
+                </div>
+                <img src="_include/img/profile/profile-01.jpg" alt="John Doe">
+            </div>
+            <h3 class="profile-name">Radosław Klimaszewski</h3>
+            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
+            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            	
+           <!-- <div class="social">
+            	<ul class="social-icons">
+                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-dribbble"></i></a></li>
+                    <li><a href="#"><i class="font-icon-social-facebook"></i></a></li>
+                </ul>
+            </div>-->
+        </div>
+        <!-- End Profile -->
+        
+    </div>
+    <!-- End People -->
+</div>
+</div>
+<!-- End About Section -->
+
+
+<!-- Contact Section -->
+<!--<div id="contact" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <!--<div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Get in Touch</h2>
+                <h3 class="title-description">We’re currently accepting new client projects. We look forward to serving you.</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Contact Form -->
+  <!--   <div class="row">
+    	<div class="span9">
+        
+        	<form id="contact-form" class="contact-form" action="#">
+            	<p class="contact-name">
+            		<input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
+                </p>
+                <p class="contact-email">
+                	<input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
+                </p>
+                <p class="contact-message">
+                	<textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
+                </p>
+                <p class="contact-submit">
+                	<a id="contact-submit" class="submit" href="#">Send Your Email</a>
+                </p>
+                
+                <div id="response">
+                
+                </div>
+            </form>
+         
+        </div>
+        
+        <div class="span3">
+        	<div class="contact-details">
+        		<h3>Contact Details</h3>
+                <ul>
+                    <li><a href="#">hello@brushed.com</a></li>
+                    <li>(916) 375-2525</li>
+                    <li>
+                        Brushed Studio
+                        <br>
+                        5240 Vanish Island. 105
+                        <br>
+                        Unknow
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>-->
+    <!-- End Contact Form --><!--
+</div>
+</div>-->
+<!-- End Contact Section -->
+
+<!-- Footer -->
+
+<!-- End Footer -->
+
+<!-- Back To Top -->
+<a id="back-to-top" href="#">
+	<i class="font-icon-arrow-simple-up"></i>
+</a>
+<!-- End Back to Top -->
+
+
+<!-- Js -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="_include/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+<script src="_include/js/supersized.3.2.7.min.js"></script> <!-- Slider -->
+<script src="_include/js/waypoints.js"></script> <!-- WayPoints -->
+<script src="_include/js/waypoints-sticky.js"></script> <!-- Waypoints for Header -->
+<script src="_include/js/jquery.isotope.js"></script> <!-- Isotope Filter -->
+<script src="_include/js/jquery.fancybox.pack.js"></script> <!-- Fancybox -->
+<script src="_include/js/jquery.fancybox-media.js"></script> <!-- Fancybox for Media -->
+<script src="_include/js/jquery.tweet.js"></script> <!-- Tweet -->
+<script src="_include/js/plugins.js"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="_include/js/main.js"></script> <!-- Default JS -->
+<!-- End Js -->
+
+
+</html>
+   
 {% endblock %}
 

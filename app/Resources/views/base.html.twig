@@ -2,34 +2,129 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+       
+
+<!-- Mobile Specifics -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="MobileOptimized" content="320"/>   
+
+<!-- Mobile Internet Explorer ClearType Technology -->
+<!--[if IEMobile]>  <meta http-equiv="cleartype" content="on">  <![endif]-->
+
+<!--Style-->
+    
+<link href="/_include/css/style.css" rel="stylesheet">   
+    
+<!-- Bootstrap -->
+<link href="/_include/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Main Style -->
+<link href="/_include/css/main.css" rel="stylesheet">
+
+<!-- Supersized -->
+<link href="/_include/css/supersized.css" rel="stylesheet">
+<link href="/_include/css/supersized.shutter.css" rel="stylesheet">
+
+<!-- FancyBox -->
+<link href="/_include/css/fancybox/jquery.fancybox.css" rel="stylesheet">
+
+<!-- Font Icons -->
+<link href="/_include/css/fonts.css" rel="stylesheet">
+
+<!-- Shortcodes -->
+<link href="/_include/css/shortcodes.css" rel="stylesheet">
+
+<!-- Responsive -->
+<link href="/_include/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="/_include/css/responsive.css" rel="stylesheet">
+
+<!-- Supersized -->
+<link href="/_include/css/supersized.css" rel="stylesheet">
+<link href="/_include/css/supersized.shutter.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+
+<!-- Fav Icon -->
+<link rel="shortcut icon" href="#">
+
+<link rel="apple-touch-icon" href="#">
+<link rel="apple-touch-icon" sizes="114x114" href="#">
+<link rel="apple-touch-icon" sizes="72x72" href="#">
+<link rel="apple-touch-icon" sizes="144x144" href="#">
+
+<!-- Modernizr -->
+<script src="/_include/js/modernizr.js"></script>
+
+<!-- Analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'Insert Your Code']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+    
+    
+    
+</script>
     </head>
     <body>
-        <a href="{{ path('homepage') }}" class="btn btn-warning">Strona glowna</a>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ path('panelUzytkownika') }}" class="btn btn-danger">Panel uzytkownika</a>
-            <a href="{{ logout_path() }}" class="btn btn-danger">Logout</a>
-        {% else %}
-            <a href="{{ path('login') }}" class="btn btn-info">Login</a>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('adminPanel') }}" class="btn btn-info">Panel administracyjny</a>
-        {% endif %}
-        {% if is_granted('ROLE_COOK') %}
-            <a href="{{ path('cookPanel') }}" class="btn btn-info">Panel kucharza</a>
-        {% endif %}
-        {% if is_granted('ROLE_WAITER') %}
-            <a href="{{ path('waiterPanel') }}" class="btn btn-info">Panel kelnera</a>
-        {% endif %}
-        {% if is_granted('ROLE_MANAGER') %}
-            <a href="{{ path('managerPanel') }}" class="btn btn-info">Panel menedzera</a>
-        {% endif %}
-        <div class="container">
-            {% block body %}{% endblock %}
+        
+        <header>
+    <div class="sticky-nav">
+    	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
+        
+        <div id="logo">
+        	<a id="goUp" href="#home-slider" title="Brushed | Responsive One Page Template">Brushed Template</a>
         </div>
+        
+        <nav id="menu">
+        	<ul id="menu-nav">
+            	<li class="current"><a href="index.html">Główna</a></li>
+                <li><a href="#about">O nas</a></li>
+                {% if is_granted('ROLE_CLIENT') %}
+                <li><a href="{{ path('danie_index') }}">Menu</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_CLIENT') %}
+                <li><a href="{{ path('zamowienie_index') }}">Twoje zamówienia</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_CLIENT') %}
+                <li><a href="{{ path('panelUzytkownika') }}">Panel użytkownika</a></li>
+                <li><a href="{{ logout_path() }}">Wyloguj</a></li>
+                {% endif %}
+  
+                {% if is_granted('ROLE_CLIENT') == null %}
+                <li id="menu2"><a href="#">Panel klienta</a>
+                    <ul class="my_navigation">
+  
+                        <li class="myli"><a href="{{ path('login') }}">Zaloguj</a></li>
+                        <li class="myli"><a href="{{ path('register') }}">Zarejestruj</a></li>
+                       
+                    </ul>
+                </li>
+                 {% endif %}
+            </ul>
+        </nav>
+        
+    </div>
+</header>
+        
+
+        
+            {% block body %}{% endblock %}
+        
         {% block javascripts %}{% endblock %}
+        
+        <footer>
+	<p class="credits">Witryna dumnie wspierana przez: Krzysztofa, Antoniego, Piotra i Radosława</p>
+</footer>
+        
     </body>
 </html>
