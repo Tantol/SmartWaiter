@@ -58,3 +58,31 @@ footer{
     margin: 0 auto;
     width: 100px;
 }
+
+/****** Style Krzysztofa *******/
+.disneypixar{
+  padding-top: 15px;
+  min-height: 81vh;
+}
+
+.btn-front-kucharz{
+  padding: 8px 40px !important;
+  font-weight: bold;
+}
+
+.btn-front-zamowienia{
+  padding: 5px 50px !important;
+  font-weight: bold;
+}
+
+.table-przyjecie tr th, .table-przyjecie tr td{
+  text-align: center;
+}
+
+.table-ul-przyjecie li, .menu-ul-danie li{
+  list-style: none;
+}
+
+.container-vh{
+  min-height: 81vh;
+}

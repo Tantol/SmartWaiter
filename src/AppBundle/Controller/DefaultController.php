@@ -13,10 +13,19 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig');
+      if ($this->get('security.authorization_checker')->isGranted('ROLE_WAITER')) {
+          return $this->redirect($this->generateUrl('waiterPanel'));
+      } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_COOK')) {
+          return $this->redirect($this->generateUrl('cookPanel'));
+      } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_MANAGER')) {
+          return $this->redirect($this->generateUrl('managerPanel'));
+      } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+          return $this->redirect($this->generateUrl('adminPanel'));
+      }
 
+        return $this->render('default/index.html.twig');
     }
-    
+
     /**
      * @Route("/panelUzytkownika", name="panelUzytkownika")
      */
@@ -27,7 +36,7 @@ class DefaultController extends Controller
         ));
 
     }
-    
+
     /**
      * @Route("/adminPanel", name="adminPanel")
      */
@@ -36,7 +45,7 @@ class DefaultController extends Controller
         return $this->render('default/panel.html.twig');
 
     }
-    
+
         /**
      * @Route("/cookPanel", name="cookPanel")
      */
@@ -45,7 +54,7 @@ class DefaultController extends Controller
         return $this->render('default/panel.html.twig');
 
     }
-    
+
     /**
      * @Route("/waiterPanel", name="waiterPanel")
      */
@@ -54,7 +63,7 @@ class DefaultController extends Controller
         return $this->render('default/panel.html.twig');
 
     }
-    
+
     /**
      * @Route("/menedzerPanel", name="managerPanel")
      */

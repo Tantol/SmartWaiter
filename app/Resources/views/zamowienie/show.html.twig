@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div style="min-height: 83vh;" class="container">
     <h1>Zamowienie</h1>
 
-        <table>
+        <table class="table">
         <tbody>
             {% set cenaLaczna = 0 %}
             {% for pozycja in zamowienie.pozycjeZamowien %}
@@ -23,22 +24,23 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('zamowienie_index') }}">Back to the list</a>
+    <ul class="list-group">
+        <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
+            <a class="btn btn-danger" href="{{ path('zamowienie_index') }}">Back to the list</a>
         </li>
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER') or
                is_granted('ROLE_COOK') or is_granted('ROLE_MANAGER'))  %}
-            <li>
-                <a href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">Edit</a>
+            <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
+                <a class="btn btn-danger" href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">Edit</a>
             </li>
         {% endif %}
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')) %}
-            <li>
+            <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
                 {{ form_start(delete_form) }}
-                    <input type="submit" value="Delete">
+                    <input class="btn btn-primary" type="submit" value="Delete">
                 {{ form_end(delete_form) }}
             </li>
         {% endif %}
     </ul>
+    </div>
 {% endblock %}
