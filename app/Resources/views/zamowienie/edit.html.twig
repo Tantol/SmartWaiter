@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div style="min-height: 83vh;" class="container">
     <h1>Zamowienie edit</h1>
     <table class="table">
             <thead>
@@ -22,9 +23,9 @@
                         <td>{{ pozycja.ilosc }}</td>
                         <td>{{ cenaPozycji }} PLN</td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('pozycja_delete', { 'id': pozycja.id }) }}">Delete</a>
+                            <ul class="list-group">
+                                <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
+                                    <a class="btn btn-danger" href="{{ path('pozycja_delete', { 'id': pozycja.id }) }}">Delete</a>
                                 </li>
                             </ul>
                         </td>
@@ -36,21 +37,22 @@
         Cena laczna zamowienia: {{ cenaLaczna }} PLN
     {% endif %}
     </br>
-    <a href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
+    <a class="btn btn-danger" href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input class="btn btn-primary" type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('zamowienie_index') }}">Back to the list</a>
+    <ul class="list-group">
+        <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
+            <a class="btn btn-danger" href="{{ path('zamowienie_index') }}">Back to the list</a>
         </li>
-        <li>
+        <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input class="btn btn-danger" type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
+    </div>
 {% endblock %}

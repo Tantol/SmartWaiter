@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="container" style="min-height: 82vh;">
     <h1>Zamówienie</h1>
-    
+
         <table class="table">
             <thead>
                 <tr>
@@ -23,9 +24,9 @@
                         <td>{{ pozycja.ilosc }}</td>
                         <td>{{ cenaPozycji }} PLN</td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('pozycja_zamowienia_delete', { 'id': tempId }) }}">Delete</a>
+                            <ul class="list-group">
+                                <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
+                                    <a class="btn btn-danger" href="{{ path('pozycja_zamowienia_delete', { 'id': tempId }) }}">Delete</a>
                                 </li>
                             </ul>
                         </td>
@@ -38,7 +39,7 @@
     {% endif %}
     </br>
     <a href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
-        
+
     {{ form_start(zamowienieForm) }}
         {{ form_widget(zamowienieForm) }}
         <input type="submit" value="Zloz zamowienie" />
@@ -49,4 +50,5 @@
             <a href="{{ path('zamowienie_index') }}">Wroc do listy wyszstkich zamowien</a>
         </li>
     </ul>
+    </div>
 {% endblock %}

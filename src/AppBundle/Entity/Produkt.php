@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -47,7 +47,7 @@ class Produkt{
      * @ORM\Column(type="string", length=15, unique=true)
      */
     protected $nazwa;
-    
+
     /**
      * @ORM\Column(type="string", length=15, unique=false, nullable=false)
      */
@@ -58,24 +58,34 @@ class Produkt{
      * @ORM\JoinColumn(name="jednostka",referencedColumnName="id")
      */
     protected $jednostka;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $zawieta_gluten;
-    
+
     /**
      * @ORM\Column(type="decimal", scale=2, nullable=false)
      */
     protected $ilosc_kalorii;
-    
+
     /**
      * @ORM\Column(type="decimal", scale=2)
+     * @Assert\Expression(
+     *     "this.getMaxStan() > this.getMinStan()",
+     *     message="Maksymalny stan musi byc większy od minimalnego"
+     *  )
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $max_stan;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     * @Assert\Expression(
+     *     "this.getMinStan() < this.getMaxStan()",
+     *     message="Minimalny stan musi byc mniejszy od maksymalnego"
+     *  )
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $min_stan;
 
@@ -113,7 +123,7 @@ class Produkt{
     {
         return $this->nazwa;
     }
-    
+
     /**
      * Set marka
      *
@@ -229,7 +239,7 @@ class Produkt{
     {
         return $this->skladniki;
     }
-    
+
     public function __toString() {
         return $this->nazwa . ' ' . $this->marka;
     }
@@ -244,7 +254,7 @@ class Produkt{
     public function setZawietaGluten($zawietaGluten)
     {
         $this->zawieta_gluten = $zawietaGluten;
-    
+
         return $this;
     }
 
@@ -257,8 +267,8 @@ class Produkt{
     {
         return $this->zawieta_gluten;
     }
-    
-        
+
+
      /**
      * Set iloscKalorii
      *
@@ -269,7 +279,7 @@ class Produkt{
     public function setIloscKalorii($iloscKalorii)
     {
         $this->ilosc_kalorii = $iloscKalorii;
-    
+
         return $this;
     }
 
@@ -282,7 +292,7 @@ class Produkt{
     {
         return $this->ilosc_kalorii;
     }
-    
+
     /**
      * Set maxStan
      *

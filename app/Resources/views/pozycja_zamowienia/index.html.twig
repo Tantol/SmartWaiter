@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<section>
+  <div class="container container-vh">
     <h1>Zamowienia</h1>
-    <table>
+    <table class="table table-przyjecie">
         <thead>
             <tr>
                 <th>Data zamowienia</th>
@@ -47,11 +49,12 @@
                     <td>{{ pozycja.zamowienie.czasZlozenia|date('H:i:s') }}</td>
                     <td>{{ pozycja.danie }}</td>
                     <td>{{ pozycja.ilosc }}</td>
+                    <td>{{ pozycja.zamowienie.nrStolika }}</td>
                     <td>
-                        <ul>
+                        <ul class="table-ul-przyjecie">
                             {% if pozycja.status == 'Czeka na przyjecie' %}
                                  <li>
-                                     <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'W trakcie realizacji' }) }}">Przyjmij</a>
+                                     <a class="btn btn-danger btn-front-zamowienia" href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'W trakcie realizacji' }) }}">Przyjmij</a>
                                  </li>
                              {% endif %}
                              {% if pozycja.status == 'W trakcie realizacji' %}
@@ -63,11 +66,13 @@
                                  <li>Gotowe</li>
                              {% endif %}
                          </ul>
-                    </td>  
+                    </td>
                 </tr>
             {% endif %}
         {% endfor %}
 {% endif %}
      </tbody>
-   </table>     
+   </table>
+   </div>
+   </section>
 {% endblock %}

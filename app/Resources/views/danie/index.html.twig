@@ -12,7 +12,7 @@
 
 
 
-<div id="work" class="page">
+<div id="work" class="page container-vh">
 	<div class="container">
 <div class="row">
     <div class="span9">
@@ -45,11 +45,11 @@
                             </li>
                             {% endfor %}
                             {% endif %}
-                            
+
 
 </ul>
                     </section>
-                    
+
             	</div>
             </div>
         </div>
@@ -60,11 +60,11 @@
 
 
 
-    <ul>
+    <ul class="menu-ul-danie">
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
             <li>
-                <a href="{{ path('danie_new') }}">Create a new danie</a>
-            </li>       
+                <a class="btn btn-danger btn-zamowienia" href="{{ path('danie_new') }}">Stworz nowe danie</a>
+            </li>
         {% endif %}
     </ul>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->

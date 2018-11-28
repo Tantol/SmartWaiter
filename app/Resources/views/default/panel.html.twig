@@ -87,34 +87,36 @@
     </div>
 {% endif %}
 {% if is_granted('ROLE_COOK') %}
-    <div>
-        <h3> Dla kucharza: </h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Zamowienia</th>
-                    <th>Dania</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-info" role="button">Zamowienia</a>
-                    </td>
-                    <td>
-                        <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
-                    </td>
-                    <td>
-                        <a href="{{ path('stanmagazynowy_index') }}" class="btn btn-info" role="button">Magazyn</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<section>
+      <div class="container disneypixar">
+          <h3> Dla kucharza: </h3>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Zamowienia</th>
+                      <th>Dania</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>
+                          <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-danger btn-front-kucharz" role="button">Zamowienia</a>
+                      </td>
+                      <td>
+                          <a href="{{ path('danie_index') }}" class="btn btn-danger btn-front-kucharz" role="button">Menu</a>
+                      </td>
+                      <td>
+                          <a href="{{ path('stanmagazynowy_index') }}" class="btn btn-danger btn-front-kucharz" role="button">Magazyn</a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </section>
 {% endif %}
 {% if is_granted('ROLE_WAITER') %}
-    <div>
-        <h3> Dla kelnera: </h3>
+    <div class="container" style="height: 82vh;">
+        <h3 style="margin-top: 20px;"> Dla kelnera: </h3>
         <table class="table">
             <thead>
                 <tr>
@@ -126,13 +128,13 @@
             <tbody>
                 <tr>
                     <td>
-                        <a href="{{ path('zamowienie_index') }}" class="btn btn-info" role="button">Zamowienia oraz platnosci</a>
+                        <a href="{{ path('zamowienie_index') }}" class="btn btn-success" role="button">Zamowienia oraz platnosci</a>
                     </td>
                     <td>
-                        <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-info" role="button">Kuchnia i dania</a>
+                        <a href="{{ path('pozycja_zamowienia_index') }}" class="btn btn-success" role="button">Kuchnia i dania</a>
                     </td>
                     <td>
-                        <a href="{{ path('danie_index') }}" class="btn btn-info" role="button">Menu</a>
+                        <a href="{{ path('danie_index') }}" class="btn btn-success" role="button">Menu</a>
                     </td>
                 </tr>
             </tbody>
@@ -140,7 +142,7 @@
     </div>
 {% endif %}
 {% if is_granted('ROLE_MANAGER') %}
-    <div>
+    <div style="min-height: 83vh;" class="container">
         <h3> Dla menedzera: </h3>
         <table class="table">
             <thead>
@@ -167,4 +169,3 @@
     </div>
 {% endif %}
 {% endblock %}
-

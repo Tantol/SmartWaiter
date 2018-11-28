@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Stanmagazynowies list</h1>
+<section>
+<div class="container container-vh">
+    <h1>Stan magazynowy:</h1>
 
     <table class="table">
         <thead>
@@ -17,13 +19,13 @@
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}       
+        {% for product in products %}
             {% set calkowitaIlosc = 0 %}
-            
+
             {% for stanMagazynowy in product.stanyMagazynowe %}
                 {% set calkowitaIlosc = calkowitaIlosc + stanMagazynowy.ilosc %}
             {% endfor %}
-            
+
             {% if calkowitaIlosc <= product.minstan %}
                 <tr class="bg-danger">
             {% elseif calkowitaIlosc > product.maxstan%}
@@ -49,7 +51,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}  
+    {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}
         <ul>
             <li>
                 <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
@@ -61,5 +63,8 @@
                 <a href="{{ path('jednostka_new') }}">Create a new Jednostka</a>
             </li>
         </ul>
+
     {% endif %}
+    </div>
+    </section>
 {% endblock %}
