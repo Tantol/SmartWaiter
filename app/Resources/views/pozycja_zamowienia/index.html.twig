@@ -23,21 +23,15 @@
                             <td>{{ pozycja.danie }}</td>
                             <td>{{ pozycja.ilosc }}</td>
                             <td>{{ pozycja.zamowienie.nrStolika }}</td>
+                            <td> GOTOWE -> stolik: {{ pozycja.zamowienie.nrStolika }}</td>
                             <td>
-                                <ul>
                                     {% if pozycja.status == 'Do wydania' %}
-                                         <li>
-                                             <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Zrealizowane' }) }}">Zrealizowane</a>
-                                         </li>
+                                             <a class="btn btn-success btn-front-zamowienia" href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Zrealizowane' }) }}">Zrealizowane</a>
                                      {% endif %}
                                      {% if pozycja.status == 'Do wydania' %}
-                                         <li>
-                                             <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Niezrealizowane' }) }}">Niezrealizowane</a>
-                                         </li>
+                                             <a class="btn btn-warning btn-front-zamowienia" href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Niezrealizowane' }) }}">Niezrealizowane</a>
                                      {% endif %}
-                                 </ul>
                             </td>
-                            <td> GOTOWE -> DO WYDANIA DLA KLIENTA: {{ pozycja.zamowienie.konto }} stolik: {{ pozycja.zamowienie.nrStolika }}</td>
                         </tr>
                 {% endif %}
             {% endfor %}
@@ -59,7 +53,7 @@
                              {% endif %}
                              {% if pozycja.status == 'W trakcie realizacji' %}
                                  <li>
-                                     <a href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Do wydania' }) }}">Wydaj</a>
+                                     <a class="btn btn-success btn-front-zamowienia" href="{{ path('pozycja_status', {'id': pozycja.id, 'status': 'Do wydania' }) }}">Wydaj</a>
                                  </li>
                              {% endif %}
                              {% if pozycja.status == 'Do wydania' %}

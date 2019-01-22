@@ -38,17 +38,16 @@
         Cena laczna zamowienia: {{ cenaLaczna }} PLN
     {% endif %}
     </br>
-    <a href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
-
+    <a class="btn btn-warning" href="{{ path('danie_index') }}">Dodaj pozycje do zamowienia</a>
+    <br/>
+    <br/>
     {{ form_start(zamowienieForm) }}
         {{ form_widget(zamowienieForm) }}
-        <input type="submit" value="Zloz zamowienie" />
+        <input class="btn btn-success" type="submit" value="Zloz zamowienie" />
     {{ form_end(zamowienieForm) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('zamowienie_index') }}">Wroc do listy wyszstkich zamowien</a>
-        </li>
-    </ul>
+
+            <a class="btn btn-info" href="{{ path('zamowienie_index') }}">Wroc do listy wyszstkich zamowien</a>
+
     </div>
 {% endblock %}

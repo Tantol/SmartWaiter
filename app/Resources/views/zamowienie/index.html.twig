@@ -3,10 +3,10 @@
 
 {% block body %}
     {% if is_granted('ROLE_CLIENT')%}
-        <h1>Lista Twoich zamówień</h1>
-        <a href="{{ path('zamowieniNowe') }}">Utworz zamowienie</a>
-        <h2>Zamowienia w trakcie realizacji:</h2>
-        <table>
+        <h4>Lista Twoich zamówień</h4>
+        <a class="btn btn-success" href="{{ path('zamowieniNowe') }}">Utworz nowe zamowienie</a>
+        <h2 class="text-center">Zamowienia w trakcie realizacji:</h2>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Nr. zamowienia</th>
@@ -15,8 +15,10 @@
                 </tr>
             </thead>
             <tbody>
+            {% set flaga = 0 %}
             {% for zamowienie in data %}
                 {% if zamowienie.czasrealizacji == null %}
+                {% set flaga = 1 %}
                     <tr>
                         <td>{{ zamowienie.id }}</td>
                         <td>
@@ -25,15 +27,20 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                            <a class="btn btn-info" href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
                         </td>
                     </tr>
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <h2>Zamowienia do uregulowania:</h2>
-        <table>
+        {% if flaga == 0 %}
+            <p class="text-center">Brak zamowien, abo dodac przejdz do <a href="{{ path('danie_index') }}">menu</a></p>
+        {% endif %}
+        <br/>
+        <br/>
+        <h2 class="text-center">Zamowienia do uregulowania:</h2>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Nr. zamowienia</th>
@@ -67,7 +74,7 @@
                                 {{ saldo }}
                             </td>
                             <td>
-                                <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                                <a class="btn btn-info" href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Szczegoly</a>
                             </td>
                         </tr>
                     {% endif %}
@@ -78,7 +85,7 @@
         {% if saldoCalkowite > 0 %}
             <h2>Laczna kwota do uregulowania: {{ saldoCalkowite }}</h2>
         {% else %}
-            BRAK
+            <p class="text-center">Brak nieuregulowanych naleznosci</a></p>
         {% endif %}
     {% endif %}
     {% if is_granted('ROLE_WAITER')%}

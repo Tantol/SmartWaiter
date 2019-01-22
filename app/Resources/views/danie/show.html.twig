@@ -3,61 +3,66 @@
 {% block body %}
 
 <div class="zalogujpage">
+    <br/>
 
-    <h1>{{ danie.nazwa }}</h1>
+    <a style="margin-left: 50px; " class="btn btn-success" href="{{ path('danie_index') }}">Wroc do listy dan</a>
     {% if errorDelete %}
         <h2> {{ errorDelete }} </h2>
     {% endif %}
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ danie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nazwa</th>
-                <td>{{ danie.nazwa }}</td>
-            </tr>
-            <tr>
-                <th>Czas_przygotowania</th>
-                <td>{{ danie.czasprzygotowania }}</td>
-            </tr>
-            <tr>
-                <th>Cena</th>
-                <td>{{ danie.cena }}</td>
-            </tr>
-            <tr>
-                <th>Ilosc_kalorii</th>
-                <td>{{ danie.ilosckalorii }}</td>
-            </tr>
-            <tr>
-                <th>Objetosc</t>
-                <td>{{ danie.objetosc }} {{ danie.jednostka }}</td>
-            <tr>
-                <th>Zdjecie</th>
-                <td>
-                    <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
-                </td>
-            </tr>
-            <tr>
-                <th>Skladniki:</th>
-            </tr>
-            {% if danie.skladniki %}
-                {% for skladnik in danie.skladniki %}
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>{{ danie.nazwa }}<h2>
+            </div>
+            <div class="col-sm-12">
+                Kalorie: {{ danie.ilosckalorii }}<br/>
+                Cena: {{ danie.cena }}<br/>
+            </div>
+            <div class="col-sm-12">
+                <img src="{{ asset('uploads/' ~ danie.image.image) }}" alt="" width="400" height="200">
+            </div>
+            <div class="col-sm-12">
+                <table class="table">
+                  <caption>
+                  //////////////////////////////////////////////////////////////////////////////
+                                                   Składniki
+                  //////////////////////////////////////////////////////////////////////////////
+                  </caption>
+                  <thead>
                     <tr>
-                        <th>  -  {{ skladnik.produkt }}</th>
-                        <td>Ilosc: {{ skladnik.ilosc }}</td>
-                        <td>Zawiera gluten: {{ skladnik.produkt.zawietaGluten }}</td>
+                      <th scope="col">#</th>
+                      <th scope="col">Składnik</th>
+                      <th scope="col">Ilosc [g] / [ml]</th>
+                      <th scope="col">Czy zawiera gluten?</th>
                     </tr>
-                {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
+                  </thead>
+                  <tbody>
+                      {% if danie.skladniki %}
+                          {% for key,value in danie.skladniki %}
+                              <tr>
+                                <th scope="row">{{ key + 1}}</th>
+                                <th>{{ value.produkt }}</th>
+                                <td>{{ value.ilosc }}</td>
+                                <td>{{ value.produkt.zawietaGluten == 1 ? 'Tak' : 'Nie' }}</td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+                </table>
+            </div>
+
+                {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_CLIENT') or is_granted('ROLE_WAITER')) %}
+                        {{ form_start(zamowienie_form) }}
+                            <input class="btn" type="submit" value="Dodaj do zamowienia">
+                            <h3><span id="demo"></span></3>
+                        {{ form_end(zamowienie_form) }}
+                {% endif %}
+
+        </div>
+    </div>
+
 
     <ul>
-        <li>
-            <a href="{{ path('danie_index') }}">Back to the list</a>
-        </li>
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
             <li>
                 Dostepne : {{ danie.dostepne }}
@@ -93,6 +98,6 @@
       output.innerHTML = this.value;
     }
 </script>
-    
+
 </div>
 {% endblock %}

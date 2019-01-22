@@ -13,20 +13,17 @@
                 <tr>
                     <th>{{ pozycja.ilosc }}x {{ pozycja.danie }}</th>
                     <td> Cena: {{ cenaPozycji }} PLN</td>
-                    <td> -> {{ pozycja.status }}</td>
+                    <td style="color: red;"> -> {{ pozycja.status != '' ? pozycja.status : 'Czeka na akceptacje'}}</td>
                 </tr>
             {% endfor %}
-            {% if cenaLaczna >= 0 %}
-                <tr>
-                    <th> Cena laczna zamowienia: {{ cenaLaczna }} PLN<th>
-                </tr>
-            {% endif %}
         </tbody>
     </table>
-
+    {% if cenaLaczna >= 0 %}
+        <h3 class="text-center"> Cena laczna zamowienia: {{ cenaLaczna }} PLN</h3>
+    {% endif %}
     <ul class="list-group">
         <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
-            <a class="btn btn-danger" href="{{ path('zamowienie_index') }}">Back to the list</a>
+            <a class="btn btn-danger" href="{{ path('zamowienie_index') }}">Wroc do zamowien</a>
         </li>
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER') or
                is_granted('ROLE_COOK') or is_granted('ROLE_MANAGER'))  %}

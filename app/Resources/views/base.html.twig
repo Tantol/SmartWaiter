@@ -2,20 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-       
+
 
 <!-- Mobile Specifics -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="HandheldFriendly" content="true"/>
-<meta name="MobileOptimized" content="320"/>   
+<meta name="MobileOptimized" content="320"/>
 
 <!-- Mobile Internet Explorer ClearType Technology -->
 <!--[if IEMobile]>  <meta http-equiv="cleartype" content="on">  <![endif]-->
 
 <!--Style-->
-    
-<link href="/_include/css/style.css" rel="stylesheet">   
-    
+
+<link href="/_include/css/style.css" rel="stylesheet">
+
 <!-- Bootstrap -->
 <link href="/_include/css/bootstrap.min.css" rel="stylesheet">
 
@@ -70,21 +70,21 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-    
-    
-    
+
+
+
 </script>
     </head>
     <body>
-        
+
         <header>
     <div class="sticky-nav">
     	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
-        
+
         <div id="logo">
         	<a id="goUp" href="#home-slider" title="Brushed | Responsive One Page Template">Brushed Template</a>
         </div>
-        
+
         <nav id="menu">
         	<ul id="menu-nav">
             	<li class="current"><a href="index.html">Główna</a></li>
@@ -97,34 +97,49 @@
                 {% endif %}
                 {% if is_granted('ROLE_CLIENT') %}
                 <li><a href="{{ path('panelUzytkownika') }}">Panel użytkownika</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_WAITER') %}
+                    <li><a href="{{ path('waiterPanel') }}">Panel kelnera</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_COOK') %}
+                    <li><a href="{{ path('cookPanel') }}">Panel kucharza</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_MANAGER') %}
+                    <li><a href="{{ path('managerPanel') }}">Panel menadzera</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('adminPanel') }}">Panel admina</a></li>
+                {% endif %}
+
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li><a href="{{ logout_path() }}">Wyloguj</a></li>
                 {% endif %}
-  
+
                 {% if is_granted('ROLE_CLIENT') == null %}
                 <li id="menu2"><a href="#">Panel klienta</a>
                     <ul class="my_navigation">
-  
+
                         <li class="myli"><a href="{{ path('login') }}">Zaloguj</a></li>
                         <li class="myli"><a href="{{ path('register') }}">Zarejestruj</a></li>
-                       
+
                     </ul>
                 </li>
                  {% endif %}
             </ul>
         </nav>
-        
+
     </div>
 </header>
-        
 
-        
+
+
             {% block body %}{% endblock %}
-        
+
         {% block javascripts %}{% endblock %}
-        
+
         <footer>
 	<p class="credits">Witryna dumnie wspierana przez: Krzysztofa, Antoniego, Piotra i Radosława</p>
 </footer>
-        
+
     </body>
 </html>
