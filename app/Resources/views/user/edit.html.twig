@@ -1,17 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User edit</h1>
-
-    {{ form_start(edit_form) }}
+    <h1>Zmien email</h1>
+    <a class="btn btn-info" href="{{ path('user_index') }}">Cofnij</a>
+    {{ form_start(edit_form, {'attr': {'style': 'margin: auto; max-width: 20%;'}} ) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input class="btn btn-success" type="submit" value="Zmien" />
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
-        </li>
         {% if is_granted('ROLE_ADMIN') %}
             <li>
                 {{ form_start(delete_form) }}

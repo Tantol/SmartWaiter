@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Gallery creation</h1>
-
-    {{ form_start(form) }}
+    <h1>Dodaj zdjecie</h1>
+    <a style="margin-bottom: 20px;" class="btn btn-info" href="{{ path('danie_new') }}">Wroc do kreatora dan</a>
+<div style="background: rgba(200,200,200,0.8); max-width: 100%; color:black;margin: 20px; border-radius: 20px; margin-bottom: 50px;">
+    {{ form_start(form, {'attr': {'style': 'margin: auto; max-width: 20%;'}} ) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input class="btn btn-success" type="submit" value="Dodaj" />
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('gallery_index') }}">Back to the list</a>
-        </li>
-    </ul>
+
+  </div>
 {% endblock %}

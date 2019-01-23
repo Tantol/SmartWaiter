@@ -28,7 +28,7 @@
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_WAITER') or
                is_granted('ROLE_COOK') or is_granted('ROLE_MANAGER'))  %}
             <li style="list-style: none; margin-bottom: 5px;" class="list-group-item">
-                <a class="btn btn-danger" href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">Edit</a>
+                <a class="btn btn-danger" style="{{ is_granted('ROLE_WAITER') ? 'display: none;' : '' }}"href="{{ path('zamowienie_edit', { 'id': zamowienie.id }) }}">Edytuj</a>
             </li>
         {% endif %}
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')) %}

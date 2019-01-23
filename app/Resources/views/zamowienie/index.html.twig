@@ -4,8 +4,9 @@
 {% block body %}
     {% if is_granted('ROLE_CLIENT')%}
         <h4>Lista Twoich zamówień</h4>
-        <a class="btn btn-success" href="{{ path('zamowieniNowe') }}">Utworz nowe zamowienie</a>
-        <h2 class="text-center">Zamowienia w trakcie realizacji:</h2>
+        <a class="btn btn-success" href="{{ path('zamowieniNowe') }}">Dodaj nowe zamowienie</a>
+        <h2 class="text-center">Zamowienia w trakcie realizacji</h2>
+        <div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black;margin: auto; border-radius: 20px;">
         <table class="table">
             <thead>
                 <tr>
@@ -20,7 +21,7 @@
                 {% if zamowienie.czasrealizacji == null %}
                 {% set flaga = 1 %}
                     <tr>
-                        <td>{{ zamowienie.id }}</td>
+                        <td>#{{ zamowienie.id }}</td>
                         <td>
                             {% if zamowienie.czaszlozenia %}
                                 {{ zamowienie.czaszlozenia|date('H:i:s') }}
@@ -35,11 +36,13 @@
             </tbody>
         </table>
         {% if flaga == 0 %}
-            <p class="text-center">Brak zamowien, abo dodac przejdz do <a href="{{ path('danie_index') }}">menu</a></p>
+            <p class="text-center">Brak zamowien, abo dodac przejdz do -> <a class="btn btn-success" href="{{ path('danie_index') }}">menu</a></p>
         {% endif %}
+      </div>
         <br/>
         <br/>
-        <h2 class="text-center">Zamowienia do uregulowania:</h2>
+        <h2 class="text-center">Zamowienia do uregulowania</h2>
+        <div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black;margin: auto; border-radius: 20px;">
         <table class="table">
             <thead>
                 <tr>
@@ -63,7 +66,7 @@
                     {% endfor %}
                     {% if saldo > 0 %}
                         <tr>
-                            <td>{{ zamowienie.id }}</td>
+                            <td>#{{ zamowienie.id }}</td>
                             <td>
                                 {{ zamowienie.czaszlozenia|date('H:i:s') }}
                             </td>
@@ -83,11 +86,12 @@
             </tbody>
         </table>
         {% if saldoCalkowite > 0 %}
-            <h2>Laczna kwota do uregulowania: {{ saldoCalkowite }}</h2>
+            <h3 class="text-center" style="text-decoration: underline; color:black;"><b>Laczna kwota do uregulowania: {{ saldoCalkowite }}</b><h3>
         {% else %}
-            <p class="text-center">Brak nieuregulowanych naleznosci</a></p>
+            <p class="text-center" style="text-decoration: underline;"><b>Brak nieuregulowanych naleznosci</b></a></p>
         {% endif %}
     {% endif %}
+  </div>
     {% if is_granted('ROLE_WAITER')%}
     <div class="container" style="height: 82vh;">
         <a href="{{ path('zamowieniNowe') }}"><button class="btn-info">Utworz zamowienie</button></a>
@@ -113,7 +117,7 @@
                         {% endif %}
                     {% endfor %}
                     <tr>
-                        <td>{{ zamowienie.id }}</td>
+                        <td>#{{ zamowienie.id }}</td>
                         <td>
                             {{ zamowienie.konto }}
                         </td>
@@ -122,7 +126,7 @@
                             {{ saldo }}
                         </td>
                         <td>
-                            <a href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
+                            <a class="btn btn-warning" href="{{ path('zamowienie_show', { 'id': zamowienie.id }) }}">Wyświetl zawartość</a>
                         </td>
                         <td>
                             <a href="{{ path('zamowienie_uregulowane', { 'id': zamowienie.id }) }}" class="btn btn-success">Potwierdz uregolowanie naleznosci</a>

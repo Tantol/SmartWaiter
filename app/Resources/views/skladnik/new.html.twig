@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Skladnik creation</h1>
-
-    {{ form_start(form) }}
+    <h1>Dodaj skladnik do dania</h1>
+      <a class="btn btn-warning" href="{{ path('skladnik_index') }}">Back to the list</a>
+      <div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black; margin: auto; border-radius: 20px;">
+    {{ form_start(form, {'attr': {'style': 'margin: auto; max-width: 20%;'}} ) }}
         {{ form_label(form.ilosc) }}
         {{ form_errors(form.ilosc) }}
-        {{ form_widget(form.ilosc) }} grams or mililiters
+      Gramy lub mililitry  {{ form_widget(form.ilosc) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input class="btn btn-success" type="submit" value="Dodaj skladnik" />
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('skladnik_index') }}">Back to the list</a>
-        </li>
-    </ul>
+
+  </div>
 {% endblock %}

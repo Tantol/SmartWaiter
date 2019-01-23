@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Creator dan</h1>
-    <h2>Podaj skladniki, wypelnij pola ponizej i zatwierdz przyciskiem "dodaj danie"</h2>
-    
+    <h1>Kreator dania</h1>
+    <p>Podaj skladniki, wypelnij pola ponizej i zatwierdz przyciskiem "dodaj danie"</p>
+    <a style="margin-left: 40%; width:200px; margin-bottom: 20px;" class="btn btn-info text-center" href="{{ path('skladnik_new') }}">Dodaj składnik</a>
+      <div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black;margin: auto; border-radius: 20px;">
     {% if danie.skladniki %}
         {% set iloscKalorii = 0 %}
         {% set tempId = 0 %}
@@ -31,32 +32,29 @@
                             {% endif %}
                         </td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('skladnik_danie_delete', { 'id': tempId }) }}">Delete</a>
-                                </li>
-                            </ul>
+                              <a class="btn btn-warning" href="{{ path('skladnik_danie_delete', { 'id': tempId }) }}">Delete</a>
                         </td>
                    {% endfor %}
                 </tr>
             </tbody>
         </table>
+        {% else %}
     {% endif %}
-    <a href="{{ path('skladnik_new') }}">Dodaj składnik</a>
-    
-    {{ form_start(form) }}
+  </div>
+<div style="background: rgba(200,200,200,0.8); max-width: 100%; color:black;margin: auto; border-radius: 20px; margin-bottom: 50px;">
+    {{ form_start(form, {'attr': {'style': 'margin: auto; max-width: 20%;'}} ) }}
         {{ form_label(form.image) }}
         {{ form_errors(form.image) }}
         {{ form_widget(form.image) }}
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
-            <a href="{{ path('gallery_new') }}">Dodaj zdjecie (jezeli nie mago na liscie obok)</a>
+            <br/><a style="color: blue;" href="{{ path('gallery_new') }}">Dodaj zdjecie (jezeli nie mago na liscie obok)</a>
         {% endif %}
         </br>
         {{ form_label(form.rodzaj) }}
         {{ form_errors(form.rodzaj) }}
         {{ form_widget(form.rodzaj) }}
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
-            <a href="{{ path('rodzaj_new') }}">Dodaj rodzaj (jezeli nie mago na liscie obok)</a>
+            <br/><a style="color: blue;" href="{{ path('rodzaj_new') }}">Dodaj rodzaj (jezeli nie mago na liscie obok)</a>
         {% endif %}
         </br>
         {{ form_label(form.czas_przygotowania) }}
@@ -69,14 +67,10 @@
         </br>
         {{ form_label(form.ilosc_kalorii) }}
         {{ form_errors(form.ilosc_kalorii) }}
-        {{ form_widget(form.ilosc_kalorii) }} Sugerowana ilosc na podstawie skladnikow -> {{ iloscKalorii }}
+        {{ form_widget(form.ilosc_kalorii) }}<br/><span style="color: blue;" > Sugerowana ilosc na podstawie skladnikow -> {{ iloscKalorii }}</span>
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input class="btn btn-success" type="submit" value="Dodaj danie" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('danie_index') }}">Back to the list</a>
-        </li>
-    </ul>
+      <a href="{{ path('danie_index') }}">Back to the list</a>
+    </div>
 {% endblock %}

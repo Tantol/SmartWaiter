@@ -2,13 +2,9 @@
 
 {% block body %}
     <h1>Produkt</h1>
-
-    <table>
+<div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black; margin: auto; border-radius: 20px;">
+    <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ produkt.id }}</td>
-            </tr>
             <tr>
                 <th>Nazwa</th>
                 <td>{{ produkt.nazwa }}</td>
@@ -23,7 +19,7 @@
             </tr>
             <tr>
                 <th>Zawieta_gluten</th>
-                <td>{{ produkt.zawietagluten }}</td>
+                <td>{{ produkt.zawietagluten ? 'Tak': 'Nie'}}</td>
             </tr>
             <tr>
                 <th>Min ilosc</th>
@@ -33,6 +29,7 @@
                 <th>Max ilosc</th>
                 <td>{{ produkt.maxStan }}</td>
             </tr>
+            <div style="background: rgba(200,200,200,0.8); max-width: 80%; color:black; margin: auto; border-radius: 20px;">
             <table class="table">
                 <thead>
                     <tr>
@@ -44,7 +41,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>      
+                <tbody>
                     {% set calkowitaIlosc = 0 %}
 
                     {% for stanMagazynowy in produkt.stanyMagazynowe %}
@@ -60,14 +57,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">edit</a>
-                                </li>
-                            </ul>
+                                    <a class="btn" href="{{ path('stanmagazynowy_show', { 'id': stanMagazynowy.id }) }}">show</a>
+                                    <a class="btn" href="{{ path('stanmagazynowy_edit', { 'id': stanMagazynowy.id }) }}">edit</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -75,18 +66,15 @@
             </table>
         </tbody>
     </table>
-    <a href="{{ path('stanmagazynowy_new', {'produkt': produkt.id }) }}">Dodaj do magazynu</a>
-    <ul>
-        <li>
-            <a href="{{ path('stanmagazynowy_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('produkt_edit', { 'id': produkt.id }) }}">Edit</a>
-        </li>
-        <li>
+  </div>
+    <a class="btn" style="margin-left:10%;" href="{{ path('stanmagazynowy_new', {'produkt': produkt.id }) }}">Dodaj do magazynu</a>
+
+            <a class="btn"style="" href="{{ path('stanmagazynowy_index') }}">Wroc do magazynu</a>
+
+            <a class="btn" style=""href="{{ path('produkt_edit', { 'id': produkt.id }) }}">Edytuj</a>
+
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input style="margin-top: 20px; margin-left:10%;" class="btn btn-warning" type="submit" value="Usun">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+
 {% endblock %}

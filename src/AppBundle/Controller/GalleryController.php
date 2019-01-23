@@ -25,7 +25,7 @@ class GalleryController extends Controller
     public function indexAction()
     {
         $this->denyAccessUnlessGranted(GalleryVoter::VIEW, new Gallery());
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $galleries = $em->getRepository('AppBundle:Gallery')->findAll();
@@ -45,7 +45,7 @@ class GalleryController extends Controller
     {
         $gallery = new Gallery();
         $this->denyAccessUnlessGranted(GalleryVoter::ADD, $gallery);
-        
+
         $form = $this->createForm('AppBundle\Form\GalleryType', $gallery);
         $form->handleRequest($request);
 
@@ -60,7 +60,7 @@ class GalleryController extends Controller
             $em->persist($gallery);
             $em->flush();
 
-            return $this->redirectToRoute('gallery_show', array('id' => $gallery->getId()));
+            return $this->redirectToRoute('danie_new');
         }
 
         return $this->render('gallery/new.html.twig', array(
@@ -78,7 +78,7 @@ class GalleryController extends Controller
     public function showAction(Gallery $gallery)
     {
         $this->denyAccessUnlessGranted(GalleryVoter::VIEW, $gallery);
-        
+
         $deleteForm = $this->createDeleteForm($gallery);
 
         return $this->render('gallery/show.html.twig', array(
@@ -96,7 +96,7 @@ class GalleryController extends Controller
     public function editAction(Request $request, Gallery $gallery)
     {
         $this->denyAccessUnlessGranted(GalleryVoter::EDIT, $gallery);
-        
+
         $deleteForm = $this->createDeleteForm($gallery);
         $editForm = $this->createForm('AppBundle\Form\GalleryType', $gallery);
         $editForm->handleRequest($request);
@@ -141,7 +141,7 @@ class GalleryController extends Controller
     public function deleteAction(Request $request, Gallery $gallery)
     {
         $this->denyAccessUnlessGranted(GalleryVoter::DELETE, $gallery);
-        
+
         $form = $this->createDeleteForm($gallery);
         $form->handleRequest($request);
 

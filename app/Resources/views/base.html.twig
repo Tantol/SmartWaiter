@@ -55,7 +55,7 @@
 <link rel="apple-touch-icon" sizes="144x144" href="#">
 
 <!-- Modernizr -->
-<script src="/_include/js/modernizr.js"></script>
+<!--<script src="/_include/js/modernizr.js"></script>-->
 
 <!-- Analytics -->
 <script type="text/javascript">
@@ -69,8 +69,6 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
-
 
 
 </script>
@@ -87,7 +85,7 @@
 
         <nav id="menu">
         	<ul id="menu-nav">
-            	<li class="current"><a href="index.html">Główna</a></li>
+            	<li class="current"><a href="{{ path('homepage') }}">Główna</a></li>
                 <li><a href="#about">O nas</a></li>
                 {% if is_granted('ROLE_CLIENT') %}
                 <li><a href="{{ path('danie_index') }}">Menu</a></li>
@@ -138,7 +136,7 @@
         {% block javascripts %}{% endblock %}
 
         <footer>
-	<p class="credits">Witryna dumnie wspierana przez: Krzysztofa, Antoniego, Piotra i Radosława</p>
+	<p class="credits" style="position: fixed; bottom: 0px; margin-left: 35%; max-wid">Witryna dumnie wspierana przez: Krzysztofa, Antoniego, Piotra i Radosława</p>
 </footer>
 
     </body>

@@ -1,21 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Stanmagazynowy creation</h1>
-
-    {{ form_start(form) }}
+    <h1>Dodaj stan magazynowy</h1>
+    <a class="btn btn-info" style="margin-bottom: 20px;" href="{{ path('stanmagazynowy_index') }}">Wroc do stanu</a>
+<div style="background: rgba(200,200,200,0.8); max-width: 100%; color:black;margin: 20px; border-radius: 20px; margin-bottom: 50px;">
+    {{ form_start(form, {'attr': {'style': 'margin: auto; max-width: 20%;'}} ) }}
         {{ form_label(form.dostawca) }}
         {{ form_errors(form.dostawca) }}
         {{ form_widget(form.dostawca) }}
-        <a href="{{ path('dostawca_new') }}">Dodaj dostawce (jezeli nie istnieje na liscie obok)</a>
         </br>
+        <a style="color: blue;" href="{{ path('dostawca_new') }}">Dodaj dostawce (jezeli nie istnieje na liscie obok)</a>
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input class="btn btn-success" type="submit" value="Dodaj" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('stanmagazynowy_index') }}">Back to the list</a>
-        </li>
-    </ul>
+  </div>
 {% endblock %}

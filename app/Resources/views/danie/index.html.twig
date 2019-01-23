@@ -63,7 +63,7 @@
     <ul class="menu-ul-danie">
         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') or is_granted('ROLE_COOK'))  %}
             <li>
-                <a class="btn btn-danger btn-zamowienia" href="{{ path('danie_new') }}">Stworz nowe danie</a>
+                <a class="btn btn-danger btn-zamowienia"style="margin-bottom: 100px;" href="{{ path('danie_new') }}">Stworz nowe danie</a>
             </li>
         {% endif %}
     </ul>

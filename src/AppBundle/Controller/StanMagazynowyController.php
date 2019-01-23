@@ -27,11 +27,11 @@ class StanMagazynowyController extends Controller
     public function indexAction()
     {
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::VIEW, new StanMagazynowy());
-        
+
         $em = $this->getDoctrine()->getManager();
-        
+
         $products = $em->getRepository('AppBundle:Produkt')->findAll();
-        
+
 
         return $this->render('stanmagazynowy/index.html.twig', array(
             'products' => $products,
@@ -47,13 +47,13 @@ class StanMagazynowyController extends Controller
     public function newAction(Request $request, Produkt $produkt = null)
     {
         $stanMagazynowy = new Stanmagazynowy();
-        
+
         if ($produkt != null){
             $stanMagazynowy->setProdukt($produkt);
         }
-        
+
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::ADD, $stanMagazynowy);
-        
+
         $form = $this->createForm('AppBundle\Form\StanMagazynowyType', $stanMagazynowy);
         $form->handleRequest($request);
 
@@ -63,7 +63,7 @@ class StanMagazynowyController extends Controller
             $em->persist($stanMagazynowy);
             $em->flush();
 
-            return $this->redirectToRoute('produkt_show', array('id' => $stanMagazynowy->getProdukt()->getId()));
+            return $this->redirectToRoute('stanmagazynowy_index');
         }
 
         return $this->render('stanmagazynowy/new.html.twig', array(
@@ -81,7 +81,7 @@ class StanMagazynowyController extends Controller
     public function showAction(StanMagazynowy $stanMagazynowy)
     {
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::VIEW, $stanMagazynowy);
-        
+
         $deleteForm = $this->createDeleteForm($stanMagazynowy);
 
         return $this->render('stanmagazynowy/show.html.twig', array(
@@ -99,7 +99,7 @@ class StanMagazynowyController extends Controller
     public function editAction(Request $request, StanMagazynowy $stanMagazynowy)
     {
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::EDIT, $stanMagazynowy);
-        
+
         $deleteForm = $this->createDeleteForm($stanMagazynowy);
         $editForm = $this->createForm('AppBundle\Form\StanMagazynowyType', $stanMagazynowy,
                 array('edit' => 'true'));
@@ -127,7 +127,7 @@ class StanMagazynowyController extends Controller
     public function deleteAction(Request $request, StanMagazynowy $stanMagazynowy)
     {
         $this->denyAccessUnlessGranted(StanMagazynowyVoter::DELETE, $stanMagazynowy);
-        
+
         $form = $this->createDeleteForm($stanMagazynowy);
         $form->handleRequest($request);
 

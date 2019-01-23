@@ -27,7 +27,7 @@
             {% endfor %}
 
             {% if calkowitaIlosc <= product.minstan %}
-                <tr class="bg-danger">
+                <tr class="bg-danger" style="background: orange; color:black;">
             {% elseif calkowitaIlosc > product.maxstan%}
                 <tr class="bg-warning">
             {% else %}
@@ -40,11 +40,7 @@
                 <td>{{ product.maxStan }}</td>
                 {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}
                     <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('produkt_show', { 'id': product.id }) }}">show</a>
-                            </li>
-                        </ul>
+                        <a class="btn btn-info" href="{{ path('produkt_show', { 'id': product.id }) }}">show</a>
                     </td>
                 {% endif %}
             </tr>
@@ -52,17 +48,9 @@
         </tbody>
     </table>
     {% if (is_granted('ROLE_MANAGER') or is_granted ('ROLE_ADMIN')) %}
-        <ul>
-            <li>
-                <a href="{{ path('stanmagazynowy_new') }}">Create a new stanMagazynowy</a>
-            </li>
-            <li>
-                <a href="{{ path('produkt_new') }}">Create a new Product</a>
-            </li>
-            <li>
-                <a href="{{ path('jednostka_new') }}">Create a new Jednostka</a>
-            </li>
-        </ul>
+                <a class="btn" href="{{ path('stanmagazynowy_new') }}">Dodaj stan</a>
+                <a class="btn" href="{{ path('produkt_new') }}">Dodaj product</a>
+                <a class="btn"  href="{{ path('jednostka_new') }}">Dodaj jednostke</a>
 
     {% endif %}
     </div>
